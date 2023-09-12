@@ -1,0 +1,43 @@
+﻿.RelatedCombosToolTip .rtWrapper td.rtWrapperContent {
+    padding: 0 !important;
+}
+
+.RelatedCombosToolTip .rtWrapperTopLeft,
+.RelatedCombosToolTip .rtWrapperTopCenter,
+.RelatedCombosToolTip .rtWrapperTopRight,
+.RelatedCombosToolTip .rtWrapperLeftMiddle,
+.RelatedCombosToolTip .rtWrapperRightMiddle,
+.RelatedCombosToolTip .rtWrapperBottomLeft,
+.RelatedCombosToolTip .rtWrapperBottomCenter,
+.RelatedCombosToolTip .rtWrapperBottomRight {
+    background-image: none !important;
+}
+
+div.RadGrid .requiredCell div {
+    border: 1px solid #f87b7b;
+    border-radius: 5px 0;
+    color: #ff6a00;
+    font-style: italic;
+    text-align: center;
+    margin: -1px;
+    line-height: 25px;
+    vertical-align: central;
+}
+
+div.RadGrid .requiredCell.rgBatchCurrent div, div.RadGrid .requiredCell.rgBatchCurrent div:hover {
+    border: none;
+}
+
+    div.RadGrid .requiredCell div:hover {
+        border: 1px solid #25A0DA;
+        color: #25A0DA;
+        cursor: pointer;
+    }
+
+div.RadGrid .disabledElement {
+    color: #999 !important;
+}
+
+.RadGrid:focus {
+    outline: -webkit-focus-ring-color auto 0px;
+}

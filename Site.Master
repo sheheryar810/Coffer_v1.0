@@ -1,0 +1,157 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Coffer_Systems.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Coffer Systems</title>
+
+
+    <%--    <script type="text/javascript" src="/js/DataTablesEditor.js"></script>--%>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="coffer_final_logo_png_Dxn_icon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="loginfonts/material-icon/css/material-design-iconic-font.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .dropbtn {
+            background-color: inherit;
+            color: white;
+            font-size: 16px;
+            border: none;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            width: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 10px;
+                text-decoration: none;
+                display: block;
+            }
+
+                /* Change color of dropdown links on hover */
+                .dropdown-content a:hover {
+                    background-color: inherit;
+                }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: inherit;
+        }
+    </style>
+</head>
+
+<asp:ContentPlaceHolder ID="head" runat="server">
+</asp:ContentPlaceHolder>
+<body style="width: 100%">
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.Core.js" />
+                <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQuery.js" />
+                <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQueryInclude.js" />
+                <asp:ScriptReference Path="Batchextension/batchManagerExtentions.js" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+
+        <div class="navbar navbar-default navbar-fixed-top" style="background-color: #aacfd0;">
+            <div class="container" style="width: 100%; padding: 5px;">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="MainMenu.aspx">
+                        <img style="height: 45px" src="Images/Coffer.png" loading="lazy" /></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/codingmenu">Coding</a></li>
+                        <li><a runat="server" href="~/normalinvoice">Invoicing</a></li>
+                        <li><a runat="server" href="~/refund">Refund</a></li>
+                        <li><a runat="server" href="~/jourvalvoucher">Journal voucher</a></li>
+                        <li><a runat="server" href="~/bankreceivable">Bank/Cash Deposit</a></li>
+                        <li><a runat="server" href="~/cashpayment">Bank/Cash Payment</a></li>
+                        <li><a runat="server" href="~/ledger">Ledger</a></li>
+                        <li><a runat="server" href="~/TrailBalanceReport">Reports</a></li>
+                    </ul>
+                    <div class="dropdown" style="float: right">
+                        <asp:Image class="dropbtn" ID="profilePic" runat="server" alt="Image" loading="lazy" Style="max-height: 45px;"></asp:Image>
+                        <div class="dropdown-content" style="float: left">
+                            <a>
+                                <asp:Label runat="server" ID="usernameLabel" Font-Bold="true"></asp:Label></a>
+                            <a>
+                                <asp:Label runat="server" ID="officeIDLabel" Font-Bold="true"></asp:Label></a>
+                            <div style="align-items:center">
+                                <div class="col-lg-4">
+                                    <a href="MainMenu.aspx" runat="server">Dashboard</a>
+                                </div>
+                                <div class="col-lg-4">
+                                    <a href="UserProfile.aspx" runat="server">Profile</a>
+                                </div>
+                                <div class="col-lg-4">
+                                    <a href="Logout.aspx" runat="server">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%--<asp:Label runat="server" ID="company" style="float:right; margin-right:5px; padding:0.5%" Font-Bold="true"></asp:Label>--%>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%" class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <center>
+                    <p>Coffer Systems (Pvt) Ltd - Copyright &copy; <%: DateTime.Now.Year %></p>
+                </center>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
