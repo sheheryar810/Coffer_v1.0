@@ -3,776 +3,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <head>
-        <title></title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
-        <!-- GOOGLE FONTS-->
-                        <link href="styles/loader.css" rel="stylesheet" />
-
+        <link href="styles/loader.css" rel="stylesheet" />
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
         <link href="Content/fontawesome.min.css" rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
-
-        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-        <script src="assets/js/datatables.js"></script>
-
-        <script type="text/javascript">
-
-            $(document).keypress(function (e) {
-                //Check which key is pressed on the document or window
-                if (e.which == 13) {
-                    // if it is 13 that means enter key pressed, then call the function to cancel the event
-                    e.preventDefault();
-                }
-            });
-
-            function showsuccesspopup1() {
-                jQuery.noConflict();
-                $('#successpopup1').modal('show');
-            }
-
-            function conflictPopup() {
-                jQuery.noConflict();
-                $('#conflictPopup').modal('show');
-            }
-
-            function addDashes(f) {
-                f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0,15);
-                var tkt = document.getElementById('<%=tktno.ClientID%>').value;
-                tkt = "2310" + tkt.substr(0, 3);
-                document.getElementById('<%=airlinecode.ClientID%>').value = tkt;
-                document.getElementById('<%=airlineDropDownList.ClientID%>').value = tkt;
-                document.getElementById('<%=airlineDropDownListTemp.ClientID%>').value = tkt;
-            }
-
-            function addDashes1(f) {
-                f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
-                var tkt = document.getElementById('<%=tktno1.ClientID%>').value;
-                tkt = "2310" + tkt.substr(0, 3);
-                document.getElementById('<%=airlinecode1.ClientID%>').value = tkt;
-                document.getElementById('<%=airlineDropDownList1.ClientID%>').value = tkt;
-                document.getElementById('<%=airlineDropDownListTemp1.ClientID%>').value = tkt;
-            }
-
-            function getinvoiceDataTotal(offset) {
-                $.ajax({
-                    url: 'WebExpenses.asmx/GetInvoiceDataTotal',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: { offset: offset },
-                    success: function (data) {
-                        document.getElementById('<%=utkb.ClientID%>').value = data[0].kb;
-                        document.getElementById('<%=utcomm.ClientID%>').value = data[0].comm;
-                        document.getElementById('<%=utwhair.ClientID%>').value = data[0].whair;
-                        document.getElementById('<%=utwhclient.ClientID%>').value = data[0].whclient;
-                        document.getElementById('<%=utotherpay.ClientID%>').value = data[0].otherpayable;
-                        document.getElementById('<%=utpl.ClientID%>').value = data[0].profitloss;
-                        document.getElementById('<%=uttfare.ClientID%>').value = data[0].fare;
-                        document.getElementById('<%=utttax.ClientID%>').value = data[0].tax;
-                        document.getElementById('<%=uttother.ClientID%>').value = data[0].other;
-                        document.getElementById('<%=uttsp.ClientID%>').value = data[0].sp;
-                        document.getElementById('<%=uttrcv.ClientID%>').value = data[0].receivable;
-                        document.getElementById('<%=uttpay.ClientID%>').value = data[0].payable;
-                        document.getElementById('<%=utkb1.ClientID%>').value = data[0].kb;
-                        document.getElementById('<%=utcomm1.ClientID%>').value = data[0].comm;
-                        document.getElementById('<%=utwhair1.ClientID%>').value = data[0].whair;
-                        document.getElementById('<%=utwhclient1.ClientID%>').value = data[0].whclient;
-                        document.getElementById('<%=utotherpay1.ClientID%>').value = data[0].otherpayable;
-                        document.getElementById('<%=utpl1.ClientID%>').value = data[0].profitloss;
-                        document.getElementById('<%=uttfare1.ClientID%>').value = data[0].fare;
-                        document.getElementById('<%=utttax1.ClientID%>').value = data[0].tax;
-                        document.getElementById('<%=uttother1.ClientID%>').value = data[0].other;
-                        document.getElementById('<%=uttsp1.ClientID%>').value = data[0].sp;
-                        document.getElementById('<%=uttrcv1.ClientID%>').value = data[0].receivable;
-                        document.getElementById('<%=uttpay1.ClientID%>').value = data[0].payable;
-                    },
-                    error: function () {
-                    }
-                });
-            }
-            function editBtn() {
-                document.getElementById('<%=EditButton.ClientID %>').style.display = 'none';
-                document.getElementById('<%=AddButton.ClientID %>').style.display = 'block';
-
-            }
-        </script>
-        <script>
-            var whcount = 0;
-            var whcount1 = 0;
-            function calculate() {
-
-                var iata = parseFloat(document.getElementById('<%=iata.ClientID%>').value || 0);
-                var mkt = parseFloat(document.getElementById('<%=mkt.ClientID%>').value || 0);
-                var otherfare = parseFloat(document.getElementById('<%=otherfare.ClientID%>').value || 0);
-                var soto = parseFloat(document.getElementById('<%=soto.ClientID%>').value || 0);
-                var sp = parseFloat(document.getElementById('<%=sp.ClientID%>').value || 0);
-                var yd = parseFloat(document.getElementById('<%=yd.ClientID%>').value || 0);
-                var pk = parseFloat(document.getElementById('<%=pk.ClientID%>').value || 0);
-                var fed = parseFloat(document.getElementById('<%=fed.ClientID%>').value || 0);
-                var ced = parseFloat(document.getElementById('<%=ced.ClientID%>').value || 0);
-                var xz = parseFloat(document.getElementById('<%=xz.ClientID%>').value || 0);
-                var whclient = parseFloat(document.getElementById('<%=whclient.ClientID%>').value || 0);
-                var yq = parseFloat(document.getElementById('<%=yq.ClientID%>').value || 0);
-                var pb = parseFloat(document.getElementById('<%=pb.ClientID%>').value || 0);
-                var oth = parseFloat(document.getElementById('<%=oth.ClientID%>').value || 0);
-                var extra = parseFloat(document.getElementById('<%=extra.ClientID%>').value || 0);
-                var ins = parseFloat(document.getElementById('<%=ins.ClientID%>').value || 0);
-                var service = parseFloat(document.getElementById('<%=srvc.ClientID%>').value || 0);
-                var disc = parseFloat(document.getElementById('<%=disc.ClientID%>').value || 0);
-                var discadj = parseFloat(document.getElementById('<%=discadj.ClientID%>').value || 0);
-                var discamt = parseFloat(document.getElementById('<%=discamt.ClientID%>').value || 0);
-                var gstper = parseFloat(document.getElementById('<%=gstText.ClientID%>').value || 0);
-                var comm = parseFloat(document.getElementById('<%=comm.ClientID%>').value || 0);
-                var comadj = parseFloat(document.getElementById('<%=comadj.ClientID%>').value || 0);
-                var comamt = parseFloat(document.getElementById('<%=comamt.ClientID%>').value || 0);
-                var kbcust = parseFloat(document.getElementById('<%=kbcust.ClientID%>').value || 0);
-                var kb = parseFloat(document.getElementById('<%=kbairline.ClientID%>').value || 0);
-                var serviceamount = parseFloat(document.getElementById('<%=srvcamt.ClientID%>').value || 0);
-                var tcomm = comadj + comamt;
-                document.getElementById('<%=tcom.ClientID%>').value = parseFloat(tcomm).toFixed(2);
-
-                if (whcount == 0) {
-                    var whairlines = (((mkt * comm) / 100) * 12) / 100;
-                    document.getElementById('<%=whairline.ClientID%>').value = parseFloat(whairlines).toFixed(2);
-                }
-                var whairline = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
-
-                if (comadj != "") {
-                    var whairl = ((((comadj * comm) / 100) * 12) / 100) + comadj / 10;
-                    var twhairpay = whairl + whairline;
-                    document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairpay).toFixed(2);
-                }
-                if (extra != "") {
-                    var whairp = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
-                    var whair = (((otherfare * extra) / 100) * 12) / 100;
-                    var twhairp = whair + whairp;
-                    document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairp).toFixed(2);
-                }
-
-                var totalcommission = (mkt * comm) / 100;
-                document.getElementById('<%=tcom.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
-                document.getElementById('<%=comamt.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
-                var tcom = parseFloat(document.getElementById('<%=tcom.ClientID%>').value || 0);
-                var gstpayable = parseFloat(document.getElementById('<%=gstpay.ClientID%>').value || 0);
-                var gst = parseFloat(document.getElementById('<%=gstText.ClientID%>').value || 0);
-                var srvct = 0;
-                if (service != "") {
-                    srvct = (service * mkt) / 100;
-                } else if (serviceamount) {
-                    srvct = serviceamount;
-                }
-                var gstpay = 0;
-                gstpay = ((srvct * gst) / 100);
-                var disct = ((disc * mkt) / 100) + discadj;
-                var extracom = (otherfare * extra) / 100;
-                var totalcom = extracom + tcom;
-                var total = mkt + otherfare + soto;
-                var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
-                var ticketvalue = taxes + mkt;
-                var totaltaxes = taxes + total;
-                var clientr = totaltaxes - whairline + whclient + ins + srvct - disct + gstpay - kbcust;
-                var airlinep = totaltaxes - kb - totalcom;
-                var profitloss = clientr - airlinep;
-                document.getElementById('<%=srvcamt.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
-                document.getElementById('<%=frtx.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
-                document.getElementById('<%=tax.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
-                document.getElementById('<%=tktvalue.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
-                document.getElementById('<%=clientreceivable.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
-                document.getElementById('<%=airlinepayable.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
-                document.getElementById('<%=plothers.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
-                document.getElementById('<%=discamt.ClientID%>').value = Math.round(parseFloat(disct).toFixed(2));
-                document.getElementById('<%=gstpay.ClientID%>').value = Math.round(parseFloat(gstpay).toFixed(2));
-                document.getElementById('<%=extcom.ClientID%>').value = Math.round(parseFloat(extracom).toFixed(2));
-                document.getElementById('<%=tcom.ClientID%>').value = Math.round(parseFloat(totalcom).toFixed(2));
-            }
-            function calculatewhairline() {
-                whcount++;
-                var iata = parseFloat(document.getElementById('<%=iata.ClientID%>').value || 0);
-                var mkt = parseFloat(document.getElementById('<%=mkt.ClientID%>').value || 0);
-                var otherfare = parseFloat(document.getElementById('<%=otherfare.ClientID%>').value || 0);
-                var soto = parseFloat(document.getElementById('<%=soto.ClientID%>').value || 0);
-                var sp = parseFloat(document.getElementById('<%=sp.ClientID%>').value || 0);
-                var yd = parseFloat(document.getElementById('<%=yd.ClientID%>').value || 0);
-                var pk = parseFloat(document.getElementById('<%=pk.ClientID%>').value || 0);
-                var fed = parseFloat(document.getElementById('<%=fed.ClientID%>').value || 0);
-                var ced = parseFloat(document.getElementById('<%=ced.ClientID%>').value || 0);
-                var xz = parseFloat(document.getElementById('<%=xz.ClientID%>').value || 0);
-                var whairline = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
-                var whclient = parseFloat(document.getElementById('<%=whclient.ClientID%>').value || 0);
-                var yq = parseFloat(document.getElementById('<%=yq.ClientID%>').value || 0);
-                var pb = parseFloat(document.getElementById('<%=pb.ClientID%>').value || 0);
-                var oth = parseFloat(document.getElementById('<%=oth.ClientID%>').value || 0);
-                var extra = parseFloat(document.getElementById('<%=extra.ClientID%>').value || 0);
-                var ins = parseFloat(document.getElementById('<%=ins.ClientID%>').value || 0);
-                var service = parseFloat(document.getElementById('<%=srvc.ClientID%>').value || 0);
-                var disc = parseFloat(document.getElementById('<%=disc.ClientID%>').value || 0);
-                var discadj = parseFloat(document.getElementById('<%=discadj.ClientID%>').value || 0);
-                var discamt = parseFloat(document.getElementById('<%=discamt.ClientID%>').value || 0);
-                var gstper = parseFloat(document.getElementById('<%=gstText.ClientID%>').value || 0);
-                var comm = parseFloat(document.getElementById('<%=comm.ClientID%>').value || 0);
-                var comadj = parseFloat(document.getElementById('<%=comadj.ClientID%>').value || 0);
-                var comamt = parseFloat(document.getElementById('<%=comamt.ClientID%>').value || 0);
-                var kbcust = parseFloat(document.getElementById('<%=kbcust.ClientID%>').value || 0);
-                var kb = parseFloat(document.getElementById('<%=kbairline.ClientID%>').value || 0);
-                var gstpay = parseFloat(document.getElementById('<%=gstpay.ClientID%>').value || 0);
-
-                var total = mkt + otherfare + soto;
-                var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
-                var ticketvalue = taxes + mkt;
-                var totaltaxes = taxes + total;
-                var clientr = totaltaxes - whairline + whclient + ins + service - discamt + gstpay - kbcust;
-                var airlinep = totaltaxes - kb - comamt;
-                var profitloss = clientr - airlinep;
-                document.getElementById('<%=frtx.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
-                document.getElementById('<%=tax.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
-                document.getElementById('<%=tktvalue.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
-                document.getElementById('<%=clientreceivable.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
-                document.getElementById('<%=airlinepayable.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
-                document.getElementById('<%=plothers.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
-
-            }
-
-            function calculate1() {
-
-                var iata = parseFloat(document.getElementById('<%=iata1.ClientID%>').value || 0);
-                var mkt = parseFloat(document.getElementById('<%=mkt1.ClientID%>').value || 0);
-                var otherfare = parseFloat(document.getElementById('<%=otherfare1.ClientID%>').value || 0);
-                var soto = parseFloat(document.getElementById('<%=soto1.ClientID%>').value || 0);
-                var sp = parseFloat(document.getElementById('<%=sp1.ClientID%>').value || 0);
-                var yd = parseFloat(document.getElementById('<%=yd1.ClientID%>').value || 0);
-                var pk = parseFloat(document.getElementById('<%=pk1.ClientID%>').value || 0);
-                var fed = parseFloat(document.getElementById('<%=fed1.ClientID%>').value || 0);
-                var ced = parseFloat(document.getElementById('<%=ced1.ClientID%>').value || 0);
-                var xz = parseFloat(document.getElementById('<%=xz1.ClientID%>').value || 0);
-                var whclient = parseFloat(document.getElementById('<%=whclient1.ClientID%>').value || 0);
-                var yq = parseFloat(document.getElementById('<%=yq1.ClientID%>').value || 0);
-                var pb = parseFloat(document.getElementById('<%=pb1.ClientID%>').value || 0);
-                var oth = parseFloat(document.getElementById('<%=oth1.ClientID%>').value || 0);
-                var extra = parseFloat(document.getElementById('<%=extra1.ClientID%>').value || 0);
-                var ins = parseFloat(document.getElementById('<%=ins1.ClientID%>').value || 0);
-                var service = parseFloat(document.getElementById('<%=srvc1.ClientID%>').value || 0);
-                var disc = parseFloat(document.getElementById('<%=disc1.ClientID%>').value || 0);
-                var discadj = parseFloat(document.getElementById('<%=discadj1.ClientID%>').value || 0);
-                var discamt = parseFloat(document.getElementById('<%=discamt1.ClientID%>').value || 0);
-                var gstper = parseFloat(document.getElementById('<%=gstText1.ClientID%>').value || 0);
-                var comm = parseFloat(document.getElementById('<%=comm1.ClientID%>').value || 0);
-                var comadj = parseFloat(document.getElementById('<%=comadj1.ClientID%>').value || 0);
-                var comamt = parseFloat(document.getElementById('<%=comamt1.ClientID%>').value || 0);
-                var kbcust = parseFloat(document.getElementById('<%=kbcust1.ClientID%>').value || 0);
-                var kb = parseFloat(document.getElementById('<%=kbairline1.ClientID%>').value || 0);
-                var serviceamount = parseFloat(document.getElementById('<%=srvcamt1.ClientID%>').value || 0);
-                var tcomm = comadj + comamt;
-                document.getElementById('<%=tcom1.ClientID%>').value = parseFloat(tcomm).toFixed(2);
-
-                if (whcount1 == 0) {
-                    var whairlines = (((mkt * comm) / 100) * 12) / 100;
-                    document.getElementById('<%=whairline1.ClientID%>').value = parseFloat(whairlines).toFixed(2);
-                }
-                var whairline = parseFloat(document.getElementById('<%=whairline1.ClientID%>').value || 0);
-
-                if (comadj != "") {
-                    var whairl = ((((comadj * comm) / 100) * 12) / 100) + comadj / 10;
-                    var twhairpay = whairl + whairline;
-                    document.getElementById('<%=whairline1.ClientID%>').value = parseFloat(twhairpay).toFixed(2);
-                }
-                if (extra != "") {
-                    var whairp = parseFloat(document.getElementById('<%=whairline1.ClientID%>').value || 0);
-                    var whair = (((otherfare * extra) / 100) * 12) / 100;
-                    var twhairp = whair + whairp;
-                    document.getElementById('<%=whairline1.ClientID%>').value = parseFloat(twhairp).toFixed(2);
-                }
-
-                var totalcommission = (mkt * comm) / 100;
-                document.getElementById('<%=tcom1.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
-                document.getElementById('<%=comamt1.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
-                var tcom = parseFloat(document.getElementById('<%=tcom1.ClientID%>').value || 0);
-                var gstpayable = parseFloat(document.getElementById('<%=gstpay1.ClientID%>').value || 0);
-                var gst = parseFloat(document.getElementById('<%=gstText1.ClientID%>').value || 0);
-                var srvct = 0;
-                if (service != "") {
-                    srvct = (service * mkt) / 100;
-                } else if (serviceamount) {
-                    srvct = serviceamount;
-                }
-                var gstpay = 0;
-                gstpay = ((srvct * gst) / 100);
-                var disct = ((disc * mkt) / 100) + discadj;
-                var extracom = (otherfare * extra) / 100;
-                var totalcom = extracom + tcom;
-                var total = mkt + otherfare + soto;
-                var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
-                var ticketvalue = taxes + mkt;
-                var totaltaxes = taxes + total;
-                var clientr = totaltaxes - whairline + whclient + ins + srvct - disct + gstpay - kbcust;
-                var airlinep = totaltaxes - kb - totalcom;
-                var profitloss = clientr - airlinep;
-                document.getElementById('<%=srvcamt1.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
-                document.getElementById('<%=frtx1.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
-                document.getElementById('<%=tax1.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
-                document.getElementById('<%=tktvalue1.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
-                document.getElementById('<%=clientreceivable1.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
-                document.getElementById('<%=airlinepayable1.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
-                document.getElementById('<%=plother1.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
-                document.getElementById('<%=discamt1.ClientID%>').value = Math.round(parseFloat(disct).toFixed(2));
-                document.getElementById('<%=gstpay1.ClientID%>').value = Math.round(parseFloat(gstpay).toFixed(2));
-                document.getElementById('<%=extcom1.ClientID%>').value = Math.round(parseFloat(extracom).toFixed(2));
-                document.getElementById('<%=tcom1.ClientID%>').value = Math.round(parseFloat(totalcom).toFixed(2));
-            }
-            function calculatewhairline1() {
-                whcount1++;
-                var iata = parseFloat(document.getElementById('<%=iata1.ClientID%>').value || 0);
-                var mkt = parseFloat(document.getElementById('<%=mkt1.ClientID%>').value || 0);
-                var otherfare = parseFloat(document.getElementById('<%=otherfare1.ClientID%>').value || 0);
-                var soto = parseFloat(document.getElementById('<%=soto1.ClientID%>').value || 0);
-                var sp = parseFloat(document.getElementById('<%=sp1.ClientID%>').value || 0);
-                var yd = parseFloat(document.getElementById('<%=yd1.ClientID%>').value || 0);
-                var pk = parseFloat(document.getElementById('<%=pk1.ClientID%>').value || 0);
-                var fed = parseFloat(document.getElementById('<%=fed1.ClientID%>').value || 0);
-                var ced = parseFloat(document.getElementById('<%=ced1.ClientID%>').value || 0);
-                var xz = parseFloat(document.getElementById('<%=xz1.ClientID%>').value || 0);
-                var whairline = parseFloat(document.getElementById('<%=whairline1.ClientID%>').value || 0);
-                var whclient = parseFloat(document.getElementById('<%=whclient1.ClientID%>').value || 0);
-                var yq = parseFloat(document.getElementById('<%=yq1.ClientID%>').value || 0);
-                var pb = parseFloat(document.getElementById('<%=pb1.ClientID%>').value || 0);
-                var oth = parseFloat(document.getElementById('<%=oth1.ClientID%>').value || 0);
-                var extra = parseFloat(document.getElementById('<%=extra1.ClientID%>').value || 0);
-                var ins = parseFloat(document.getElementById('<%=ins1.ClientID%>').value || 0);
-                var service = parseFloat(document.getElementById('<%=srvc1.ClientID%>').value || 0);
-                var disc = parseFloat(document.getElementById('<%=disc1.ClientID%>').value || 0);
-                var discadj = parseFloat(document.getElementById('<%=discadj1.ClientID%>').value || 0);
-                var discamt = parseFloat(document.getElementById('<%=discamt1.ClientID%>').value || 0);
-                var gstper = parseFloat(document.getElementById('<%=gstText1.ClientID%>').value || 0);
-                var comm = parseFloat(document.getElementById('<%=comm1.ClientID%>').value || 0);
-                var comadj = parseFloat(document.getElementById('<%=comadj1.ClientID%>').value || 0);
-                var comamt = parseFloat(document.getElementById('<%=comamt1.ClientID%>').value || 0);
-                var kbcust = parseFloat(document.getElementById('<%=kbcust1.ClientID%>').value || 0);
-                var kb = parseFloat(document.getElementById('<%=kbairline1.ClientID%>').value || 0);
-                var gstpay = parseFloat(document.getElementById('<%=gstpay1.ClientID%>').value || 0);
-
-                var total = mkt + otherfare + soto;
-                var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
-                var ticketvalue = taxes + mkt;
-                var totaltaxes = taxes + total;
-                var clientr = totaltaxes - whairline + whclient + ins + service - discamt + gstpay - kbcust;
-                var airlinep = totaltaxes - kb - comamt;
-                var profitloss = clientr - airlinep;
-                document.getElementById('<%=frtx1.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
-                document.getElementById('<%=tax1.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
-                document.getElementById('<%=tktvalue1.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
-                document.getElementById('<%=clientreceivable1.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
-                document.getElementById('<%=airlinepayable1.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
-                document.getElementById('<%=plother1.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
-
-            }
-
-            function delBtn() {
-                ////////document.getElementById('<%=tktno.ClientID%>').value = "0";
-                document.getElementById('<%=tktno1.ClientID%>').value = "0";
-                //document.getElementById('<%=othtktno.ClientID%>').value = "0";
-
-            }
-            function newBtn() {
-                document.getElementById('<%=tktno.ClientID%>').value = "";
-                document.getElementById('<%=tktno1.ClientID%>').value = "0";
-                //document.getElementById('<%=othtktno.ClientID%>').value = "0";
-
-                $("#tktno").prop("readonly", false);
-                $("#modeDropDownList").prop("disabled", false);
-                document.getElementById('<%=EditButton.ClientID %>').style.display = 'none';
-                document.getElementById('<%=AddButton.ClientID %>').style.display = 'block';
-
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear() + "-" + (month) + "-" + (day);
-                document.getElementById("invDate").value = today;
-                document.getElementById("postDate").value = today;
-                document.getElementById("deptDate").value = today;
-                document.getElementById('<%=invType.ClientID%>').value = "";
-                document.getElementById('<%=ccode.ClientID%>').value = "";
-                document.getElementById('<%=customerDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=airlinecode.ClientID%>').value = "";
-                document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=airlineDropDownListTemp.ClientID%>').value = "";
-                document.getElementById('<%=invt.ClientID%>').value = "";
-                document.getElementById('<%=invR.ClientID%>').value = "";
-                document.getElementById('<%=altn.ClientID%>').value = "";
-                document.getElementById('<%=tktt.ClientID%>').value = "";
-                document.getElementById('<%=xo.ClientID%>').value = "";
-                document.getElementById('<%=status.ClientID%>').value = "";
-                document.getElementById('<%=passname.ClientID%>').value = "";
-                document.getElementById('<%=sector.ClientID%>').value = "";
-                document.getElementById('<%=fare.ClientID%>').value = "";
-                document.getElementById('<%=@class.ClientID%>').value = "";
-                document.getElementById('<%=pnr.ClientID%>').value = "";
-                document.getElementById('<%=cBalance.ClientID%>').value = "";
-                document.getElementById('<%=cLimit.ClientID%>').value = "";
-                document.getElementById('<%=iata.ClientID%>').value = "";
-                document.getElementById('<%=mkt.ClientID%>').value = "";
-                document.getElementById('<%=otherfare.ClientID%>').value = "";
-                document.getElementById('<%=soto.ClientID%>').value = "";
-                document.getElementById('<%=sp.ClientID%>').value = "";
-                document.getElementById('<%=yd.ClientID%>').value = "";
-                document.getElementById('<%=pk.ClientID%>').value = "";
-                document.getElementById('<%=fed.ClientID%>').value = "";
-                document.getElementById('<%=ced.ClientID%>').value = "";
-                document.getElementById('<%=xz.ClientID%>').value = "";
-                document.getElementById('<%=whairline.ClientID%>').value = "";
-                document.getElementById('<%=whclient.ClientID%>').value = "";
-                document.getElementById('<%=yq.ClientID%>').value = "";
-                document.getElementById('<%=pb.ClientID%>').value = "";
-                document.getElementById('<%=oth.ClientID%>').value = "";
-                document.getElementById('<%=tax.ClientID%>').value = "";
-                document.getElementById('<%=frtx.ClientID%>').value = "";
-                document.getElementById('<%=comm.ClientID%>').value = "";
-                document.getElementById('<%=comamt.ClientID%>').value = "";
-                document.getElementById('<%=comadj.ClientID%>').value = "";
-                document.getElementById('<%=tcom.ClientID%>').value = "";
-                document.getElementById('<%=srvc.ClientID%>').value = "";
-                document.getElementById('<%=srvcamt.ClientID%>').value = "";
-                document.getElementById('<%=gstpay.ClientID%>').value = "";
-                document.getElementById('<%=ins.ClientID%>').value = "";
-                document.getElementById('<%=kbairline.ClientID%>').value = "";
-                document.getElementById('<%=kbcust.ClientID%>').value = "";
-                document.getElementById('<%=kbcomm.ClientID%>').value = "";
-                document.getElementById('<%=disc.ClientID%>').value = "";
-                document.getElementById('<%=discamt.ClientID%>').value = "";
-                document.getElementById('<%=discadj.ClientID%>').value = "";
-                document.getElementById('<%=gds.ClientID%>').value = "";
-                document.getElementById('<%=fcDropDown.ClientID%>').value = "";
-                document.getElementById('<%=fcp.ClientID%>').value = "";
-                document.getElementById('<%=fcr.ClientID%>').value = "";
-                document.getElementById('<%=airlinepayable.ClientID%>').value = "";
-                document.getElementById('<%=clientreceivable.ClientID%>').value = "";
-                document.getElementById('<%=otherpayable.ClientID%>').value = "";
-                document.getElementById('<%=plothers.ClientID%>').value = "";
-                document.getElementById('<%=tktvalue.ClientID%>').value = "";
-                document.getElementById('<%=passcnic.ClientID%>').value = "";
-                document.getElementById('<%=rcpt.ClientID%>').value = "";
-                document.getElementById('<%=utkb.ClientID%>').value = "";
-                document.getElementById('<%=utcomm.ClientID%>').value = "";
-                document.getElementById('<%=utwhair.ClientID%>').value = "";
-                document.getElementById('<%=utwhclient.ClientID%>').value = "";
-                document.getElementById('<%=utotherpay.ClientID%>').value = "";
-                document.getElementById('<%=utpl.ClientID%>').value = "";
-                document.getElementById('<%=uttfare.ClientID%>').value = "";
-                document.getElementById('<%=utttax.ClientID%>').value = "";
-                document.getElementById('<%=uttother.ClientID%>').value = "";
-                document.getElementById('<%=uttsp.ClientID%>').value = "";
-                document.getElementById('<%=uttrcv.ClientID%>').value = "";
-                document.getElementById('<%=uttpay.ClientID%>').value = "";
-                document.getElementById('<%=utkb1.ClientID%>').value = "";
-                document.getElementById('<%=utcomm1.ClientID%>').value = "";
-                document.getElementById('<%=utwhair1.ClientID%>').value = "";
-                document.getElementById('<%=utwhclient1.ClientID%>').value = "";
-                document.getElementById('<%=utotherpay1.ClientID%>').value = "";
-                document.getElementById('<%=utpl1.ClientID%>').value = "";
-                document.getElementById('<%=uttfare1.ClientID%>').value = "";
-                document.getElementById('<%=utttax1.ClientID%>').value = "";
-                document.getElementById('<%=uttother1.ClientID%>').value = "";
-                document.getElementById('<%=uttsp1.ClientID%>').value = "";
-                document.getElementById('<%=uttrcv1.ClientID%>').value = "";
-                document.getElementById('<%=uttpay1.ClientID%>').value = "";
-
-                document.getElementById('<%=othccode.ClientID%>').value = "";
-                document.getElementById('<%=customerDropDownListOth.ClientID%>').value = "";
-                document.getElementById('<%=passenger.ClientID%>').value = "";
-                document.getElementById('<%=descriptionOth.ClientID%>').value = "";
-                document.getElementById('<%=visarcv.ClientID%>').value = "";
-                document.getElementById('<%=accomo1rcv.ClientID%>').value = "";
-                document.getElementById('<%=accomo2rcv.ClientID%>').value = "";
-                document.getElementById('<%=trnsrcv.ClientID%>').value = "";
-                document.getElementById('<%=zrtrcv.ClientID%>').value = "";
-                document.getElementById('<%=foodrcv.ClientID%>').value = "";
-                document.getElementById('<%=otherrcv.ClientID%>').value = "";
-                document.getElementById('<%=totalrcv.ClientID%>').value = "";
-                document.getElementById('<%=trcv.ClientID%>').value = "";
-                document.getElementById('<%=tpay.ClientID%>').value = "";
-                document.getElementById('<%=tpl.ClientID%>').value = "";
-                document.getElementById('<%=tpayable.ClientID%>').value = "";
-                document.getElementById('<%=description.ClientID%>').value = "";
-                document.getElementById('<%=othpassportno.ClientID%>').value = "";
-            }
-
-            function addmore() {
-
-                if (document.getElementById('<%=tktno.ClientID%>').value == "") {
-                    document.getElementById('<%=tktno.ClientID%>').value = "0";
-                }
-                //document.getElementById('<%=tktno1.ClientID%>').value = "0";
-                //document.getElementById('<%=othtktno.ClientID%>').value = "0";
-
-                jQuery.noConflict();
-                $('#AttachPopup').modal('show');
-            }
-        </script>
-        <script type="text/javascript"> 
-            var offset = 0;
-
-            $(document).ready(function () {
-
-                ////////document.getElementById('<%=othtktno.ClientID%>').value = "0";
-                document.getElementById('<%=tktno.ClientID%>').value = "0";
-                document.getElementById('<%=tktno1.ClientID%>').value = "0";
-                document.getElementById('<%=EditButton.ClientID %>').style.display = 'none';
-
-                $('#modeDropDownList').change(function () {
-                    var mdd = $('#modeDropDownList').val();
-                    if (mdd == "other") {
-
-                        var a = "OTH";
-                        const aa = 1000;
-                        const ab = 9999;
-                        const ba = 100000;
-                        const bb = 999999;
-                        const aaa = Math.random() * (ab - aa + 1);
-                        const bbb = Math.random() * (bb - ba + 1);
-                        const other = a + "-" + Math.ceil(aaa) + "-" + Math.ceil(bbb);
-                        document.getElementById('<%=tktno.ClientID%>').value = other;
-                        document.getElementById('<%=othtktno.ClientID%>').value = other;
-                        document.getElementById('<%=othertkt.ClientID%>').value = other;
-                        jQuery.noConflict();
-                        $('#OthPopup').modal('show');
-                    }
-                    else if (mdd == "pnr") {
-                        var a = "PNR";
-                        const aa = 1000;
-                        const ab = 9999;
-                        const ba = 100000;
-                        const bb = 999999;
-                        const aaa = Math.random() * (ab - aa + 1);
-                        const bbb = Math.random() * (bb - ba + 1);
-                        const pnr = a + "-" + Math.ceil(aaa) + "-" + Math.ceil(bbb);
-                        document.getElementById('<%=tktno.ClientID%>').value = pnr;
-                    }
-                });
-
-                $('#customerDropDownList').change(function () {
-                    var cdd = $('#customerDropDownList').val();
-                    document.getElementById('<%=ccode.ClientID%>').value = parseFloat(cdd);
-                });
-                $('#tktt').change(function () {
-                    var cdd = $('#tktt').val();
-                    if (cdd == "Domestic") {
-                        $("#iata").prop("disabled", true);
-                    } else {
-                        $("#iata").prop("disabled", false);
-                    }
-                });
-                $('#tktt1').change(function () {
-                    var cdd = $('#tktt1').val();
-                    if (cdd == "Domestic") {
-                        $("#iata1").prop("disabled", true);
-                    } else {
-                        $("#iata1").prop("disabled", false);
-                    }
-                });
-                $('#conjDropDownList').change(function () {
-                    var cdd = $('#conjDropDownList').val();
-                    if (cdd == "Y") {
-                        var tkt = document.getElementById('<%=tktno.ClientID%>').value;
-                        document.getElementById('<%=altn.ClientID%>').value = tkt.substr(0, 13);
-                    } else {
-                        document.getElementById('<%=altn.ClientID%>').value = "";
-                    }
-                });
-                $('#fixDropDown').change(function () {
-                    var cdd = $('#fixDropDown').val();
-                    if (cdd == "Yes") {
-                        $("#whairline").prop("readonly", true);
-                    } else {
-                        $("#whairline").prop("readonly", false);
-                    }
-                });
-                $('#conjDropDownList1').change(function () {
-                    var cdd = $('#conjDropDownList1').val();
-                    if (cdd == "Y") {
-                        var tkt = document.getElementById('<%=tktno1.ClientID%>').value;
-                        document.getElementById('<%=altn1.ClientID%>').value = tkt.substr(0, 13);
-                    } else {
-                        document.getElementById('<%=altn1.ClientID%>').value = "";
-                    }
-                });
-                $('#fixDropDown1').change(function () {
-                    var cdd = $('#fixDropDown1').val();
-                    if (cdd == "Yes") {
-                        $("#whairline1").prop("readonly", true);
-                    } else {
-                        $("#whairline1").prop("readonly", false);
-                    }
-                });
-                $('#customerDropDownList1').change(function () {
-                    var cdd = $('#customerDropDownList1').val();
-                    document.getElementById('<%=ccode1.ClientID%>').value = parseFloat(cdd);
-                });
-                $('#customerDropDownListOth').change(function () {
-                    var cdd = $('#customerDropDownListOth').val();
-                    document.getElementById('<%=othccode.ClientID%>').value = parseFloat(cdd);
-                    document.getElementById('<%=ccode.ClientID%>').value = parseFloat(cdd);
-                    document.getElementById('<%=customerDropDownList.ClientID%>').value = parseFloat(cdd);
-                });
-                $('#airlineDropDownList').change(function () {
-                    var cdd = $('#airlineDropDownList').val();
-                    document.getElementById('<%=airlinecode.ClientID%>').value = parseFloat(cdd);
-                });
-                $('#IncomeDropDownList').change(function () {
-                    var cdd = $('#IncomeDropDownList').val();
-                    document.getElementById('<%=incacname.ClientID%>').value = parseFloat(cdd);
-                });
-                $('#airlineDropDownList1').change(function () {
-                    var cdd = $('#airlineDropDownList1').val();
-                    document.getElementById('<%=airlinecode1.ClientID%>').value = parseFloat(cdd);
-                });
-                $('#bspDropDown').change(function () {
-                    var cdd = $('#bspDropDown').val();
-                    if (cdd == "Y") {
-                        document.getElementById('<%=airlineDropDownList.ClientID%>').value = '2310222';
-                        document.getElementById('<%=airlinecode.ClientID%>').value = '2310222';
-                    }
-                    else {
-                        document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
-                        document.getElementById('<%=airlinecode.ClientID%>').value = "";
-                    }
-                });
-                $('#bspDropDown1').change(function () {
-                    var cdd = $('#bspDropDown1').val();
-                    if (cdd == "Y") {
-                        document.getElementById('<%=airlineDropDownList1.ClientID%>').value = '2310222';
-                        document.getElementById('<%=airlinecode1.ClientID%>').value = '2310222';
-                    }
-                    else {
-                        document.getElementById('<%=airlineDropDownList1.ClientID%>').value = "";
-                        document.getElementById('<%=airlinecode1.ClientID%>').value = "";
-                    }
-                });
-                $('#DropDownList2').change(function () {
-                    var dd2 = $('#DropDownList2').val();
-                    if (dd2 == 2 || dd2 == 3) {
-                        $("#gst").prop("disabled", true);
-                        $("#gstpay").prop("disabled", true);
-                    } else {
-                        $("#gst").prop("disabled", false);
-                        $("#gstpay").prop("disabled", false);
-                    }
-                    if (dd2 == 1) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="1"]').show();
-                        $('#DropDownList1').children('option[value="2"]').show();
-                        $('#DropDownList1').children('option[value="3"]').show();
-                    }
-                    else if (dd2 == 2) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="4"]').show();
-                        $('#DropDownList1').children('option[value="5"]').show();
-                        $('#DropDownList1').children('option[value="6"]').show();
-                    }
-                    else if (dd2 == 3) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="7"]').show();
-                        $('#DropDownList1').children('option[value="8"]').show();
-                    }
-                    else if (dd2 == 4) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="9"]').show();
-                        $('#DropDownList1').children('option[value="10"]').show();
-                    }
-                    else if (dd2 == 6) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="12"]').show();
-                    }
-                    else if (dd2 == 7) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="13"]').show();
-                    }
-                    else if (dd2 == 8) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="14"]').show();
-                    }
-                    else if (dd2 == 9) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="15"]').show();
-                        $('#DropDownList1').children('option[value="16"]').show();
-                        $('#DropDownList1').children('option[value="17"]').show();
-                    }
-                });
-                $('#DropDownList21').change(function () {
-                    var dd2 = $('#DropDownList21').val();
-                    if (dd2 == 2 || dd2 == 3) {
-                        $("#gst1").prop("disabled", true);
-                        $("#gstpay1").prop("disabled", true);
-                    } else {
-                        $("#gst1").prop("disabled", false);
-                        $("#gstpay1").prop("disabled", false);
-                    }
-                    if (dd2 == 1) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="1"]').show();
-                        $('#DropDownList11').children('option[value="2"]').show();
-                        $('#DropDownList11').children('option[value="3"]').show();
-                    }
-                    else if (dd2 == 2) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="4"]').show();
-                        $('#DropDownList11').children('option[value="5"]').show();
-                        $('#DropDownList11').children('option[value="6"]').show();
-                    }
-                    else if (dd2 == 3) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="7"]').show();
-                        $('#DropDownList11').children('option[value="8"]').show();
-                    }
-                    else if (dd2 == 4) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="9"]').show();
-                        $('#DropDownList11').children('option[value="10"]').show();
-                    }
-                    else if (dd2 == 6) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="12"]').show();
-                    }
-                    else if (dd2 == 7) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="13"]').show();
-                    }
-                    else if (dd2 == 8) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="14"]').show();
-                    }
-                    else if (dd2 == 9) {
-                        $('#DropDownList11').children().hide();
-                        $('#DropDownList11').children('option[value="15"]').show();
-                        $('#DropDownList11').children('option[value="16"]').show();
-                        $('#DropDownList11').children('option[value="17"]').show();
-                    }
-                });
-            });
-        </script>
-        
-    <script>
-
-        // Show the loader overlay
-        function showLoader() {
-            document.getElementById("loader-overlay").style.display = "flex";
-        }
-
-        // Hide the loader overlay
-        function hideLoader() {
-            document.getElementById("loader-overlay").style.display = "none";
-        }
-
-        // Attach event handlers to capture page transitions
-        document.addEventListener("DOMContentLoaded", function () {
-            var links = document.getElementsByTagName("a");
-            for (var i = 0; i < links.length; i++) {
-                links[i].addEventListener("click", showLoader);
-            }
-        });
-
-        window.addEventListener("beforeunload", showLoader);
-
-    </script>
+        <title>Invoicing</title>
 
         <style>
             .popupDialog {
@@ -787,12 +25,12 @@
     </head>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-      <div id="loader-overlay" class="loader-overlay" style="display: none;">
-    <div class="loader" style="justify-items:center">
-        <img src="Images/Coffer.png" alt="Loading..." class="loader-logo"  loading="lazy"/>
-        <div class="loader-spinner"></div>
+    <div id="loader-overlay" class="loader-overlay" style="display: none;">
+        <div class="loader" style="justify-items: center">
+            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo" loading="lazy" />
+            <div class="loader-spinner"></div>
+        </div>
     </div>
-</div>
     <div id="page-wrapper">
         <div class="panel panel-info" style="background-color: #f4f7f7; font-size: 10px">
             <div class="panel-body">
@@ -1390,44 +628,44 @@
                             function rowSelected1(sender, args) {
 
                                 document.getElementById('<%=AddButton.ClientID %>').style.display = 'none';
-                                    document.getElementById('<%=EditButton.ClientID %>').style.display = 'block';
+                                document.getElementById('<%=EditButton.ClientID %>').style.display = 'block';
                                 $("#tktno").prop("readonly", true);
 
-                                    var grid = $find('<%= RadGrid3.ClientID %>');
-                                    var masterTable = grid.get_masterTableView();
-                                    var item = masterTable.get_dataItems()[args.get_itemIndexHierarchical()];
-                                    var cell = masterTable.getCellByColumnUniqueName(item, "ticketno");
-                                    var ticketno = $telerik.$(cell).text().trim();
-                                    $.ajax({
-                                        url: 'WebExpenses.asmx/GetRowDataInvoices',
-                                        method: 'POST',
-                                        dataType: 'json',
-                                        data: { ticketno: ticketno },
-                                        success: function (data) {
-                                            var now = data[0].invdate.split(" ");
-                                            var date = now[0].split("/");
-                                            var today;
-                                            if (date.length == 1) {
-                                                today = date;
+                                var grid = $find('<%= RadGrid3.ClientID %>');
+                                var masterTable = grid.get_masterTableView();
+                                var item = masterTable.get_dataItems()[args.get_itemIndexHierarchical()];
+                                var cell = masterTable.getCellByColumnUniqueName(item, "ticketno");
+                                var ticketno = $telerik.$(cell).text().trim();
+                                $.ajax({
+                                    url: 'WebExpenses.asmx/GetRowDataInvoices',
+                                    method: 'POST',
+                                    dataType: 'json',
+                                    data: { ticketno: ticketno },
+                                    success: function (data) {
+                                        var now = data[0].invdate.split(" ");
+                                        var date = now[0].split("/");
+                                        var today;
+                                        if (date.length == 1) {
+                                            today = date;
+                                        } else {
+                                            var month;
+                                            if (date[1].length != 2) {
+                                                month = "0" + date[1];
                                             } else {
-                                                var month;
-                                                if (date[1].length != 2) {
-                                                    month = "0" + date[1];
-                                                } else {
-                                                    month = date[1];
-                                                }
-                                                var day;
-                                                if (date[0].length != 2) {
-                                                    day = "0" + date[0];
-                                                } else {
-                                                    day = date[0];
-                                                }
-                                                today = date[2] + "-" + day + "-" + month;
+                                                month = date[1];
                                             }
-                                            console.log(today);
-                                            document.getElementById("invDate").value = today;
-                                            document.getElementById("invDate1").value = today;
-                                            document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
+                                            var day;
+                                            if (date[0].length != 2) {
+                                                day = "0" + date[0];
+                                            } else {
+                                                day = date[0];
+                                            }
+                                            today = date[2] + "-" + day + "-" + month;
+                                        }
+                                        console.log(today);
+                                        document.getElementById("invDate").value = today;
+                                        document.getElementById("invDate1").value = today;
+                                        document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
                                             document.getElementById('<%=invType.ClientID%>').value = data[0].invtype;
                                             document.getElementById('<%=invType1.ClientID%>').value = data[0].invtype;
                                             document.getElementById('<%=invt.ClientID%>').value = data[0].invtitle;
@@ -1795,38 +1033,38 @@
         </div>
     </div>
     <center>
-            <div id="searchPopup" class="modal fade" role="dialog">
+        <div id="searchPopup" class="modal fade" role="dialog">
             <div class="modal-dialog" style="background-color: #f4f7f7">
                 <!-- Modal content-->
                 <div class="modal-content" style="width: max-content; min-width: 600px">
                     <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;</button>
-                    <center>
-                        <h4>Search Invoice
-                        </h4>
-                    </center>
-                </div>
-                    <div class="modal-body" style="width:600px">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <center>
+                            <h4>Search Invoice
+                            </h4>
+                        </center>
+                    </div>
+                    <div class="modal-body" style="width: 600px">
                         <div class="panel-body">
                             <div class="row">
                                 <label>Invoice No</label>
                                 <input type="number" runat="server" id="invoiceSearch" clientidmode="Static" class="form-control" /><br />
                                 <label>Ticket No</label>
-                                <input type="text" runat="server" id="ticketSearch"  onchange="addDashesticketSearch(this)" clientidmode="Static" class="form-control" /><br />
+                                <input type="text" runat="server" id="ticketSearch" onchange="addDashesticketSearch(this)" clientidmode="Static" class="form-control" /><br />
                                 <label>Manual Reference No</label><br />
                                 <label>Ref. No</label>
                                 <input type="text" runat="server" id="pnrSearch" clientidmode="Static" class="form-control" /><br />
-                        <asp:Button ID="searchOK" OnClick="searchOk_Click" class="btn btn-primary" runat="server" Text="Search Invoice" />
+                                <asp:Button ID="searchOK" OnClick="searchOk_Click" class="btn btn-primary" runat="server" Text="Search Invoice" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </center>
+    </center>
     <center>
-            <div id="successpopup1" class="modal fade" role="dialog">
+        <div id="successpopup1" class="modal fade" role="dialog">
             <div class="modal-dialog" style="background-color: #f4f7f7">
                 <!-- Modal content-->
                 <div class="modal-content" style="width: max-content; min-width: 600px">
@@ -1834,7 +1072,7 @@
                         <button type="button" class="close" data-dismiss="modal">
                             &times;</button>
                     </div>
-                    <div class="modal-body" style="width:600px">
+                    <div class="modal-body" style="width: 600px">
                         <div class="panel-body">
                             <div class="row">
                                 <asp:ImageButton runat="server" CssClass="icon" ImageUrl="~/images/greencheck.png" Style="height: 100px; width: 100px;" /><br />
@@ -1843,7 +1081,7 @@
                                 <label>Created Successfully!</label><br />
                                 <label>Change Voucher #</label>
                                 <input type="number" runat="server" id="Number1" clientidmode="Static" class="form-control" /><br />
-                        <asp:Button ID="OkBtn" OnClick="OkBtn_Click" class="btn btn-primary" runat="server" Text="Change" />
+                                <asp:Button ID="OkBtn" OnClick="OkBtn_Click" class="btn btn-primary" runat="server" Text="Change" />
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">
                                     Close</button>
                             </div>
@@ -1852,7 +1090,7 @@
                 </div>
             </div>
         </div>
-        </center>
+    </center>
 
     <center>
         <div id="conflictPopup" class="modal fade" role="dialog">
@@ -3061,7 +2299,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <center>
         <div id="deletepopupinv" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -3133,64 +2371,62 @@
             </div>
         </div>
     </center>
-        
-    
 
-        <script type="text/javascript">
+    <script type="text/javascript">
 
-            function showotherpopup1() {
-                jQuery.noConflict();
-                $('#OthPopup').modal('show');
+        function showotherpopup1() {
+            jQuery.noConflict();
+            $('#OthPopup').modal('show');
 
-            }
-            function searchPopup() {
-                jQuery.noConflict();
-                $('#searchPopup').modal('show');
+        }
+        function searchPopup() {
+            jQuery.noConflict();
+            $('#searchPopup').modal('show');
 
-            }
-            function otherPopupDescription1() {
-                jQuery.noConflict();
-                $('#otherPopupDescription').modal('show');
+        }
+        function otherPopupDescription1() {
+            jQuery.noConflict();
+            $('#otherPopupDescription').modal('show');
 
-            }
-            function showdeletepopupinv() {
-                jQuery.noConflict();
-                $('#deletepopupinv').modal('show');
+        }
+        function showdeletepopupinv() {
+            jQuery.noConflict();
+            $('#deletepopupinv').modal('show');
 
-            }
-            function showdeletepopuptkt() {
-                jQuery.noConflict();
-                $('#deletepopuptkt').modal('show');
+        }
+        function showdeletepopuptkt() {
+            jQuery.noConflict();
+            $('#deletepopuptkt').modal('show');
 
-            }
+        }
 
-            function addDashesticketSearch(f) {
-                f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
-            }
+        function addDashesticketSearch(f) {
+            f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
+        }
 
-            function showotherpopup2() {
-                var a = "OTH";
-                const aa = 1000;
-                const ab = 9999;
-                const ba = 100000;
-                const bb = 999999;
-                const aaa = Math.random() * (ab - aa + 1);
-                const bbb = Math.random() * (bb - ba + 1);
-                const other = a + "-" + Math.ceil(aaa) + "-" + Math.ceil(bbb);
-                document.getElementById('<%=tktno.ClientID%>').value = other;
+        function showotherpopup2() {
+            var a = "OTH";
+            const aa = 1000;
+            const ab = 9999;
+            const ba = 100000;
+            const bb = 999999;
+            const aaa = Math.random() * (ab - aa + 1);
+            const bbb = Math.random() * (bb - ba + 1);
+            const other = a + "-" + Math.ceil(aaa) + "-" + Math.ceil(bbb);
+            document.getElementById('<%=tktno.ClientID%>').value = other;
                 document.getElementById('<%=othtktno.ClientID%>').value = other;
-                jQuery.noConflict();
-                $('#OthPopup').modal('show');
-            }
+            jQuery.noConflict();
+            $('#OthPopup').modal('show');
+        }
 
-            function NoExistPopup1() {
-                jQuery.noConflict();
-                $('#NoExistPopup').modal('show');
+        function NoExistPopup1() {
+            jQuery.noConflict();
+            $('#NoExistPopup').modal('show');
 
-            }
+        }
 
-            $(document).ready(function () {
-                var rcv = parseFloat(document.getElementById('<%=totalrcv.ClientID%>').value || 0);
+        $(document).ready(function () {
+            var rcv = parseFloat(document.getElementById('<%=totalrcv.ClientID%>').value || 0);
                 var pay = parseFloat(document.getElementById('<%=tpay.ClientID%>').value || 0);
                 var total = rcv - pay;
                 document.getElementById('<%=tpl.ClientID%>').value = parseFloat(total);
@@ -3198,8 +2434,8 @@
                 document.getElementById('<%=tpay.ClientID%>').value = parseFloat(pay);
             });
 
-            function calculatercv() {
-                var visa = parseFloat(document.getElementById('<%=visarcv.ClientID%>').value || 0);
+        function calculatercv() {
+            var visa = parseFloat(document.getElementById('<%=visarcv.ClientID%>').value || 0);
                 var food = parseFloat(document.getElementById('<%=foodrcv.ClientID%>').value || 0);
                 var accomo1 = parseFloat(document.getElementById('<%=accomo1rcv.ClientID%>').value || 0);
                 var accomo2 = parseFloat(document.getElementById('<%=accomo2rcv.ClientID%>').value || 0);
@@ -3209,20 +2445,767 @@
                 var total = visa + food + accomo1 + accomo2 + trns + zrt + other;
                 document.getElementById('<%=totalrcv.ClientID%>').value = parseFloat(total);
                 document.getElementById('<%=trcv.ClientID%>').value = parseFloat(total);
-                calculatercvgst();
-                calculatePL();
-            }
-            function calculatercvgst() {
-                var total = parseFloat(document.getElementById('<%=totalrcv.ClientID%>').value || 0);
+            calculatercvgst();
+            calculatePL();
+        }
+        function calculatercvgst() {
+            var total = parseFloat(document.getElementById('<%=totalrcv.ClientID%>').value || 0);
                 var gst = parseFloat(document.getElementById('<%=gstpercent.ClientID%>').value || 0);
                 gstrcv = (gst * total) / 100;
                 document.getElementById('<%=gstrcv.ClientID%>').value = parseFloat(gstrcv);
-            }
-            function calculatePL() {
-                var rcv = parseFloat(document.getElementById('<%=trcv.ClientID%>').value || 0);
+        }
+        function calculatePL() {
+            var rcv = parseFloat(document.getElementById('<%=trcv.ClientID%>').value || 0);
                 var pay = parseFloat(document.getElementById('<%=tpay.ClientID%>').value || 0);
                 total = rcv - pay;
                 document.getElementById('<%=tpl.ClientID%>').value = parseFloat(total);
+        }
+
+        $(document).keypress(function (e) {
+            //Check which key is pressed on the document or window
+            if (e.which == 13) {
+                // if it is 13 that means enter key pressed, then call the function to cancel the event
+                e.preventDefault();
             }
-        </script>
+        });
+
+        function showsuccesspopup1() {
+            jQuery.noConflict();
+            $('#successpopup1').modal('show');
+        }
+
+        function conflictPopup() {
+            jQuery.noConflict();
+            $('#conflictPopup').modal('show');
+        }
+
+        function addDashes(f) {
+            f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
+            var tkt = document.getElementById('<%=tktno.ClientID%>').value;
+                tkt = "2310" + tkt.substr(0, 3);
+                document.getElementById('<%=airlinecode.ClientID%>').value = tkt;
+                document.getElementById('<%=airlineDropDownList.ClientID%>').value = tkt;
+                document.getElementById('<%=airlineDropDownListTemp.ClientID%>').value = tkt;
+        }
+
+        function addDashes1(f) {
+            f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
+            var tkt = document.getElementById('<%=tktno1.ClientID%>').value;
+                tkt = "2310" + tkt.substr(0, 3);
+                document.getElementById('<%=airlinecode1.ClientID%>').value = tkt;
+                document.getElementById('<%=airlineDropDownList1.ClientID%>').value = tkt;
+                document.getElementById('<%=airlineDropDownListTemp1.ClientID%>').value = tkt;
+        }
+
+        function getinvoiceDataTotal(offset) {
+            $.ajax({
+                url: 'WebExpenses.asmx/GetInvoiceDataTotal',
+                method: 'POST',
+                dataType: 'json',
+                data: { offset: offset },
+                success: function (data) {
+                    document.getElementById('<%=utkb.ClientID%>').value = data[0].kb;
+                        document.getElementById('<%=utcomm.ClientID%>').value = data[0].comm;
+                        document.getElementById('<%=utwhair.ClientID%>').value = data[0].whair;
+                        document.getElementById('<%=utwhclient.ClientID%>').value = data[0].whclient;
+                        document.getElementById('<%=utotherpay.ClientID%>').value = data[0].otherpayable;
+                        document.getElementById('<%=utpl.ClientID%>').value = data[0].profitloss;
+                        document.getElementById('<%=uttfare.ClientID%>').value = data[0].fare;
+                        document.getElementById('<%=utttax.ClientID%>').value = data[0].tax;
+                        document.getElementById('<%=uttother.ClientID%>').value = data[0].other;
+                        document.getElementById('<%=uttsp.ClientID%>').value = data[0].sp;
+                        document.getElementById('<%=uttrcv.ClientID%>').value = data[0].receivable;
+                        document.getElementById('<%=uttpay.ClientID%>').value = data[0].payable;
+                        document.getElementById('<%=utkb1.ClientID%>').value = data[0].kb;
+                        document.getElementById('<%=utcomm1.ClientID%>').value = data[0].comm;
+                        document.getElementById('<%=utwhair1.ClientID%>').value = data[0].whair;
+                        document.getElementById('<%=utwhclient1.ClientID%>').value = data[0].whclient;
+                        document.getElementById('<%=utotherpay1.ClientID%>').value = data[0].otherpayable;
+                        document.getElementById('<%=utpl1.ClientID%>').value = data[0].profitloss;
+                        document.getElementById('<%=uttfare1.ClientID%>').value = data[0].fare;
+                        document.getElementById('<%=utttax1.ClientID%>').value = data[0].tax;
+                        document.getElementById('<%=uttother1.ClientID%>').value = data[0].other;
+                        document.getElementById('<%=uttsp1.ClientID%>').value = data[0].sp;
+                        document.getElementById('<%=uttrcv1.ClientID%>').value = data[0].receivable;
+                        document.getElementById('<%=uttpay1.ClientID%>').value = data[0].payable;
+                    },
+                    error: function () {
+                    }
+                });
+        }
+        function editBtn() {
+            document.getElementById('<%=EditButton.ClientID %>').style.display = 'none';
+                document.getElementById('<%=AddButton.ClientID %>').style.display = 'block';
+
+        }
+        var whcount = 0;
+        var whcount1 = 0;
+        function calculate() {
+
+            var iata = parseFloat(document.getElementById('<%=iata.ClientID%>').value || 0);
+            var mkt = parseFloat(document.getElementById('<%=mkt.ClientID%>').value || 0);
+            var otherfare = parseFloat(document.getElementById('<%=otherfare.ClientID%>').value || 0);
+            var soto = parseFloat(document.getElementById('<%=soto.ClientID%>').value || 0);
+            var sp = parseFloat(document.getElementById('<%=sp.ClientID%>').value || 0);
+            var yd = parseFloat(document.getElementById('<%=yd.ClientID%>').value || 0);
+            var pk = parseFloat(document.getElementById('<%=pk.ClientID%>').value || 0);
+            var fed = parseFloat(document.getElementById('<%=fed.ClientID%>').value || 0);
+            var ced = parseFloat(document.getElementById('<%=ced.ClientID%>').value || 0);
+            var xz = parseFloat(document.getElementById('<%=xz.ClientID%>').value || 0);
+            var whclient = parseFloat(document.getElementById('<%=whclient.ClientID%>').value || 0);
+            var yq = parseFloat(document.getElementById('<%=yq.ClientID%>').value || 0);
+            var pb = parseFloat(document.getElementById('<%=pb.ClientID%>').value || 0);
+            var oth = parseFloat(document.getElementById('<%=oth.ClientID%>').value || 0);
+            var extra = parseFloat(document.getElementById('<%=extra.ClientID%>').value || 0);
+            var ins = parseFloat(document.getElementById('<%=ins.ClientID%>').value || 0);
+            var service = parseFloat(document.getElementById('<%=srvc.ClientID%>').value || 0);
+            var disc = parseFloat(document.getElementById('<%=disc.ClientID%>').value || 0);
+            var discadj = parseFloat(document.getElementById('<%=discadj.ClientID%>').value || 0);
+            var discamt = parseFloat(document.getElementById('<%=discamt.ClientID%>').value || 0);
+            var gstper = parseFloat(document.getElementById('<%=gstText.ClientID%>').value || 0);
+            var comm = parseFloat(document.getElementById('<%=comm.ClientID%>').value || 0);
+            var comadj = parseFloat(document.getElementById('<%=comadj.ClientID%>').value || 0);
+            var comamt = parseFloat(document.getElementById('<%=comamt.ClientID%>').value || 0);
+            var kbcust = parseFloat(document.getElementById('<%=kbcust.ClientID%>').value || 0);
+            var kb = parseFloat(document.getElementById('<%=kbairline.ClientID%>').value || 0);
+            var serviceamount = parseFloat(document.getElementById('<%=srvcamt.ClientID%>').value || 0);
+            var tcomm = comadj + comamt;
+            document.getElementById('<%=tcom.ClientID%>').value = parseFloat(tcomm).toFixed(2);
+
+            if (whcount == 0) {
+                var whairlines = (((mkt * comm) / 100) * 12) / 100;
+                document.getElementById('<%=whairline.ClientID%>').value = parseFloat(whairlines).toFixed(2);
+            }
+            var whairline = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
+
+            if (comadj != "") {
+                var whairl = ((((comadj * comm) / 100) * 12) / 100) + comadj / 10;
+                var twhairpay = whairl + whairline;
+                document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairpay).toFixed(2);
+            }
+            if (extra != "") {
+                var whairp = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
+                var whair = (((otherfare * extra) / 100) * 12) / 100;
+                var twhairp = whair + whairp;
+                document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairp).toFixed(2);
+            }
+
+            var totalcommission = (mkt * comm) / 100;
+            document.getElementById('<%=tcom.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
+            document.getElementById('<%=comamt.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
+            var tcom = parseFloat(document.getElementById('<%=tcom.ClientID%>').value || 0);
+            var gstpayable = parseFloat(document.getElementById('<%=gstpay.ClientID%>').value || 0);
+            var gst = parseFloat(document.getElementById('<%=gstText.ClientID%>').value || 0);
+            var srvct = 0;
+            if (service != "") {
+                srvct = (service * mkt) / 100;
+            } else if (serviceamount) {
+                srvct = serviceamount;
+            }
+            var gstpay = 0;
+            gstpay = ((srvct * gst) / 100);
+            var disct = ((disc * mkt) / 100) + discadj;
+            var extracom = (otherfare * extra) / 100;
+            var totalcom = extracom + tcom;
+            var total = mkt + otherfare + soto;
+            var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
+            var ticketvalue = taxes + mkt;
+            var totaltaxes = taxes + total;
+            var clientr = totaltaxes - whairline + whclient + ins + srvct - disct + gstpay - kbcust;
+            var airlinep = totaltaxes - kb - totalcom;
+            var profitloss = clientr - airlinep;
+            document.getElementById('<%=srvcamt.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
+            document.getElementById('<%=frtx.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
+            document.getElementById('<%=tax.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
+            document.getElementById('<%=tktvalue.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
+            document.getElementById('<%=clientreceivable.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
+            document.getElementById('<%=airlinepayable.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
+            document.getElementById('<%=plothers.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
+            document.getElementById('<%=discamt.ClientID%>').value = Math.round(parseFloat(disct).toFixed(2));
+            document.getElementById('<%=gstpay.ClientID%>').value = Math.round(parseFloat(gstpay).toFixed(2));
+            document.getElementById('<%=extcom.ClientID%>').value = Math.round(parseFloat(extracom).toFixed(2));
+            document.getElementById('<%=tcom.ClientID%>').value = Math.round(parseFloat(totalcom).toFixed(2));
+        }
+        function calculatewhairline() {
+            whcount++;
+            var iata = parseFloat(document.getElementById('<%=iata.ClientID%>').value || 0);
+            var mkt = parseFloat(document.getElementById('<%=mkt.ClientID%>').value || 0);
+            var otherfare = parseFloat(document.getElementById('<%=otherfare.ClientID%>').value || 0);
+            var soto = parseFloat(document.getElementById('<%=soto.ClientID%>').value || 0);
+            var sp = parseFloat(document.getElementById('<%=sp.ClientID%>').value || 0);
+            var yd = parseFloat(document.getElementById('<%=yd.ClientID%>').value || 0);
+            var pk = parseFloat(document.getElementById('<%=pk.ClientID%>').value || 0);
+            var fed = parseFloat(document.getElementById('<%=fed.ClientID%>').value || 0);
+            var ced = parseFloat(document.getElementById('<%=ced.ClientID%>').value || 0);
+            var xz = parseFloat(document.getElementById('<%=xz.ClientID%>').value || 0);
+            var whairline = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
+            var whclient = parseFloat(document.getElementById('<%=whclient.ClientID%>').value || 0);
+            var yq = parseFloat(document.getElementById('<%=yq.ClientID%>').value || 0);
+            var pb = parseFloat(document.getElementById('<%=pb.ClientID%>').value || 0);
+            var oth = parseFloat(document.getElementById('<%=oth.ClientID%>').value || 0);
+            var extra = parseFloat(document.getElementById('<%=extra.ClientID%>').value || 0);
+            var ins = parseFloat(document.getElementById('<%=ins.ClientID%>').value || 0);
+            var service = parseFloat(document.getElementById('<%=srvc.ClientID%>').value || 0);
+            var disc = parseFloat(document.getElementById('<%=disc.ClientID%>').value || 0);
+            var discadj = parseFloat(document.getElementById('<%=discadj.ClientID%>').value || 0);
+            var discamt = parseFloat(document.getElementById('<%=discamt.ClientID%>').value || 0);
+            var gstper = parseFloat(document.getElementById('<%=gstText.ClientID%>').value || 0);
+            var comm = parseFloat(document.getElementById('<%=comm.ClientID%>').value || 0);
+            var comadj = parseFloat(document.getElementById('<%=comadj.ClientID%>').value || 0);
+            var comamt = parseFloat(document.getElementById('<%=comamt.ClientID%>').value || 0);
+            var kbcust = parseFloat(document.getElementById('<%=kbcust.ClientID%>').value || 0);
+            var kb = parseFloat(document.getElementById('<%=kbairline.ClientID%>').value || 0);
+            var gstpay = parseFloat(document.getElementById('<%=gstpay.ClientID%>').value || 0);
+
+            var total = mkt + otherfare + soto;
+            var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
+            var ticketvalue = taxes + mkt;
+            var totaltaxes = taxes + total;
+            var clientr = totaltaxes - whairline + whclient + ins + service - discamt + gstpay - kbcust;
+            var airlinep = totaltaxes - kb - comamt;
+            var profitloss = clientr - airlinep;
+            document.getElementById('<%=frtx.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
+            document.getElementById('<%=tax.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
+            document.getElementById('<%=tktvalue.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
+            document.getElementById('<%=clientreceivable.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
+            document.getElementById('<%=airlinepayable.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
+            document.getElementById('<%=plothers.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
+
+        }
+
+        function calculate1() {
+
+            var iata = parseFloat(document.getElementById('<%=iata1.ClientID%>').value || 0);
+            var mkt = parseFloat(document.getElementById('<%=mkt1.ClientID%>').value || 0);
+            var otherfare = parseFloat(document.getElementById('<%=otherfare1.ClientID%>').value || 0);
+            var soto = parseFloat(document.getElementById('<%=soto1.ClientID%>').value || 0);
+            var sp = parseFloat(document.getElementById('<%=sp1.ClientID%>').value || 0);
+            var yd = parseFloat(document.getElementById('<%=yd1.ClientID%>').value || 0);
+            var pk = parseFloat(document.getElementById('<%=pk1.ClientID%>').value || 0);
+            var fed = parseFloat(document.getElementById('<%=fed1.ClientID%>').value || 0);
+            var ced = parseFloat(document.getElementById('<%=ced1.ClientID%>').value || 0);
+            var xz = parseFloat(document.getElementById('<%=xz1.ClientID%>').value || 0);
+            var whclient = parseFloat(document.getElementById('<%=whclient1.ClientID%>').value || 0);
+            var yq = parseFloat(document.getElementById('<%=yq1.ClientID%>').value || 0);
+            var pb = parseFloat(document.getElementById('<%=pb1.ClientID%>').value || 0);
+            var oth = parseFloat(document.getElementById('<%=oth1.ClientID%>').value || 0);
+            var extra = parseFloat(document.getElementById('<%=extra1.ClientID%>').value || 0);
+            var ins = parseFloat(document.getElementById('<%=ins1.ClientID%>').value || 0);
+            var service = parseFloat(document.getElementById('<%=srvc1.ClientID%>').value || 0);
+            var disc = parseFloat(document.getElementById('<%=disc1.ClientID%>').value || 0);
+            var discadj = parseFloat(document.getElementById('<%=discadj1.ClientID%>').value || 0);
+            var discamt = parseFloat(document.getElementById('<%=discamt1.ClientID%>').value || 0);
+            var gstper = parseFloat(document.getElementById('<%=gstText1.ClientID%>').value || 0);
+            var comm = parseFloat(document.getElementById('<%=comm1.ClientID%>').value || 0);
+            var comadj = parseFloat(document.getElementById('<%=comadj1.ClientID%>').value || 0);
+            var comamt = parseFloat(document.getElementById('<%=comamt1.ClientID%>').value || 0);
+            var kbcust = parseFloat(document.getElementById('<%=kbcust1.ClientID%>').value || 0);
+            var kb = parseFloat(document.getElementById('<%=kbairline1.ClientID%>').value || 0);
+            var serviceamount = parseFloat(document.getElementById('<%=srvcamt1.ClientID%>').value || 0);
+            var tcomm = comadj + comamt;
+            document.getElementById('<%=tcom1.ClientID%>').value = parseFloat(tcomm).toFixed(2);
+
+            if (whcount1 == 0) {
+                var whairlines = (((mkt * comm) / 100) * 12) / 100;
+                document.getElementById('<%=whairline1.ClientID%>').value = parseFloat(whairlines).toFixed(2);
+            }
+            var whairline = parseFloat(document.getElementById('<%=whairline1.ClientID%>').value || 0);
+
+            if (comadj != "") {
+                var whairl = ((((comadj * comm) / 100) * 12) / 100) + comadj / 10;
+                var twhairpay = whairl + whairline;
+                document.getElementById('<%=whairline1.ClientID%>').value = parseFloat(twhairpay).toFixed(2);
+            }
+            if (extra != "") {
+                var whairp = parseFloat(document.getElementById('<%=whairline1.ClientID%>').value || 0);
+                var whair = (((otherfare * extra) / 100) * 12) / 100;
+                var twhairp = whair + whairp;
+                document.getElementById('<%=whairline1.ClientID%>').value = parseFloat(twhairp).toFixed(2);
+            }
+
+            var totalcommission = (mkt * comm) / 100;
+            document.getElementById('<%=tcom1.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
+            document.getElementById('<%=comamt1.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
+            var tcom = parseFloat(document.getElementById('<%=tcom1.ClientID%>').value || 0);
+            var gstpayable = parseFloat(document.getElementById('<%=gstpay1.ClientID%>').value || 0);
+            var gst = parseFloat(document.getElementById('<%=gstText1.ClientID%>').value || 0);
+            var srvct = 0;
+            if (service != "") {
+                srvct = (service * mkt) / 100;
+            } else if (serviceamount) {
+                srvct = serviceamount;
+            }
+            var gstpay = 0;
+            gstpay = ((srvct * gst) / 100);
+            var disct = ((disc * mkt) / 100) + discadj;
+            var extracom = (otherfare * extra) / 100;
+            var totalcom = extracom + tcom;
+            var total = mkt + otherfare + soto;
+            var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
+            var ticketvalue = taxes + mkt;
+            var totaltaxes = taxes + total;
+            var clientr = totaltaxes - whairline + whclient + ins + srvct - disct + gstpay - kbcust;
+            var airlinep = totaltaxes - kb - totalcom;
+            var profitloss = clientr - airlinep;
+            document.getElementById('<%=srvcamt1.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
+            document.getElementById('<%=frtx1.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
+            document.getElementById('<%=tax1.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
+            document.getElementById('<%=tktvalue1.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
+            document.getElementById('<%=clientreceivable1.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
+            document.getElementById('<%=airlinepayable1.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
+            document.getElementById('<%=plother1.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
+            document.getElementById('<%=discamt1.ClientID%>').value = Math.round(parseFloat(disct).toFixed(2));
+            document.getElementById('<%=gstpay1.ClientID%>').value = Math.round(parseFloat(gstpay).toFixed(2));
+            document.getElementById('<%=extcom1.ClientID%>').value = Math.round(parseFloat(extracom).toFixed(2));
+            document.getElementById('<%=tcom1.ClientID%>').value = Math.round(parseFloat(totalcom).toFixed(2));
+        }
+        function calculatewhairline1() {
+            whcount1++;
+            var iata = parseFloat(document.getElementById('<%=iata1.ClientID%>').value || 0);
+            var mkt = parseFloat(document.getElementById('<%=mkt1.ClientID%>').value || 0);
+            var otherfare = parseFloat(document.getElementById('<%=otherfare1.ClientID%>').value || 0);
+            var soto = parseFloat(document.getElementById('<%=soto1.ClientID%>').value || 0);
+            var sp = parseFloat(document.getElementById('<%=sp1.ClientID%>').value || 0);
+            var yd = parseFloat(document.getElementById('<%=yd1.ClientID%>').value || 0);
+            var pk = parseFloat(document.getElementById('<%=pk1.ClientID%>').value || 0);
+            var fed = parseFloat(document.getElementById('<%=fed1.ClientID%>').value || 0);
+            var ced = parseFloat(document.getElementById('<%=ced1.ClientID%>').value || 0);
+            var xz = parseFloat(document.getElementById('<%=xz1.ClientID%>').value || 0);
+            var whairline = parseFloat(document.getElementById('<%=whairline1.ClientID%>').value || 0);
+            var whclient = parseFloat(document.getElementById('<%=whclient1.ClientID%>').value || 0);
+            var yq = parseFloat(document.getElementById('<%=yq1.ClientID%>').value || 0);
+            var pb = parseFloat(document.getElementById('<%=pb1.ClientID%>').value || 0);
+            var oth = parseFloat(document.getElementById('<%=oth1.ClientID%>').value || 0);
+            var extra = parseFloat(document.getElementById('<%=extra1.ClientID%>').value || 0);
+            var ins = parseFloat(document.getElementById('<%=ins1.ClientID%>').value || 0);
+            var service = parseFloat(document.getElementById('<%=srvc1.ClientID%>').value || 0);
+            var disc = parseFloat(document.getElementById('<%=disc1.ClientID%>').value || 0);
+            var discadj = parseFloat(document.getElementById('<%=discadj1.ClientID%>').value || 0);
+            var discamt = parseFloat(document.getElementById('<%=discamt1.ClientID%>').value || 0);
+            var gstper = parseFloat(document.getElementById('<%=gstText1.ClientID%>').value || 0);
+            var comm = parseFloat(document.getElementById('<%=comm1.ClientID%>').value || 0);
+            var comadj = parseFloat(document.getElementById('<%=comadj1.ClientID%>').value || 0);
+            var comamt = parseFloat(document.getElementById('<%=comamt1.ClientID%>').value || 0);
+            var kbcust = parseFloat(document.getElementById('<%=kbcust1.ClientID%>').value || 0);
+            var kb = parseFloat(document.getElementById('<%=kbairline1.ClientID%>').value || 0);
+            var gstpay = parseFloat(document.getElementById('<%=gstpay1.ClientID%>').value || 0);
+
+            var total = mkt + otherfare + soto;
+            var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
+            var ticketvalue = taxes + mkt;
+            var totaltaxes = taxes + total;
+            var clientr = totaltaxes - whairline + whclient + ins + service - discamt + gstpay - kbcust;
+            var airlinep = totaltaxes - kb - comamt;
+            var profitloss = clientr - airlinep;
+            document.getElementById('<%=frtx1.ClientID%>').value = Math.round(parseFloat(totaltaxes).toFixed(2));
+            document.getElementById('<%=tax1.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
+            document.getElementById('<%=tktvalue1.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
+            document.getElementById('<%=clientreceivable1.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
+            document.getElementById('<%=airlinepayable1.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
+            document.getElementById('<%=plother1.ClientID%>').value = Math.round(parseFloat(profitloss).toFixed(2));
+
+        }
+
+        function delBtn() {
+            ////////document.getElementById('<%=tktno.ClientID%>').value = "0";
+            document.getElementById('<%=tktno1.ClientID%>').value = "0";
+            //document.getElementById('<%=othtktno.ClientID%>').value = "0";
+
+        }
+        function newBtn() {
+            document.getElementById('<%=tktno.ClientID%>').value = "";
+            document.getElementById('<%=tktno1.ClientID%>').value = "0";
+            //document.getElementById('<%=othtktno.ClientID%>').value = "0";
+
+            $("#tktno").prop("readonly", false);
+            $("#modeDropDownList").prop("disabled", false);
+            document.getElementById('<%=EditButton.ClientID %>').style.display = 'none';
+            document.getElementById('<%=AddButton.ClientID %>').style.display = 'block';
+
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            document.getElementById("invDate").value = today;
+            document.getElementById("postDate").value = today;
+            document.getElementById("deptDate").value = today;
+            document.getElementById('<%=invType.ClientID%>').value = "";
+            document.getElementById('<%=ccode.ClientID%>').value = "";
+            document.getElementById('<%=customerDropDownList.ClientID%>').value = "";
+            document.getElementById('<%=airlinecode.ClientID%>').value = "";
+            document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
+            document.getElementById('<%=airlineDropDownListTemp.ClientID%>').value = "";
+            document.getElementById('<%=invt.ClientID%>').value = "";
+            document.getElementById('<%=invR.ClientID%>').value = "";
+            document.getElementById('<%=altn.ClientID%>').value = "";
+            document.getElementById('<%=tktt.ClientID%>').value = "";
+            document.getElementById('<%=xo.ClientID%>').value = "";
+            document.getElementById('<%=status.ClientID%>').value = "";
+            document.getElementById('<%=passname.ClientID%>').value = "";
+            document.getElementById('<%=sector.ClientID%>').value = "";
+            document.getElementById('<%=fare.ClientID%>').value = "";
+            document.getElementById('<%=@class.ClientID%>').value = "";
+            document.getElementById('<%=pnr.ClientID%>').value = "";
+            document.getElementById('<%=cBalance.ClientID%>').value = "";
+            document.getElementById('<%=cLimit.ClientID%>').value = "";
+            document.getElementById('<%=iata.ClientID%>').value = "";
+            document.getElementById('<%=mkt.ClientID%>').value = "";
+            document.getElementById('<%=otherfare.ClientID%>').value = "";
+            document.getElementById('<%=soto.ClientID%>').value = "";
+            document.getElementById('<%=sp.ClientID%>').value = "";
+            document.getElementById('<%=yd.ClientID%>').value = "";
+            document.getElementById('<%=pk.ClientID%>').value = "";
+            document.getElementById('<%=fed.ClientID%>').value = "";
+            document.getElementById('<%=ced.ClientID%>').value = "";
+            document.getElementById('<%=xz.ClientID%>').value = "";
+            document.getElementById('<%=whairline.ClientID%>').value = "";
+            document.getElementById('<%=whclient.ClientID%>').value = "";
+            document.getElementById('<%=yq.ClientID%>').value = "";
+            document.getElementById('<%=pb.ClientID%>').value = "";
+            document.getElementById('<%=oth.ClientID%>').value = "";
+            document.getElementById('<%=tax.ClientID%>').value = "";
+            document.getElementById('<%=frtx.ClientID%>').value = "";
+            document.getElementById('<%=comm.ClientID%>').value = "";
+            document.getElementById('<%=comamt.ClientID%>').value = "";
+            document.getElementById('<%=comadj.ClientID%>').value = "";
+            document.getElementById('<%=tcom.ClientID%>').value = "";
+            document.getElementById('<%=srvc.ClientID%>').value = "";
+            document.getElementById('<%=srvcamt.ClientID%>').value = "";
+            document.getElementById('<%=gstpay.ClientID%>').value = "";
+            document.getElementById('<%=ins.ClientID%>').value = "";
+            document.getElementById('<%=kbairline.ClientID%>').value = "";
+            document.getElementById('<%=kbcust.ClientID%>').value = "";
+            document.getElementById('<%=kbcomm.ClientID%>').value = "";
+            document.getElementById('<%=disc.ClientID%>').value = "";
+            document.getElementById('<%=discamt.ClientID%>').value = "";
+            document.getElementById('<%=discadj.ClientID%>').value = "";
+            document.getElementById('<%=gds.ClientID%>').value = "";
+            document.getElementById('<%=fcDropDown.ClientID%>').value = "";
+            document.getElementById('<%=fcp.ClientID%>').value = "";
+            document.getElementById('<%=fcr.ClientID%>').value = "";
+            document.getElementById('<%=airlinepayable.ClientID%>').value = "";
+            document.getElementById('<%=clientreceivable.ClientID%>').value = "";
+            document.getElementById('<%=otherpayable.ClientID%>').value = "";
+            document.getElementById('<%=plothers.ClientID%>').value = "";
+            document.getElementById('<%=tktvalue.ClientID%>').value = "";
+            document.getElementById('<%=passcnic.ClientID%>').value = "";
+            document.getElementById('<%=rcpt.ClientID%>').value = "";
+            document.getElementById('<%=utkb.ClientID%>').value = "";
+            document.getElementById('<%=utcomm.ClientID%>').value = "";
+            document.getElementById('<%=utwhair.ClientID%>').value = "";
+            document.getElementById('<%=utwhclient.ClientID%>').value = "";
+            document.getElementById('<%=utotherpay.ClientID%>').value = "";
+            document.getElementById('<%=utpl.ClientID%>').value = "";
+            document.getElementById('<%=uttfare.ClientID%>').value = "";
+            document.getElementById('<%=utttax.ClientID%>').value = "";
+            document.getElementById('<%=uttother.ClientID%>').value = "";
+            document.getElementById('<%=uttsp.ClientID%>').value = "";
+            document.getElementById('<%=uttrcv.ClientID%>').value = "";
+            document.getElementById('<%=uttpay.ClientID%>').value = "";
+            document.getElementById('<%=utkb1.ClientID%>').value = "";
+            document.getElementById('<%=utcomm1.ClientID%>').value = "";
+            document.getElementById('<%=utwhair1.ClientID%>').value = "";
+            document.getElementById('<%=utwhclient1.ClientID%>').value = "";
+            document.getElementById('<%=utotherpay1.ClientID%>').value = "";
+            document.getElementById('<%=utpl1.ClientID%>').value = "";
+            document.getElementById('<%=uttfare1.ClientID%>').value = "";
+            document.getElementById('<%=utttax1.ClientID%>').value = "";
+            document.getElementById('<%=uttother1.ClientID%>').value = "";
+            document.getElementById('<%=uttsp1.ClientID%>').value = "";
+            document.getElementById('<%=uttrcv1.ClientID%>').value = "";
+            document.getElementById('<%=uttpay1.ClientID%>').value = "";
+
+            document.getElementById('<%=othccode.ClientID%>').value = "";
+            document.getElementById('<%=customerDropDownListOth.ClientID%>').value = "";
+            document.getElementById('<%=passenger.ClientID%>').value = "";
+            document.getElementById('<%=descriptionOth.ClientID%>').value = "";
+            document.getElementById('<%=visarcv.ClientID%>').value = "";
+            document.getElementById('<%=accomo1rcv.ClientID%>').value = "";
+            document.getElementById('<%=accomo2rcv.ClientID%>').value = "";
+            document.getElementById('<%=trnsrcv.ClientID%>').value = "";
+            document.getElementById('<%=zrtrcv.ClientID%>').value = "";
+            document.getElementById('<%=foodrcv.ClientID%>').value = "";
+            document.getElementById('<%=otherrcv.ClientID%>').value = "";
+            document.getElementById('<%=totalrcv.ClientID%>').value = "";
+            document.getElementById('<%=trcv.ClientID%>').value = "";
+            document.getElementById('<%=tpay.ClientID%>').value = "";
+            document.getElementById('<%=tpl.ClientID%>').value = "";
+            document.getElementById('<%=tpayable.ClientID%>').value = "";
+            document.getElementById('<%=description.ClientID%>').value = "";
+            document.getElementById('<%=othpassportno.ClientID%>').value = "";
+        }
+
+        function addmore() {
+
+            if (document.getElementById('<%=tktno.ClientID%>').value == "") {
+                document.getElementById('<%=tktno.ClientID%>').value = "0";
+            }
+            //document.getElementById('<%=tktno1.ClientID%>').value = "0";
+            //document.getElementById('<%=othtktno.ClientID%>').value = "0";
+
+            jQuery.noConflict();
+            $('#AttachPopup').modal('show');
+        }
+        var offset = 0;
+
+        $(document).ready(function () {
+
+            ////////document.getElementById('<%=othtktno.ClientID%>').value = "0";
+            document.getElementById('<%=tktno.ClientID%>').value = "0";
+            document.getElementById('<%=tktno1.ClientID%>').value = "0";
+            document.getElementById('<%=EditButton.ClientID %>').style.display = 'none';
+
+            $('#modeDropDownList').change(function () {
+                var mdd = $('#modeDropDownList').val();
+                if (mdd == "other") {
+
+                    var a = "OTH";
+                    const aa = 1000;
+                    const ab = 9999;
+                    const ba = 100000;
+                    const bb = 999999;
+                    const aaa = Math.random() * (ab - aa + 1);
+                    const bbb = Math.random() * (bb - ba + 1);
+                    const other = a + "-" + Math.ceil(aaa) + "-" + Math.ceil(bbb);
+                    document.getElementById('<%=tktno.ClientID%>').value = other;
+                    document.getElementById('<%=othtktno.ClientID%>').value = other;
+                    document.getElementById('<%=othertkt.ClientID%>').value = other;
+                    jQuery.noConflict();
+                    $('#OthPopup').modal('show');
+                }
+                else if (mdd == "pnr") {
+                    var a = "PNR";
+                    const aa = 1000;
+                    const ab = 9999;
+                    const ba = 100000;
+                    const bb = 999999;
+                    const aaa = Math.random() * (ab - aa + 1);
+                    const bbb = Math.random() * (bb - ba + 1);
+                    const pnr = a + "-" + Math.ceil(aaa) + "-" + Math.ceil(bbb);
+                    document.getElementById('<%=tktno.ClientID%>').value = pnr;
+                }
+            });
+
+            $('#customerDropDownList').change(function () {
+                var cdd = $('#customerDropDownList').val();
+                document.getElementById('<%=ccode.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#tktt').change(function () {
+                var cdd = $('#tktt').val();
+                if (cdd == "Domestic") {
+                    $("#iata").prop("disabled", true);
+                } else {
+                    $("#iata").prop("disabled", false);
+                }
+            });
+            $('#tktt1').change(function () {
+                var cdd = $('#tktt1').val();
+                if (cdd == "Domestic") {
+                    $("#iata1").prop("disabled", true);
+                } else {
+                    $("#iata1").prop("disabled", false);
+                }
+            });
+            $('#conjDropDownList').change(function () {
+                var cdd = $('#conjDropDownList').val();
+                if (cdd == "Y") {
+                    var tkt = document.getElementById('<%=tktno.ClientID%>').value;
+                    document.getElementById('<%=altn.ClientID%>').value = tkt.substr(0, 13);
+                } else {
+                    document.getElementById('<%=altn.ClientID%>').value = "";
+                }
+            });
+            $('#fixDropDown').change(function () {
+                var cdd = $('#fixDropDown').val();
+                if (cdd == "Yes") {
+                    $("#whairline").prop("readonly", true);
+                } else {
+                    $("#whairline").prop("readonly", false);
+                }
+            });
+            $('#conjDropDownList1').change(function () {
+                var cdd = $('#conjDropDownList1').val();
+                if (cdd == "Y") {
+                    var tkt = document.getElementById('<%=tktno1.ClientID%>').value;
+                    document.getElementById('<%=altn1.ClientID%>').value = tkt.substr(0, 13);
+                } else {
+                    document.getElementById('<%=altn1.ClientID%>').value = "";
+                }
+            });
+            $('#fixDropDown1').change(function () {
+                var cdd = $('#fixDropDown1').val();
+                if (cdd == "Yes") {
+                    $("#whairline1").prop("readonly", true);
+                } else {
+                    $("#whairline1").prop("readonly", false);
+                }
+            });
+            $('#customerDropDownList1').change(function () {
+                var cdd = $('#customerDropDownList1').val();
+                document.getElementById('<%=ccode1.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#customerDropDownListOth').change(function () {
+                var cdd = $('#customerDropDownListOth').val();
+                document.getElementById('<%=othccode.ClientID%>').value = parseFloat(cdd);
+                document.getElementById('<%=ccode.ClientID%>').value = parseFloat(cdd);
+                document.getElementById('<%=customerDropDownList.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#airlineDropDownList').change(function () {
+                var cdd = $('#airlineDropDownList').val();
+                document.getElementById('<%=airlinecode.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#IncomeDropDownList').change(function () {
+                var cdd = $('#IncomeDropDownList').val();
+                document.getElementById('<%=incacname.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#airlineDropDownList1').change(function () {
+                var cdd = $('#airlineDropDownList1').val();
+                document.getElementById('<%=airlinecode1.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#bspDropDown').change(function () {
+                var cdd = $('#bspDropDown').val();
+                if (cdd == "Y") {
+                    document.getElementById('<%=airlineDropDownList.ClientID%>').value = '2310222';
+                    document.getElementById('<%=airlinecode.ClientID%>').value = '2310222';
+                }
+                else {
+                    document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
+                    document.getElementById('<%=airlinecode.ClientID%>').value = "";
+                }
+            });
+            $('#bspDropDown1').change(function () {
+                var cdd = $('#bspDropDown1').val();
+                if (cdd == "Y") {
+                    document.getElementById('<%=airlineDropDownList1.ClientID%>').value = '2310222';
+                    document.getElementById('<%=airlinecode1.ClientID%>').value = '2310222';
+                }
+                else {
+                    document.getElementById('<%=airlineDropDownList1.ClientID%>').value = "";
+                    document.getElementById('<%=airlinecode1.ClientID%>').value = "";
+                }
+            });
+            $('#DropDownList2').change(function () {
+                var dd2 = $('#DropDownList2').val();
+                if (dd2 == 2 || dd2 == 3) {
+                    $("#gst").prop("disabled", true);
+                    $("#gstpay").prop("disabled", true);
+                } else {
+                    $("#gst").prop("disabled", false);
+                    $("#gstpay").prop("disabled", false);
+                }
+                if (dd2 == 1) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="1"]').show();
+                    $('#DropDownList1').children('option[value="2"]').show();
+                    $('#DropDownList1').children('option[value="3"]').show();
+                }
+                else if (dd2 == 2) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="4"]').show();
+                    $('#DropDownList1').children('option[value="5"]').show();
+                    $('#DropDownList1').children('option[value="6"]').show();
+                }
+                else if (dd2 == 3) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="7"]').show();
+                    $('#DropDownList1').children('option[value="8"]').show();
+                }
+                else if (dd2 == 4) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="9"]').show();
+                    $('#DropDownList1').children('option[value="10"]').show();
+                }
+                else if (dd2 == 6) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="12"]').show();
+                }
+                else if (dd2 == 7) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="13"]').show();
+                }
+                else if (dd2 == 8) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="14"]').show();
+                }
+                else if (dd2 == 9) {
+                    $('#DropDownList1').children().hide();
+                    $('#DropDownList1').children('option[value="15"]').show();
+                    $('#DropDownList1').children('option[value="16"]').show();
+                    $('#DropDownList1').children('option[value="17"]').show();
+                }
+            });
+            $('#DropDownList21').change(function () {
+                var dd2 = $('#DropDownList21').val();
+                if (dd2 == 2 || dd2 == 3) {
+                    $("#gst1").prop("disabled", true);
+                    $("#gstpay1").prop("disabled", true);
+                } else {
+                    $("#gst1").prop("disabled", false);
+                    $("#gstpay1").prop("disabled", false);
+                }
+                if (dd2 == 1) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="1"]').show();
+                    $('#DropDownList11').children('option[value="2"]').show();
+                    $('#DropDownList11').children('option[value="3"]').show();
+                }
+                else if (dd2 == 2) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="4"]').show();
+                    $('#DropDownList11').children('option[value="5"]').show();
+                    $('#DropDownList11').children('option[value="6"]').show();
+                }
+                else if (dd2 == 3) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="7"]').show();
+                    $('#DropDownList11').children('option[value="8"]').show();
+                }
+                else if (dd2 == 4) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="9"]').show();
+                    $('#DropDownList11').children('option[value="10"]').show();
+                }
+                else if (dd2 == 6) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="12"]').show();
+                }
+                else if (dd2 == 7) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="13"]').show();
+                }
+                else if (dd2 == 8) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="14"]').show();
+                }
+                else if (dd2 == 9) {
+                    $('#DropDownList11').children().hide();
+                    $('#DropDownList11').children('option[value="15"]').show();
+                    $('#DropDownList11').children('option[value="16"]').show();
+                    $('#DropDownList11').children('option[value="17"]').show();
+                }
+            });
+        });
+
+        // Show the loader overlay
+        function showLoader() {
+            document.getElementById("loader-overlay").style.display = "flex";
+        }
+
+        // Hide the loader overlay
+        function hideLoader() {
+            document.getElementById("loader-overlay").style.display = "none";
+        }
+
+        // Attach event handlers to capture page transitions
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", showLoader);
+            }
+        });
+
+        window.addEventListener("beforeunload", showLoader);
+
+    </script>
+
 </asp:Content>

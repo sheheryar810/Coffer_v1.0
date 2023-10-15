@@ -31,9 +31,9 @@ namespace Coffer_Systems.Coding
         [Obsolete]
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
+            if (!Page.IsPostBack)
             {
-                if (Page.IsPostBack == false)
+                try
                 {
                     setValues();
                     using (SqlConnection con = new SqlConnection(connectionStr))
@@ -54,34 +54,38 @@ namespace Coffer_Systems.Coding
                         customerDropDownList2.DataValueField = "code";
                         customerDropDownList2.DataBind();
                         customerDropDownList2.Items.Insert(0, new ListItem());
+
                         SqlCommand debitopening = new SqlCommand(@"Select sum(CAST(debit as float)) from ledger where company='" + Company + "' and tblname='OP' ", con);
                         SqlCommand creditopening = new SqlCommand(@"Select sum(CAST(credit as float)) from ledger where company='" + Company + "' and tblname='OP' ", con);
                         var debitop = debitopening.ExecuteScalar();
-                        if (debitop.ToString() != "")
+                        if (debitop != DBNull.Value)
                         {
-                            optotalDebit.Value = debitopening.ExecuteScalar().ToString();
+                            optotalDebit.Value = debitop.ToString();
                         }
                         var creditop = creditopening.ExecuteScalar();
-                        if (creditop.ToString() != "")
+                        if (creditop != DBNull.Value)
                         {
-                            optotalCredit.Value = creditopening.ExecuteScalar().ToString();
+                            optotalCredit.Value = creditop.ToString();
                         }
                         SqlCommand openingDtae = new SqlCommand(@"Select top 1 date from ledger where (company='" + Company + "' OR company='All') and tblname='OP' ", con);
-                        string date= Convert.ToDateTime(openingDtae.ExecuteScalar()).ToString("yyyy-MM-dd");
+                        string date = Convert.ToDateTime(openingDtae.ExecuteScalar()).ToString("yyyy-MM-dd");
                         openingDate.Value = date;
+
                         con.Close();
                         maxId();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "');</script>");
+                catch (Exception ex)
+                {
+                    // Log the exception, do not display it to the user
+                    // You can log it to a file, database, or use a logging framework
+                    // Example: Logger.LogError(ex);
+                    Response.Write("<script>alert('An error occurred. Please contact support.');</script>");
+                }
             }
         }
 
-        [Obsolete]
-        protected void setValues()
+        private void setValues()
         {
             using (SqlConnection con = new SqlConnection(connectionStr))
             {
@@ -90,8 +94,8 @@ namespace Coffer_Systems.Coding
                 string IP5 = Dns.GetHostByName(hostName5).AddressList[0].ToString();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "select * FROM Login_TBL lt join company c on c.name=lt.company Where ipAddress='" + IP5 + "'";
-                cmd.ExecuteNonQuery();
+                cmd.CommandText = "select * FROM Login_TBL lt join company c on c.name=lt.company Where ipAddress=@IP";
+                cmd.Parameters.AddWithValue("@IP", IP5);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -105,7 +109,6 @@ namespace Coffer_Systems.Coding
                         Company = dr["company"].ToString();
                         GST = dr["gst"].ToString();
                     }
-                    con.Close();
                 }
                 else
                 {

@@ -42,6 +42,15 @@ namespace Coffer_Systems
         protected global::System.Web.UI.HtmlControls.HtmlInputText userName;
 
         /// <summary>
+        /// hiddenPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hiddenPassword;
+
+        /// <summary>
         /// password control.
         /// </summary>
         /// <remarks>

@@ -4,28 +4,22 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title></title>
-        <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Your Page Title Here</title>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <!-- Include necessary CSS and fonts -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+    <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
-        <%--    <script type="text/javascript" src="/js/DataTablesEditor.js"></script>--%>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
-        <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
-        <link href="styles/grid.css" rel="stylesheet" />
-        <!-- GOOGLE FONTS-->
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
-        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-        <script src="assets/js/datatables.js"></script>
-
-
-    </head>
+    <!-- Include necessary JavaScript libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
 
     <script type="text/javascript">
 

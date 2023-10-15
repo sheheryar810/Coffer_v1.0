@@ -1,246 +1,23 @@
 ﻿<%@ Page Language="C#" Title="Coding Menu" AutoEventWireup="true" CodeBehind="CodingMenu.aspx.cs" ValidateRequest="false" EnableEventValidation="false" MasterPageFile="~/Site.Master" Inherits="Coffer_Systems.Coding.CodingMenu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
         <title>Coding Menu</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css" />
-        <link href="styles/loader.css" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
-        <!-- GOOGLE FONTS-->
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+        <link rel="stylesheet" href="styles/loader.css">
+        <link rel="stylesheet" href="assets/css/StyleSheet1.css">
+        <link rel="stylesheet" href="Content/fontawesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
 
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-        <link href="Content/fontawesome.min.css" rel="stylesheet" />
         <!-- Include jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
-
     </head>
-    <script type="text/javascript">
 
-        FixedAsset = <%= Application["FixedAsset"] %>;
-        CurrentAsset = <%= Application["CurrentAsset"] %>;
-        Bank = <%= Application["Bank"] %>;
-        AccReceivable = <%= Application["AccReceivable"] %>;
-        Client = <%= Application["Client"] %>;
-        Refund = <%= Application["Refund"] %>;
-        Advance = <%= Application["Advance"] %>;
-        Security = <%= Application["Security"] %>;
-        Tax = <%= Application["Tax"] %>;
-        Capital = <%= Application["Capital"] %>;
-        ProfitLoss = <%= Application["ProfitLoss"] %>;
-        AccPayable = <%= Application["AccPayable"] %>;
-        OtherPayable = <%= Application["OtherPayable"] %>;
-        Payables = <%= Application["Payables"] %>;
-        TaxPayables = <%= Application["TaxPayables"] %>;
-        Expense = <%= Application["Expense"] %>;
-        GenExpense = <%= Application["GenExpense"] %>;
-        Financial = <%= Application["Financial"] %>;
-        Revenue = <%= Application["Revenue"] %>;
-        Income = <%= Application["Income"] %>;
-        Prepaid = <%= Application["Prepaid"] %>;
-
-        $(document).ready(function () {
-
-            $('#acccode').prop('readonly', true);
-            $('#customerDropDownList').prop('readonly', true);
-            $('#levelDropDownList').prop('readonly', true);
-            $('#classDropDownList').prop('readonly', true);
-            $('#accDropDownList').prop('readonly', true);
-
-            $('#customerDropDownList1').change(function () {
-                var cdd = $('#customerDropDownList1').val();
-                document.getElementById('<%=aircode.ClientID%>').value = parseFloat(cdd);
-            });
-            $('#customerDropDownList2').change(function () {
-                var cdd = $('#customerDropDownList2').val();
-                document.getElementById('<%=clientcode.ClientID%>').value = parseFloat(cdd);
-            });
-
-        });
-
-        function showclientdiv() {
-            jQuery.noConflict();
-            $('#commClientPopup').modal('show');
-        }
-        function managerpopuptrue() {
-            jQuery.noConflict();
-            $('#managerpopuptrue').modal('show');
-        }
-        function managerpopupfalse() {
-            jQuery.noConflict();
-            $('#managerpopupfalse').modal('show');
-        }
-        function managerpopup() {
-            jQuery.noConflict();
-            $('#managerpopup').modal('show');
-        }
-        function updatepopup1() {
-            jQuery.noConflict();
-            $('#updatepopup1').modal('show');
-        }
-        function showairdiv() {
-            jQuery.noConflict();
-            $('#commAirlinePopup').modal('show');
-        }
-        function show() {
-            jQuery.noConflict();
-            $('#accchartPopup').modal('show');
-        }
-        function showsuccesspopup() {
-            jQuery.noConflict();
-            $('#successpopup').modal('show');
-        }
-        function showsuccesspopup1() {
-            jQuery.noConflict();
-            $('#successpopup1').modal('show');
-        }
-        function showdeletepopup1() {
-            jQuery.noConflict();
-            $('#deletepopup1').modal('show');
-        }
-
-        function FixedAsset1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            FixedAsset++;
-            document.getElementById('<%=code.ClientID%>').value = FixedAsset;
-        }
-        function CurrentAsset1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            CurrentAsset++;
-            document.getElementById('<%=code.ClientID%>').value = CurrentAsset;
-        }
-        function Bank1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Bank++;
-            document.getElementById('<%=code.ClientID%>').value = Bank;
-        }
-        function AccReceivable1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            AccReceivable++;
-            document.getElementById('<%=code.ClientID%>').value = AccReceivable;
-        }
-        function Client1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Client++;
-            document.getElementById('<%=code.ClientID%>').value = Client;
-        }
-        function Refund1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Refund++;
-            document.getElementById('<%=code.ClientID%>').value = Refund;
-        }
-        function Advance1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Advance++;
-            document.getElementById('<%=code.ClientID%>').value = Advance;
-        }
-        function Security1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Security++;
-            document.getElementById('<%=code.ClientID%>').value = Security;
-        }
-        function Tax1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Tax++;
-            document.getElementById('<%=code.ClientID%>').value = Tax;
-        }
-        function Capital1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Capital++;
-            document.getElementById('<%=code.ClientID%>').value = Capital;
-        }
-        function ProfitLoss1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            ProfitLoss++;
-            document.getElementById('<%=code.ClientID%>').value = ProfitLoss;
-        }
-        function AccPayable1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            AccPayable++;
-            document.getElementById('<%=code.ClientID%>').value = AccPayable;
-        }
-        function OtherPayable1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            liability++;
-            document.getElementById('<%=code.ClientID%>').value = OtherPayable;
-        }
-        function Payables1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Payables++;
-            document.getElementById('<%=code.ClientID%>').value = Payables;
-        }
-        function TaxPayables1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            TaxPayables++;
-            document.getElementById('<%=code.ClientID%>').value = TaxPayables;
-        }
-        function OtherPayable1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            OtherPayable++;
-            document.getElementById('<%=code.ClientID%>').value = OtherPayable;
-        }
-        function Expense1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Expense++;
-            document.getElementById('<%=code.ClientID%>').value = Expense;
-        }
-        function GenExpense1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            GenExpense++;
-            document.getElementById('<%=code.ClientID%>').value = GenExpense;
-        }
-        function Financial1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Financial++;
-            document.getElementById('<%=code.ClientID%>').value = Financial;
-        }
-        function Revenue1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Revenue++;
-            document.getElementById('<%=code.ClientID%>').value = Revenue;
-        }
-        function Income1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Income++;
-            document.getElementById('<%=code.ClientID%>').value = Income;
-        }
-        function Prepaid1() {
-            document.getElementById('<%=title.ClientID%>').value = "";
-            Prepaid++;
-            document.getElementById('<%=code.ClientID%>').value = Prepaid;
-        }
-
-    </script>
-
-    <script>
-
-        // Show the loader overlay
-        function showLoader() {
-            document.getElementById("loader-overlay").style.display = "flex";
-        }
-
-        // Hide the loader overlay
-        function hideLoader() {
-            document.getElementById("loader-overlay").style.display = "none";
-        }
-
-        // Attach event handlers to capture page transitions
-        document.addEventListener("DOMContentLoaded", function () {
-            var links = document.getElementsByTagName("a");
-            for (var i = 0; i < links.length; i++) {
-                links[i].addEventListener("click", showLoader);
-            }
-        });
-
-        window.addEventListener("beforeunload", showLoader);
-
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div id="loader-overlay" class="loader-overlay" style="display: none;">
@@ -816,4 +593,224 @@
             </div>
         </div>
     </center>
+    <script type="text/javascript">
+
+        FixedAsset = <%= Application["FixedAsset"] %>;
+        CurrentAsset = <%= Application["CurrentAsset"] %>;
+        Bank = <%= Application["Bank"] %>;
+        AccReceivable = <%= Application["AccReceivable"] %>;
+        Client = <%= Application["Client"] %>;
+        Refund = <%= Application["Refund"] %>;
+        Advance = <%= Application["Advance"] %>;
+        Security = <%= Application["Security"] %>;
+        Tax = <%= Application["Tax"] %>;
+        Capital = <%= Application["Capital"] %>;
+        ProfitLoss = <%= Application["ProfitLoss"] %>;
+        AccPayable = <%= Application["AccPayable"] %>;
+        OtherPayable = <%= Application["OtherPayable"] %>;
+        Payables = <%= Application["Payables"] %>;
+        TaxPayables = <%= Application["TaxPayables"] %>;
+        Expense = <%= Application["Expense"] %>;
+        GenExpense = <%= Application["GenExpense"] %>;
+        Financial = <%= Application["Financial"] %>;
+        Revenue = <%= Application["Revenue"] %>;
+        Income = <%= Application["Income"] %>;
+        Prepaid = <%= Application["Prepaid"] %>;
+
+        $(document).ready(function () {
+
+            $('#acccode').prop('readonly', true);
+            $('#customerDropDownList').prop('readonly', true);
+            $('#levelDropDownList').prop('readonly', true);
+            $('#classDropDownList').prop('readonly', true);
+            $('#accDropDownList').prop('readonly', true);
+
+            $('#customerDropDownList1').change(function () {
+                var cdd = $('#customerDropDownList1').val();
+                document.getElementById('<%=aircode.ClientID%>').value = parseFloat(cdd);
+            });
+            $('#customerDropDownList2').change(function () {
+                var cdd = $('#customerDropDownList2').val();
+                document.getElementById('<%=clientcode.ClientID%>').value = parseFloat(cdd);
+        });
+
+        });
+
+        function showclientdiv() {
+            jQuery.noConflict();
+            $('#commClientPopup').modal('show');
+        }
+        function managerpopuptrue() {
+            jQuery.noConflict();
+            $('#managerpopuptrue').modal('show');
+        }
+        function managerpopupfalse() {
+            jQuery.noConflict();
+            $('#managerpopupfalse').modal('show');
+        }
+        function managerpopup() {
+            jQuery.noConflict();
+            $('#managerpopup').modal('show');
+        }
+        function updatepopup1() {
+            jQuery.noConflict();
+            $('#updatepopup1').modal('show');
+        }
+        function showairdiv() {
+            jQuery.noConflict();
+            $('#commAirlinePopup').modal('show');
+        }
+        function show() {
+            jQuery.noConflict();
+            $('#accchartPopup').modal('show');
+        }
+        function showsuccesspopup() {
+            jQuery.noConflict();
+            $('#successpopup').modal('show');
+        }
+        function showsuccesspopup1() {
+            jQuery.noConflict();
+            $('#successpopup1').modal('show');
+        }
+        function showdeletepopup1() {
+            jQuery.noConflict();
+            $('#deletepopup1').modal('show');
+        }
+
+        function FixedAsset1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+            FixedAsset++;
+            document.getElementById('<%=code.ClientID%>').value = FixedAsset;
+        }
+        function CurrentAsset1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+            CurrentAsset++;
+            document.getElementById('<%=code.ClientID%>').value = CurrentAsset;
+        }
+        function Bank1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+            Bank++;
+            document.getElementById('<%=code.ClientID%>').value = Bank;
+        }
+        function AccReceivable1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+            AccReceivable++;
+            document.getElementById('<%=code.ClientID%>').value = AccReceivable;
+        }
+        function Client1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+            Client++;
+            document.getElementById('<%=code.ClientID%>').value = Client;
+        }
+        function Refund1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+            Refund++;
+            document.getElementById('<%=code.ClientID%>').value = Refund;
+        }
+        function Advance1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Advance++;
+        document.getElementById('<%=code.ClientID%>').value = Advance;
+        }
+        function Security1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Security++;
+        document.getElementById('<%=code.ClientID%>').value = Security;
+        }
+        function Tax1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Tax++;
+        document.getElementById('<%=code.ClientID%>').value = Tax;
+        }
+        function Capital1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Capital++;
+        document.getElementById('<%=code.ClientID%>').value = Capital;
+        }
+        function ProfitLoss1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        ProfitLoss++;
+        document.getElementById('<%=code.ClientID%>').value = ProfitLoss;
+        }
+        function AccPayable1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        AccPayable++;
+        document.getElementById('<%=code.ClientID%>').value = AccPayable;
+        }
+        function OtherPayable1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        liability++;
+        document.getElementById('<%=code.ClientID%>').value = OtherPayable;
+        }
+        function Payables1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Payables++;
+        document.getElementById('<%=code.ClientID%>').value = Payables;
+        }
+        function TaxPayables1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        TaxPayables++;
+        document.getElementById('<%=code.ClientID%>').value = TaxPayables;
+        }
+        function OtherPayable1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        OtherPayable++;
+        document.getElementById('<%=code.ClientID%>').value = OtherPayable;
+        }
+        function Expense1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Expense++;
+        document.getElementById('<%=code.ClientID%>').value = Expense;
+        }
+        function GenExpense1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        GenExpense++;
+        document.getElementById('<%=code.ClientID%>').value = GenExpense;
+        }
+        function Financial1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Financial++;
+        document.getElementById('<%=code.ClientID%>').value = Financial;
+        }
+        function Revenue1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Revenue++;
+        document.getElementById('<%=code.ClientID%>').value = Revenue;
+        }
+        function Income1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Income++;
+        document.getElementById('<%=code.ClientID%>').value = Income;
+        }
+        function Prepaid1() {
+            document.getElementById('<%=title.ClientID%>').value = "";
+        Prepaid++;
+        document.getElementById('<%=code.ClientID%>').value = Prepaid;
+        }
+
+    </script>
+
+    <script>
+
+        // Show the loader overlay
+        function showLoader() {
+            document.getElementById("loader-overlay").style.display = "flex";
+        }
+
+        // Hide the loader overlay
+        function hideLoader() {
+            document.getElementById("loader-overlay").style.display = "none";
+        }
+
+        // Attach event handlers to capture page transitions
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", showLoader);
+            }
+        });
+
+        window.addEventListener("beforeunload", showLoader);
+
+    </script>
 </asp:Content>

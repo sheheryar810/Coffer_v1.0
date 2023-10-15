@@ -6,95 +6,30 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title></title>
+        <title>Bank/Cash Payable</title>
+
+        <!-- Include external stylesheets and fonts -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" />
         <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css" />
+        <link rel="stylesheet" href="styles/loader.css" />
+        <link rel="stylesheet" href="assets/css/StyleSheet1.css" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-                        <link href="styles/loader.css" rel="stylesheet" />
-
-        <%--    <script type="text/javascript" src="/js/DataTablesEditor.js"></script>--%>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
-        <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
-        <link href="styles/grid.css" rel="stylesheet" />
-        <!-- GOOGLE FONTS-->
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+        <!-- Include external JavaScript libraries -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
-        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-        <script src="assets/js/datatables.js"></script>
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
     </head>
 
 
-    <script type="text/javascript">
 
-        function showsuccesspopup() {
-            jQuery.noConflict();
-            $('#successpopup').modal('show');
-        }
-        function showupdatepopup() {
-            jQuery.noConflict();
-            $('#updatepopup').modal('show');
-        }
-        function searchPopup() {
-            jQuery.noConflict();
-            $('#searchPopup').modal('show');
-        }
-        function showdeletepopup() {
-            jQuery.noConflict();
-            $('#deletepopup').modal('show');
-        }
-        function showdeletepopup1() {
-            jQuery.noConflict();
-            $('#deletepopup1').modal('show');
-        }
-        function showfailurepopup() {
-            jQuery.noConflict();
-            $('#failurepopup').modal('show');
-        }
-        function alertPopup() {
-            jQuery.noConflict();
-            $('#alertPopup').modal('show');
-        }
-        function NoExistPopup() {
-            jQuery.noConflict();
-            $('#NoExistPopup').modal('show');
-        }
-    </script>
-    
-    <script>
-
-        // Show the loader overlay
-        function showLoader() {
-            document.getElementById("loader-overlay").style.display = "flex";
-        }
-
-        // Hide the loader overlay
-        function hideLoader() {
-            document.getElementById("loader-overlay").style.display = "none";
-        }
-
-        // Attach event handlers to capture page transitions
-        document.addEventListener("DOMContentLoaded", function () {
-            var links = document.getElementsByTagName("a");
-            for (var i = 0; i < links.length; i++) {
-                links[i].addEventListener("click", showLoader);
-            }
-        });
-
-        window.addEventListener("beforeunload", showLoader);
-
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-      <div id="loader-overlay" class="loader-overlay" style="display: none;">
-    <div class="loader" style="justify-items:center">
-        <img src="Images/Coffer.png" alt="Loading..." class="loader-logo"  loading="lazy"/>
-        <div class="loader-spinner"></div>
+    <div id="loader-overlay" class="loader-overlay" style="display: none;">
+        <div class="loader" style="justify-items: center">
+            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo" loading="lazy" />
+            <div class="loader-spinner"></div>
+        </div>
     </div>
-</div>
     <div id="page-wrapper">
         <div class="row form-group">
 
@@ -404,13 +339,13 @@
                 <!-- Modal content-->
                 <div class="modal-content" style="width: max-content; min-width: 600px">
                     <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;</button>
-                    <center>
-                        <h4>Search Voucher
-                        </h4>
-                    </center>
-                </div>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <center>
+                            <h4>Search Voucher
+                            </h4>
+                        </center>
+                    </div>
                     <div class="modal-body" style="width: 600px">
                         <div class="panel-body">
                             <div class="row">
@@ -471,5 +406,61 @@
             </div>
         </div>
     </center>
+    <script type="text/javascript">
+
+        function showsuccesspopup() {
+            jQuery.noConflict();
+            $('#successpopup').modal('show');
+        }
+        function showupdatepopup() {
+            jQuery.noConflict();
+            $('#updatepopup').modal('show');
+        }
+        function searchPopup() {
+            jQuery.noConflict();
+            $('#searchPopup').modal('show');
+        }
+        function showdeletepopup() {
+            jQuery.noConflict();
+            $('#deletepopup').modal('show');
+        }
+        function showdeletepopup1() {
+            jQuery.noConflict();
+            $('#deletepopup1').modal('show');
+        }
+        function showfailurepopup() {
+            jQuery.noConflict();
+            $('#failurepopup').modal('show');
+        }
+        function alertPopup() {
+            jQuery.noConflict();
+            $('#alertPopup').modal('show');
+        }
+        function NoExistPopup() {
+            jQuery.noConflict();
+            $('#NoExistPopup').modal('show');
+        }
+
+        // Show the loader overlay
+        function showLoader() {
+            document.getElementById("loader-overlay").style.display = "flex";
+        }
+
+        // Hide the loader overlay
+        function hideLoader() {
+            document.getElementById("loader-overlay").style.display = "none";
+        }
+
+        // Attach event handlers to capture page transitions
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", showLoader);
+            }
+        });
+
+        window.addEventListener("beforeunload", showLoader);
+
+    </script>
 </asp:Content>
 

@@ -3,871 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link href="styles/loader.css" rel="stylesheet" />
-
         <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
-        <script src="Scripts/jquery-3.4.1.min.js"></script>
-        <script src="Scripts/bootstrap.min.js"></script>
-
-        <script>
-
-            // Show the loader overlay
-            function showLoader() {
-                document.getElementById("loader-overlay").style.display = "flex";
-            }
-
-            // Hide the loader overlay
-            function hideLoader() {
-                document.getElementById("loader-overlay").style.display = "none";
-            }
-
-            // Attach event handlers to capture page transitions
-            document.addEventListener("DOMContentLoaded", function () {
-                var links = document.getElementsByTagName("a");
-                for (var i = 0; i < links.length; i++) {
-                    links[i].addEventListener("click", showLoader);
-                }
-            });
-
-            window.addEventListener("beforeunload", showLoader);
-
-        </script>
-        <script type="text/javascript">
-            $(document).keypress(function (e) {
-                //Check which key is pressed on the document or window
-                if (e.which == 13) {
-                    // if it is 13 that means enter key pressed, then call the function to cancel the event
-                    e.preventDefault();
-                }
-            });
-
-            function calculate() {
-
-                var iata = parseFloat(document.getElementById('<%=iata.ClientID%>').value || 0);
-                var mkt = parseFloat(document.getElementById('<%=mkt.ClientID%>').value || 0);
-                var otherfare = parseFloat(document.getElementById('<%=other.ClientID%>').value || 0);
-                var soto = parseFloat(document.getElementById('<%=soto.ClientID%>').value || 0);
-                var sp = parseFloat(document.getElementById('<%=sp.ClientID%>').value || 0);
-                var yd = parseFloat(document.getElementById('<%=yd.ClientID%>').value || 0);
-                var pk = parseFloat(document.getElementById('<%=pk.ClientID%>').value || 0);
-                var fed = parseFloat(document.getElementById('<%=fed.ClientID%>').value || 0);
-                var ced = parseFloat(document.getElementById('<%=ced.ClientID%>').value || 0);
-                var xz = parseFloat(document.getElementById('<%=xz.ClientID%>').value || 0);
-                var whairline = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
-                var whclient = parseFloat(document.getElementById('<%=whclient.ClientID%>').value || 0);
-                var yq = parseFloat(document.getElementById('<%=yq.ClientID%>').value || 0);
-                var pb = parseFloat(document.getElementById('<%=pb.ClientID%>').value || 0);
-                var oth = parseFloat(document.getElementById('<%=otherpay.ClientID%>').value || 0);
-                var extra = parseFloat(document.getElementById('<%=extra.ClientID%>').value || 0);
-                var ins = parseFloat(document.getElementById('<%=ins.ClientID%>').value || 0);
-                var kb = parseFloat(document.getElementById('<%=kbairline.ClientID%>').value || 0);
-                var service = parseFloat(document.getElementById('<%=srvc.ClientID%>').value || 0);
-                var disc = parseFloat(document.getElementById('<%=disc.ClientID%>').value || 0);
-                var discadj = parseFloat(document.getElementById('<%=discadj.ClientID%>').value || 0);
-                var discamt = parseFloat(document.getElementById('<%=discamt.ClientID%>').value || 0);
-                var comamt = parseFloat(document.getElementById('<%=comamt.ClientID%>').value || 0);
-                var comm = parseFloat(document.getElementById('<%=comm.ClientID%>').value || 0);
-                var comadj = parseFloat(document.getElementById('<%=comadj.ClientID%>').value || 0);
-                var kbcust = parseFloat(document.getElementById('<%=kbcust.ClientID%>').value || 0);
-                var cancelcharges = parseFloat(document.getElementById('<%=cnclchrg.ClientID%>').value || 0);
-                var servicecharges = parseFloat(document.getElementById('<%=srvcchrg.ClientID%>').value || 0);
-                var serviceamount = parseFloat(document.getElementById('<%=srvcamt.ClientID%>').value || 0);
-                whair = 0;
-                var tcomm = comadj + comamt;
-                document.getElementById('<%=tcom.ClientID%>').value = parseFloat(tcomm).toFixed(2);
-
-                var whairlines = (((mkt * comm) / 100) * 12) / 100;
-                document.getElementById('<%=whairline.ClientID%>').value = parseFloat(whairlines).toFixed(2);
-
-                if (comadj != "") {
-                    var whairl = ((((comadj * comm) / 100) * 12) / 100) + comadj / 10;
-                    var twhairpay = whairl + whairline;
-                    document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairpay).toFixed(2);
-                }
-
-                if (extra != "") {
-                    var whairp = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
-                    var whair = (((otherfare * extra) / 100) * 12) / 100;
-                    var twhairp = whair + whairp;
-                    document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairp).toFixed(2);
-                }
-                var totalcommission = (mkt * comm) / 100;
-                document.getElementById('<%=tcom.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
-                document.getElementById('<%=comamt.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
-                var tcom = parseFloat(document.getElementById('<%=tcom.ClientID%>').value || 0);
-                var disct = ((disc * mkt) / 100) + discadj;
-                var extracom = (otherfare * extra) / 100;
-                var income = comamt - disct + extracom;
-                var totalcomm = tcom + comadj;
-                var srvct = 0;
-                if (service != "") {
-                    srvct = (service * mkt) / 100;
-                } else if (serviceamount) {
-                    srvct = serviceamount;
-                }
-                var total = mkt + otherfare + soto;
-                var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
-                var total = taxes + total;
-                var ticketvalue = taxes - whairline + mkt;
-                var clientr = total - whairline + whclient + ins + srvct - disct - kbcust - cancelcharges - servicecharges;
-                var airlinep = total - kb - extracom - totalcomm - cancelcharges;
-
-                document.getElementById('<%=discamt.ClientID%>').value = Math.round(parseFloat(disct).toFixed(2));
-                document.getElementById('<%=extcom.ClientID%>').value = Math.round(parseFloat(extracom).toFixed(2));
-                document.getElementById('<%=svc.ClientID%>').value = Math.round(parseFloat(ins).toFixed(2));
-                document.getElementById('<%=srvcamt.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
-                document.getElementById('<%=tsp.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
-                document.getElementById('<%=tcom.ClientID%>').value = Math.round(parseFloat(totalcomm).toFixed(2));
-                document.getElementById('<%=tincome.ClientID%>').value = Math.round(parseFloat(income).toFixed(2));
-                document.getElementById('<%=ttax.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
-                document.getElementById('<%=frtx.ClientID%>').value = Math.round(parseFloat(total).toFixed(2));
-                document.getElementById('<%=tktval.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
-                document.getElementById('<%=airlinerec.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
-                document.getElementById('<%=clientpay.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
-                document.getElementById('<%=voucheramt1.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2)).toLocaleString('en-US', { minimumFractionDigits: 2 });
-                document.getElementById('<%=voucheramt.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2)).toLocaleString('en-US', { minimumFractionDigits: 2 });
-            }
-            function editBtn() {
-                document.getElementById('<%=editButton.ClientID %>').style.display = 'none';
-                document.getElementById('<%=addButton.ClientID %>').style.display = 'block';
-            }
-
-            function addDashes(f) {
-                f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
-                var tkt = document.getElementById('<%=tktno.ClientID%>').value;
-            }
-
-            function newBtn1() {
-
-                document.getElementById('<%=editButton.ClientID %>').style.display = 'none';
-                document.getElementById('<%=addButton.ClientID %>').style.display = 'block';
-                var refund = parseFloat(document.getElementById('<%=refund.ClientID%>').value || 0);
-                refund = refund + 1;
-                document.getElementById('<%=refund.ClientID%>').value = refund;
-
-                document.getElementById('<%=invDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=etkt.ClientID%>').value = "";
-                document.getElementById('<%=tktDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=bspDropDown1.ClientID%>').value = "";
-                document.getElementById('<%=xo.ClientID%>').value = "";
-                document.getElementById('<%=rfdDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=rcptno.ClientID%>').value = "";
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear() + "-" + (month) + "-" + (day);
-                document.getElementById("stockDate").value = today;
-                document.getElementById('<%=salesperson.ClientID%>').value = "";
-                document.getElementById('<%=calcomm.ClientID%>').value = "";
-                document.getElementById('<%=percent.ClientID%>').value = "";
-                document.getElementById('<%=agent.ClientID%>').value = "";
-                document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=conjtkt.ClientID%>').value = "";
-                document.getElementById('<%=xono.ClientID%>').value = "";
-                document.getElementById('<%=typeDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=sector.ClientID%>').value = "";
-                document.getElementById('<%=@class.ClientID%>').value = "";
-                document.getElementById('<%=coupen.ClientID%>').value = "";
-                document.getElementById('<%=piatkt.ClientID%>').value = "";
-                document.getElementById('<%=rfdclain.ClientID%>').value = "";
-                document.getElementById('<%=invno.ClientID%>').value = "0";
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear() + "-" + (month) + "-" + (day);
-                document.getElementById("invDate").value = today;
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear() + "-" + (month) + "-" + (day);
-                document.getElementById("vldDate").value = today;
-                document.getElementById('<%=airline.ClientID%>').value = "";
-                document.getElementById('<%=DropDownList2.ClientID%>').value = "";
-                document.getElementById('<%=DropDownList1.ClientID%>').value = "";
-                document.getElementById('<%=iata.ClientID%>').value = "";
-                document.getElementById('<%=mkt.ClientID%>').value = "";
-                document.getElementById('<%=other.ClientID%>').value = "";
-                document.getElementById('<%=soto.ClientID%>').value = "";
-                document.getElementById('<%=sp.ClientID%>').value = "";
-                document.getElementById('<%=yd.ClientID%>').value = "";
-                document.getElementById('<%=pk.ClientID%>').value = "";
-                document.getElementById('<%=fed.ClientID%>').value = "";
-                document.getElementById('<%=ced.ClientID%>').value = "";
-                document.getElementById('<%=xz.ClientID%>').value = "";
-                document.getElementById('<%=whairline.ClientID%>').value = "";
-                document.getElementById('<%=whclient.ClientID%>').value = "";
-                document.getElementById('<%=yq.ClientID%>').value = "";
-                document.getElementById('<%=pb.ClientID%>').value = "";
-                document.getElementById('<%=otherpay.ClientID%>').value = "";
-                document.getElementById('<%=ttax.ClientID%>').value = "";
-                document.getElementById('<%=frtx.ClientID%>').value = "";
-                document.getElementById('<%=fixDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=comm.ClientID%>').value = "";
-                document.getElementById('<%=comamt.ClientID%>').value = "";
-                document.getElementById('<%=comadj.ClientID%>').value = "";
-                document.getElementById('<%=tcom.ClientID%>').value = "";
-                document.getElementById('<%=srvc.ClientID%>').value = "";
-                document.getElementById('<%=srvcamt.ClientID%>').value = "";
-                document.getElementById('<%=ins.ClientID%>').value = "";
-                document.getElementById('<%=transferDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=kbairline.ClientID%>').value = "";
-                document.getElementById('<%=kbcust.ClientID%>').value = "";
-                document.getElementById('<%=disc.ClientID%>').value = "";
-                document.getElementById('<%=discamt.ClientID%>').value = "";
-                document.getElementById('<%=discadj.ClientID%>').value = "";
-                document.getElementById('<%=tsp.ClientID%>').value = "";
-                document.getElementById('<%=tincome.ClientID%>').value = "";
-                document.getElementById('<%=payment.ClientID%>').value = "";
-                document.getElementById('<%=gds.ClientID%>').value = "";
-                document.getElementById('<%=rfdpmt.ClientID%>').value = "";
-                document.getElementById('<%=cnclchrg.ClientID%>').value = "";
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear() + "-" + (month) + "-" + (day);
-                document.getElementById("saledate").value = today;
-                document.getElementById('<%=airlinerec.ClientID%>').value = "";
-                document.getElementById('<%=clientpay.ClientID%>').value = "";
-                document.getElementById('<%=voucheramt1.ClientID%>').value = "";
-                document.getElementById('<%=voucheramt.ClientID%>').value = "";
-                document.getElementById('<%=svc.ClientID%>').value = "";
-                document.getElementById('<%=tktval.ClientID%>').value = "";
-                document.getElementById('<%=receivable.ClientID%>').value = "";
-                document.getElementById('<%=srvcchrg.ClientID%>').value = "";
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2);
-                var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear() + "-" + (month) + "-" + (day);
-                document.getElementById("refunddate").value = today;
-                document.getElementById('<%=pname.ClientID%>').value = "";
-                document.getElementById('<%=customerDropDownList.ClientID%>').value = "";
-                document.getElementById('<%=tktno.ClientID%>').value = "";
-            }
-        </script>
-        <script type="text/javascript"> 
-            var offset = 0;
-            var count = 0;
-
-            $(document).ready(function () {
-                offset = 0;
-                let queryURL = window.location.search;
-                var res = new URLSearchParams(queryURL);
-                var id = res.get("id");
-                console.log("Refund ID: ", id, "Offset: ", offset);
-                document.getElementById('<%=addButton.ClientID %>').style.display = 'none';
-                $.ajax({
-                    url: 'WebExpenses.asmx/GetRefundData',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: { offset: offset, id: id },
-                    success: function (data) {
-                        if (data[0] != undefined) {
-                            document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
-                            document.getElementById('<%=invDropDownList.ClientID%>').value = data[0].invtype;
-                            document.getElementById('<%=etkt.ClientID%>').value = data[0].etkt;
-                            document.getElementById('<%=tktDropDownList.ClientID%>').value = data[0].tkttype;
-                            document.getElementById('<%=bspDropDown1.ClientID%>').value = data[0].bsp;
-                            document.getElementById('<%=xo.ClientID%>').value = data[0].xo;
-                            document.getElementById('<%=rfdDropDownList.ClientID%>').value = data[0].rfdtype;
-                            document.getElementById('<%=rcptno.ClientID%>').value = data[0].rcptno;
-                            var now = data[0].stockdate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("stockDate").value = today;
-                            document.getElementById('<%=salesperson.ClientID%>').value = data[0].salesperson;
-                            document.getElementById('<%=calcomm.ClientID%>').value = data[0].calcom;
-                            document.getElementById('<%=percent.ClientID%>').value = data[0].percentage;
-                            document.getElementById('<%=agent.ClientID%>').value = data[0].agent;
-                            document.getElementById('<%=airlineDropDownList.ClientID%>').value = data[0].agent;
-                            document.getElementById('<%=conjtkt.ClientID%>').value = data[0].conjtkt;
-                            document.getElementById('<%=xono.ClientID%>').value = data[0].xono;
-                            document.getElementById('<%=typeDropDownList.ClientID%>').value = data[0].passengertype;
-                            document.getElementById('<%=sector.ClientID%>').value = data[0].sector;
-                            document.getElementById('<%=@class.ClientID%>').value = data[0].classification;
-                            document.getElementById('<%=coupen.ClientID%>').value = data[0].coupenno;
-                            document.getElementById('<%=piatkt.ClientID%>').value = data[0].piatkt;
-                            document.getElementById('<%=rfdclain.ClientID%>').value = data[0].rfdclaim;
-                            document.getElementById('<%=invno.ClientID%>').value = data[0].invno;
-                            var now = data[0].invdate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("invDate").value = today;
-                            var now = data[0].vlddate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("vldDate").value = today;
-                            document.getElementById('<%=airline.ClientID%>').value = data[0].airline;
-                            document.getElementById('<%=DropDownList2.ClientID%>').value = data[0].mainseg;
-                            document.getElementById('<%=DropDownList1.ClientID%>').value = data[0].subseg;
-                            document.getElementById('<%=iata.ClientID%>').value = data[0].iata;
-                            document.getElementById('<%=mkt.ClientID%>').value = data[0].mkt;
-                            document.getElementById('<%=other.ClientID%>').value = data[0].other;
-                            document.getElementById('<%=soto.ClientID%>').value = data[0].soto;
-                            document.getElementById('<%=sp.ClientID%>').value = data[0].sp;
-                            document.getElementById('<%=yd.ClientID%>').value = data[0].yd;
-                            document.getElementById('<%=pk.ClientID%>').value = data[0].pk;
-                            document.getElementById('<%=fed.ClientID%>').value = data[0].fed;
-                            document.getElementById('<%=ced.ClientID%>').value = data[0].ced;
-                            document.getElementById('<%=xz.ClientID%>').value = data[0].xz;
-                            document.getElementById('<%=whairline.ClientID%>').value = data[0].whairline;
-                            document.getElementById('<%=whclient.ClientID%>').value = data[0].whclient;
-                            document.getElementById('<%=yq.ClientID%>').value = data[0].yq;
-                            document.getElementById('<%=pb.ClientID%>').value = data[0].pb;
-                            document.getElementById('<%=otherpay.ClientID%>').value = data[0].oth;
-                            document.getElementById('<%=ttax.ClientID%>').value = data[0].tax;
-                            document.getElementById('<%=frtx.ClientID%>').value = data[0].frtx;
-                            document.getElementById('<%=fixDropDownList.ClientID%>').value = data[0].whtfix;
-                            document.getElementById('<%=comm.ClientID%>').value = data[0].comm;
-                            document.getElementById('<%=comamt.ClientID%>').value = data[0].comamt;
-                            document.getElementById('<%=comadj.ClientID%>').value = data[0].comadj;
-                            document.getElementById('<%=tcom.ClientID%>').value = data[0].tcom;
-                            document.getElementById('<%=srvc.ClientID%>').value = data[0].servicech;
-                            document.getElementById('<%=srvcamt.ClientID%>').value = data[0].serviceamt;
-                            document.getElementById('<%=ins.ClientID%>').value = data[0].ins;
-                            document.getElementById('<%=transferDropDownList.ClientID%>').value = data[0].transferac;
-                            document.getElementById('<%=kbairline.ClientID%>').value = data[0].kbairline;
-                            document.getElementById('<%=kbcust.ClientID%>').value = data[0].kbcust;
-                            document.getElementById('<%=disc.ClientID%>').value = data[0].disc;
-                            document.getElementById('<%=discamt.ClientID%>').value = data[0].discamt;
-                            document.getElementById('<%=discadj.ClientID%>').value = data[0].discadj;
-                            document.getElementById('<%=tsp.ClientID%>').value = data[0].totalsp;
-                            document.getElementById('<%=tincome.ClientID%>').value = data[0].totalinc;
-                            document.getElementById('<%=payment.ClientID%>').value = data[0].payment;
-                            document.getElementById('<%=gds.ClientID%>').value = data[0].gds;
-                            document.getElementById('<%=rfdpmt.ClientID%>').value = data[0].rfdpayment;
-                            document.getElementById('<%=cnclchrg.ClientID%>').value = data[0].cancelcharges;
-                            var now = data[0].saledate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("saledate").value = today;
-                            document.getElementById('<%=airlinerec.ClientID%>').value = data[0].airlinerec;
-                            document.getElementById('<%=clientpay.ClientID%>').value = data[0].clientpay;
-                            document.getElementById('<%=voucheramt1.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
-                            document.getElementById('<%=voucheramt.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
-                            document.getElementById('<%=svc.ClientID%>').value = data[0].svc;
-                            document.getElementById('<%=tktval.ClientID%>').value = data[0].ticketvalue;
-                            document.getElementById('<%=receivable.ClientID%>').value = data[0].receivable;
-                            document.getElementById('<%=srvcchrg.ClientID%>').value = data[0].srvccharges;
-                            var now = data[0].refunddate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("refunddate").value = today;
-                            document.getElementById('<%=pname.ClientID%>').value = data[0].passengername;
-                            document.getElementById('<%=ccode.ClientID%>').value = data[0].client;
-                            document.getElementById('<%=customerDropDownList.ClientID%>').value = data[0].client;
-                            document.getElementById('<%=refund.ClientID%>').value = data[0].refundno;
-                            document.getElementById('<%=tktno.ClientID%>').value = data[0].ticketno;
-                            offset = data[0].offset;
-                        } else {
-                            NoExistPopup();
-                        }
-
-                    },
-                    error: function (res) {
-                        alertPopup();
-                    }
-                });
-                function GetRefundData(offset) {
-                    var id = "";
-                    console.log("Refund ID: ", id, "Offset: ", offset);
-                    $.ajax({
-                        url: 'WebExpenses.asmx/GetRefundData',
-                        method: 'POST',
-                        dataType: 'json',
-                        data: { offset: offset, id: id },
-                        success: function (data) {
-                            document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
-                            document.getElementById('<%=invDropDownList.ClientID%>').value = data[0].invtype;
-                            document.getElementById('<%=etkt.ClientID%>').value = data[0].etkt;
-                            document.getElementById('<%=tktDropDownList.ClientID%>').value = data[0].tkttype;
-                            document.getElementById('<%=bspDropDown1.ClientID%>').value = data[0].bsp;
-                            document.getElementById('<%=xo.ClientID%>').value = data[0].xo;
-                            document.getElementById('<%=rfdDropDownList.ClientID%>').value = data[0].rfdtype;
-                            document.getElementById('<%=rcptno.ClientID%>').value = data[0].rcptno;
-                            var now = data[0].stockdate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("stockDate").value = today;
-                            document.getElementById('<%=salesperson.ClientID%>').value = data[0].salesperson;
-                            document.getElementById('<%=calcomm.ClientID%>').value = data[0].calcom;
-                            document.getElementById('<%=percent.ClientID%>').value = data[0].percentage;
-                            document.getElementById('<%=agent.ClientID%>').value = data[0].agent;
-                            document.getElementById('<%=airlineDropDownList.ClientID%>').value = data[0].agent;
-                            document.getElementById('<%=conjtkt.ClientID%>').value = data[0].conjtkt;
-                            document.getElementById('<%=xono.ClientID%>').value = data[0].xono;
-                            document.getElementById('<%=typeDropDownList.ClientID%>').value = data[0].passengertype;
-                            document.getElementById('<%=sector.ClientID%>').value = data[0].sector;
-                            document.getElementById('<%=@class.ClientID%>').value = data[0].classification;
-                            document.getElementById('<%=coupen.ClientID%>').value = data[0].coupenno;
-                            document.getElementById('<%=piatkt.ClientID%>').value = data[0].piatkt;
-                            document.getElementById('<%=rfdclain.ClientID%>').value = data[0].rfdclaim;
-                            document.getElementById('<%=invno.ClientID%>').value = data[0].invno;
-                            var now = data[0].invdate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("invDate").value = today;
-                            var now = data[0].vlddate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("vldDate").value = today;
-                            document.getElementById('<%=airline.ClientID%>').value = data[0].airline;
-                            document.getElementById('<%=DropDownList2.ClientID%>').value = data[0].mainseg;
-                            document.getElementById('<%=DropDownList1.ClientID%>').value = data[0].subseg;
-                            document.getElementById('<%=iata.ClientID%>').value = data[0].iata;
-                            document.getElementById('<%=mkt.ClientID%>').value = data[0].mkt;
-                            document.getElementById('<%=other.ClientID%>').value = data[0].other;
-                            document.getElementById('<%=soto.ClientID%>').value = data[0].soto;
-                            document.getElementById('<%=sp.ClientID%>').value = data[0].sp;
-                            document.getElementById('<%=yd.ClientID%>').value = data[0].yd;
-                            document.getElementById('<%=pk.ClientID%>').value = data[0].pk;
-                            document.getElementById('<%=fed.ClientID%>').value = data[0].fed;
-                            document.getElementById('<%=ced.ClientID%>').value = data[0].ced;
-                            document.getElementById('<%=xz.ClientID%>').value = data[0].xz;
-                            document.getElementById('<%=whairline.ClientID%>').value = data[0].whairline;
-                            document.getElementById('<%=whclient.ClientID%>').value = data[0].whclient;
-                            document.getElementById('<%=yq.ClientID%>').value = data[0].yq;
-                            document.getElementById('<%=pb.ClientID%>').value = data[0].pb;
-                            document.getElementById('<%=otherpay.ClientID%>').value = data[0].oth;
-                            document.getElementById('<%=ttax.ClientID%>').value = data[0].tax;
-                            document.getElementById('<%=frtx.ClientID%>').value = data[0].frtx;
-                            document.getElementById('<%=fixDropDownList.ClientID%>').value = data[0].whtfix;
-                            document.getElementById('<%=comm.ClientID%>').value = data[0].comm;
-                            document.getElementById('<%=comamt.ClientID%>').value = data[0].comamt;
-                            document.getElementById('<%=comadj.ClientID%>').value = data[0].comadj;
-                            document.getElementById('<%=tcom.ClientID%>').value = data[0].tcom;
-                            document.getElementById('<%=srvc.ClientID%>').value = data[0].servicech;
-                            document.getElementById('<%=srvcamt.ClientID%>').value = data[0].serviceamt;
-                            document.getElementById('<%=ins.ClientID%>').value = data[0].ins;
-                            document.getElementById('<%=transferDropDownList.ClientID%>').value = data[0].transferac;
-                            document.getElementById('<%=kbairline.ClientID%>').value = data[0].kbairline;
-                            document.getElementById('<%=kbcust.ClientID%>').value = data[0].kbcust;
-                            document.getElementById('<%=disc.ClientID%>').value = data[0].disc;
-                            document.getElementById('<%=discamt.ClientID%>').value = data[0].discamt;
-                            document.getElementById('<%=discadj.ClientID%>').value = data[0].discadj;
-                            document.getElementById('<%=tsp.ClientID%>').value = data[0].totalsp;
-                            document.getElementById('<%=tincome.ClientID%>').value = data[0].totalinc;
-                            document.getElementById('<%=payment.ClientID%>').value = data[0].payment;
-                            document.getElementById('<%=gds.ClientID%>').value = data[0].gds;
-                            document.getElementById('<%=rfdpmt.ClientID%>').value = data[0].rfdpayment;
-                            document.getElementById('<%=cnclchrg.ClientID%>').value = data[0].cancelcharges;
-                            var now = data[0].saledate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("saledate").value = today;
-                            document.getElementById('<%=airlinerec.ClientID%>').value = data[0].airlinerec;
-                            document.getElementById('<%=clientpay.ClientID%>').value = data[0].clientpay;
-                            document.getElementById('<%=voucheramt1.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
-                            document.getElementById('<%=voucheramt.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
-                            document.getElementById('<%=svc.ClientID%>').value = data[0].svc;
-                            document.getElementById('<%=tktval.ClientID%>').value = data[0].ticketvalue;
-                            document.getElementById('<%=receivable.ClientID%>').value = data[0].receivable;
-                            document.getElementById('<%=srvcchrg.ClientID%>').value = data[0].srvccharges;
-                            var now = data[0].refunddate.split(" ");
-                            var date = now[0].split("/");
-                            var today;
-                            if (date.length == 1) {
-                                today = date;
-                            } else {
-                                var month;
-                                if (date[1].length != 2) {
-                                    month = "0" + date[1];
-                                } else {
-                                    month = date[1];
-                                }
-                                today = date[2] + "-" + date[0] + "-" + month;
-                            }
-                            document.getElementById("refunddate").value = today;
-                            document.getElementById('<%=pname.ClientID%>').value = data[0].passengername;
-                            document.getElementById('<%=customerDropDownList.ClientID%>').value = data[0].client;
-                            document.getElementById('<%=refund.ClientID%>').value = data[0].refundno;
-                            document.getElementById('<%=tktno.ClientID%>').value = data[0].ticketno;
-                            offset = data[0].offset;
-                        },
-                        error: function (res) {
-                            count = 1;
-                            alert("This is First Record!!");
-                        }
-                    });
-
-                }
-                $('#fixDropDownList').change(function () {
-                    var cdd = $('#fixDropDownList').val();
-                    if (cdd == "Yes") {
-                        $("#whairline").prop("readonly", true);
-                    } else {
-                        $("#whairline").prop("readonly", false);
-                    }
-                });
-                $('#bspDropDown1').change(function () {
-                    var cdd = $('#bspDropDown1').val();
-                    if (cdd == "Y") {
-                        document.getElementById('<%=airlineDropDownList.ClientID%>').value = '2310222';
-                        document.getElementById('<%=agent.ClientID%>').value = '2310222';
-                    }
-                    else {
-                        document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
-                        document.getElementById('<%=agent.ClientID%>').value = "";
-                    }
-                });
-                $('#tktno').change(function () {
-                    var ticketno = $('#tktno').val();
-                    $.ajax({
-                        url: 'WebExpenses.asmx/GetRowDataInvoicesRefund',
-                        method: 'POST',
-                        dataType: 'json',
-                        data: { ticketno: ticketno },
-                        success: function (data) {
-                            if (data[0] != null) {
-                                document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
-                                document.getElementById('<%=invno.ClientID%>').value = data[0].invno;
-                                document.getElementById('<%=invDropDownList.ClientID%>').value = data[0].invtype;
-                                document.getElementById('<%=ccode.ClientID%>').value = data[0].clientcode;
-                                document.getElementById('<%=customerDropDownList.ClientID%>').value = data[0].clientcode;
-                                document.getElementById('<%=etkt.ClientID%>').value = data[0].etkt;
-                                document.getElementById('<%=conjtkt.ClientID%>').value = data[0].conj;
-                                document.getElementById('<%=agent.ClientID%>').value = data[0].airline;
-                                document.getElementById('<%=airlineDropDownList.ClientID%>').value = data[0].airline;
-                                document.getElementById('<%=tktDropDownList.ClientID%>').value = data[0].tickettype;
-                                document.getElementById('<%=bspDropDown1.ClientID%>').value = data[0].bsp;
-                                document.getElementById('<%=xo.ClientID%>').value = data[0].xo;
-                                document.getElementById('<%=pname.ClientID%>').value = data[0].passengername;
-                                document.getElementById('<%=sector.ClientID%>').value = data[0].sector;
-                                document.getElementById('<%=@class.ClientID%>').value = data[0].classification;
-                                document.getElementById('<%=routeDropDownList.ClientID%>').value = data[0].route;
-                                document.getElementById('<%=typeDropDownList.ClientID%>').value = data[0].passengertype;
-                                document.getElementById('<%=catDropDownList.ClientID%>').value = data[0].category;
-                                document.getElementById('<%=DropDownList2.ClientID%>').value = data[0].mainseg;
-                                document.getElementById('<%=DropDownList1.ClientID%>').value = data[0].subseg;
-                                document.getElementById('<%=iata.ClientID%>').value = data[0].iata;
-                                document.getElementById('<%=mkt.ClientID%>').value = data[0].mkt;
-                                document.getElementById('<%=other.ClientID%>').value = data[0].other;
-                                document.getElementById('<%=soto.ClientID%>').value = data[0].soto;
-                                document.getElementById('<%=sp.ClientID%>').value = data[0].sp;
-                                document.getElementById('<%=yd.ClientID%>').value = data[0].yd;
-                                document.getElementById('<%=pk.ClientID%>').value = data[0].pk;
-                                document.getElementById('<%=fed.ClientID%>').value = data[0].fed;
-                                document.getElementById('<%=ced.ClientID%>').value = data[0].ced;
-                                document.getElementById('<%=xz.ClientID%>').value = data[0].xz;
-                                document.getElementById('<%=whairline.ClientID%>').value = data[0].whairline;
-                                document.getElementById('<%=whclient.ClientID%>').value = data[0].whclient;
-                                document.getElementById('<%=yq.ClientID%>').value = data[0].yq;
-                                document.getElementById('<%=pb.ClientID%>').value = data[0].pb;
-                                document.getElementById('<%=otherpay.ClientID%>').value = data[0].oth;
-                                document.getElementById('<%=ttax.ClientID%>').value = data[0].tax;
-                                document.getElementById('<%=frtx.ClientID%>').value = data[0].frtx;
-                                document.getElementById('<%=fixDropDownList.ClientID%>').value = data[0].whtfix;
-                                document.getElementById('<%=comm.ClientID%>').value = data[0].comm;
-                                document.getElementById('<%=comamt.ClientID%>').value = data[0].comamt;
-                                document.getElementById('<%=comadj.ClientID%>').value = data[0].comadj;
-                                document.getElementById('<%=tcom.ClientID%>').value = data[0].tcom;
-                                document.getElementById('<%=srvc.ClientID%>').value = data[0].servicech;
-                                document.getElementById('<%=srvcamt.ClientID%>').value = data[0].serviceamt;
-                                document.getElementById('<%=ins.ClientID%>').value = data[0].ins;
-                                document.getElementById('<%=transferDropDownList.ClientID%>').value = data[0].transferac;
-                                document.getElementById('<%=kbairline.ClientID%>').value = data[0].kbairline;
-                                document.getElementById('<%=kbcust.ClientID%>').value = data[0].kbcust;
-                                document.getElementById('<%=disc.ClientID%>').value = data[0].disc;
-                                document.getElementById('<%=discamt.ClientID%>').value = data[0].discamt;
-                                document.getElementById('<%=discadj.ClientID%>').value = data[0].discadj;
-                                document.getElementById('<%=gds.ClientID%>').value = data[0].gds;
-                                document.getElementById('<%=airlinerec.ClientID%>').value = data[0].airlinepayable;
-                                document.getElementById('<%=clientpay.ClientID%>').value = data[0].receivableclient;
-                                document.getElementById('<%=voucheramt1.ClientID%>').value = data[0].receivableclient.toLocaleString('en-US', { minimumFractionDigits: 2 });
-                                document.getElementById('<%=voucheramt.ClientID%>').value = data[0].receivableclient.toLocaleString('en-US', { minimumFractionDigits: 2 });
-                                document.getElementById('<%=tktval.ClientID%>').value = data[0].ticketvalue;
-                                var now = data[0].postingdate.split(" ");
-                                var date = now[0].split("/");
-                                var today;
-                                if (date.length == 1) {
-                                    today = date;
-                                } else {
-                                    var month;
-                                    if (date[1].length != 2) {
-                                        month = "0" + date[1];
-                                    } else {
-                                        month = date[1];
-                                    }
-                                    today = date[2] + "-" + date[0] + "-" + month;
-                                }
-                                document.getElementById("vldDate").value = today;
-                                var now = data[0].invdate.split(" ");
-                                var date = now[0].split("/");
-                                var today;
-                                if (date.length == 1) {
-                                    today = date;
-                                } else {
-                                    var month;
-                                    if (date[1].length != 2) {
-                                        month = "0" + date[1];
-                                    } else {
-                                        month = date[1];
-                                    }
-                                    today = date[2] + "-" + date[0] + "-" + month;
-                                }
-                                document.getElementById("invDate").value = today;
-                                var now = data[0].invdate.split(" ");
-                                var date = now[0].split("/");
-                                var today;
-                                if (date.length == 1) {
-                                    today = date;
-                                } else {
-                                    var month;
-                                    if (date[1].length != 2) {
-                                        month = "0" + date[1];
-                                    } else {
-                                        month = date[1];
-                                    }
-                                    today = date[2] + "-" + date[0] + "-" + month;
-                                }
-                                document.getElementById("stockDate").value = today;
-                            } else {
-                                ticketAlertPopup();
-                            }
-                        },
-                        error: function (res) {
-                        }
-                    });
-                });
-
-                $('#airlineDropDownList').change(function () {
-                    var add = $('#airlineDropDownList').val();
-                    document.getElementById('<%=agent.ClientID%>').value = parseFloat(add);
-                });
-                $('#customerDropDownList').change(function () {
-                    var cdd = $('#customerDropDownList').val();
-                    document.getElementById('<%=ccode.ClientID%>').value = parseFloat(cdd);
-                });
-
-                $('#DropDownList2').change(function () {
-                    var dd2 = $('#DropDownList2').val();
-                    if (dd2 == 2 || dd2 == 3) {
-                        $("#gst").prop("disabled", true);
-                        $("#gstpay").prop("disabled", true);
-                    } else {
-                        $("#gst").prop("disabled", false);
-                        $("#gstpay").prop("disabled", false);
-                    }
-                    if (dd2 == 1) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="1"]').show();
-                        $('#DropDownList1').children('option[value="2"]').show();
-                        $('#DropDownList1').children('option[value="3"]').show();
-                    }
-                    else if (dd2 == 2) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="4"]').show();
-                        $('#DropDownList1').children('option[value="5"]').show();
-                        $('#DropDownList1').children('option[value="6"]').show();
-                    }
-                    else if (dd2 == 3) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="7"]').show();
-                        $('#DropDownList1').children('option[value="8"]').show();
-                    }
-                    else if (dd2 == 4) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="9"]').show();
-                        $('#DropDownList1').children('option[value="10"]').show();
-                    }
-                    else if (dd2 == 6) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="12"]').show();
-                    }
-                    else if (dd2 == 7) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="13"]').show();
-                    }
-                    else if (dd2 == 8) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="14"]').show();
-                    }
-                    else if (dd2 == 9) {
-                        $('#DropDownList1').children().hide();
-                        $('#DropDownList1').children('option[value="15"]').show();
-                        $('#DropDownList1').children('option[value="16"]').show();
-                        $('#DropDownList1').children('option[value="17"]').show();
-                    }
-                });
-
-                $('#searchButton').click(function () {
-                    jQuery.noConflict();
-                    $('#searchPopup').modal('show');
-                });
-                function NoExistPopup() {
-                    jQuery.noConflict();
-                    $('#NoExistPopup').modal('show');
-                }
-
-                $('#searchOK').click(function () {
-                    var id = document.getElementById('<%=invoiceSearch.ClientID%>').value;
-                    window.location.href = "refund.aspx?id=" + id;
-                });
-
-                $('#prevbtn').click(function () {
-                    offset++;
-                    GetRefundData(offset);
-                });
-
-                $('#nextbtn').click(function () {
-                    offset--;
-                    if (count == 1) {
-                        count = 0;
-                        offset--;
-                    }
-                    if (offset >= 0) {
-                        GetRefundData(offset);
-                    }
-                    else {
-                        offset = 0;
-                        alert("This is Last Record!!");
-                    }
-                });
-            });
-
-            function ShowPopup() {
-
-                var code = document.getElementById('<%=ccode.ClientID%>').value;
-                jQuery.noConflict();
-                if (code != "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "WebExpenses.asmx/GetCustomerRefundData",
-                        data: { code: code },
-                        dataType: "json",
-                        success: function (data) {
-                            var tableView = $find("<%= RadGrid2.ClientID %>").get_masterTableView();
-                            tableView.set_dataSource(data);
-                            tableView.dataBind();
-                            $('#MyPopup').modal('show');
-                            $.ajax({
-                                type: "POST",
-                                url: "WebExpenses.asmx/GetCustomerInvoiceDataTotal",
-                                data: { code: code },
-                                dataType: "json",
-                                success: function (data) {
-                                    document.getElementById('<%=invtkttotal.ClientID%>').value = data[0].totalticket;
-                                    document.getElementById('<%=invrcvtotal.ClientID%>').value = data[0].totalrcv;
-                                    document.getElementById('<%=invbalancetotal.ClientID%>').value = data[0].totalbalance;
-                                    document.getElementById('<%=customername.ClientID%>').value = data[0].name;
-                                },
-                                error: function () {
-                                    alert("error");
-                                }
-                            });
-                        },
-                        error: function () {
-                            alert("error");
-                        }
-                    });
-                }
-                else {
-                    alert("No record selected");
-                }
-            }
-        </script>
+        <title>Refund</title>
 
         <style>
             .form-control {
@@ -880,7 +21,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div id="loader-overlay" class="loader-overlay" style="display: none;">
         <div class="loader" style="justify-items: center">
-            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo"  loading="lazy"/>
+            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo" loading="lazy" />
             <div class="loader-spinner"></div>
         </div>
     </div>
@@ -1570,10 +711,10 @@
                                 <label>Customer Name:</label>
                                 <input style="background-color: forestgreen; color: white" type="text" runat="server" id="customername" disabled clientidmode="Static" class="form-control" />
                             </div>
-                                    <div class="col-lg-4">
-                                        <label>Voucher Amount:</label>
-                                        <input style="background-color: red; color: white" type="text" runat="server" id="voucheramt" disabled clientidmode="Static" class="form-control" />
-                                    </div>
+                            <div class="col-lg-4">
+                                <label>Voucher Amount:</label>
+                                <input style="background-color: red; color: white" type="text" runat="server" id="voucheramt" disabled clientidmode="Static" class="form-control" />
+                            </div>
                         </div>
                         <div class="content">
                             <div class="panel panel-info" style="background-color: #f4f7f7">
@@ -1611,19 +752,19 @@
                                         <MasterTableView Width="100%" CommandItemDisplay="Top" AutoGenerateColumns="false">
                                             <CommandItemSettings ShowAddNewRecordButton="false" ShowSaveChangesButton="false" ShowCancelChangesButton="false" ShowRefreshButton="false" />
                                             <Columns>
-                                                        <telerik:GridBoundColumn DataField="id" HeaderText="ID" ReadOnly="true"
-                                                            ForceExtractValue="Always" Display="false">
-                                                        </telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="invdate" ItemStyle-Width="8%" HeaderStyle-Width="8%" HeaderText="Inv. Date" DataFormatString="{0:dd/MM/yyyy}" ReadOnly="true"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="invno" ItemStyle-Width="6%" HeaderStyle-Width="6%" HeaderText="Inv/Ref.#" ReadOnly="true"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="ticketno" ItemStyle-Width="10%" HeaderStyle-Width="10%" HeaderText="Ticket No." ReadOnly="true"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="receivableclient" ItemStyle-Width="8%" HeaderStyle-Width="8%" HeaderText="Amount" ReadOnly="true"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="amount" ItemStyle-Width="8%" HeaderStyle-Width="8%" ReadOnly="true" HeaderText="Cleared Amount"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="balance" HeaderText="Balance" ReadOnly="true" ItemStyle-Width="8%" HeaderStyle-Width="8%"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="age" HeaderText="Ag." ItemStyle-Width="4%" HeaderStyle-Width="4%" ReadOnly="true"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="passengername" HeaderText="Name" ItemStyle-Width="8%" HeaderStyle-Width="8%" ReadOnly="true"></telerik:GridBoundColumn>
-                                                        <telerik:GridBoundColumn DataField="sector" HeaderText="Sector" ItemStyle-Width="8%" HeaderStyle-Width="8%" ReadOnly="true"></telerik:GridBoundColumn>
-                                                    </Columns>
+                                                <telerik:GridBoundColumn DataField="id" HeaderText="ID" ReadOnly="true"
+                                                    ForceExtractValue="Always" Display="false">
+                                                </telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="invdate" ItemStyle-Width="8%" HeaderStyle-Width="8%" HeaderText="Inv. Date" DataFormatString="{0:dd/MM/yyyy}" ReadOnly="true"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="invno" ItemStyle-Width="6%" HeaderStyle-Width="6%" HeaderText="Inv/Ref.#" ReadOnly="true"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="ticketno" ItemStyle-Width="10%" HeaderStyle-Width="10%" HeaderText="Ticket No." ReadOnly="true"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="receivableclient" ItemStyle-Width="8%" HeaderStyle-Width="8%" HeaderText="Amount" ReadOnly="true"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="amount" ItemStyle-Width="8%" HeaderStyle-Width="8%" ReadOnly="true" HeaderText="Cleared Amount"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="balance" HeaderText="Balance" ReadOnly="true" ItemStyle-Width="8%" HeaderStyle-Width="8%"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="age" HeaderText="Ag." ItemStyle-Width="4%" HeaderStyle-Width="4%" ReadOnly="true"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="passengername" HeaderText="Name" ItemStyle-Width="8%" HeaderStyle-Width="8%" ReadOnly="true"></telerik:GridBoundColumn>
+                                                <telerik:GridBoundColumn DataField="sector" HeaderText="Sector" ItemStyle-Width="8%" HeaderStyle-Width="8%" ReadOnly="true"></telerik:GridBoundColumn>
+                                            </Columns>
                                         </MasterTableView>
                                         <ClientSettings AllowKeyboardNavigation="True">
                                             <KeyboardNavigationSettings AllowActiveRowCycle="true" />
@@ -1949,6 +1090,8 @@
             </div>
         </div>
     </center>
+    <script src="Scripts/jquery-3.4.1.min.js" defer></script>
+    <script src="Scripts/bootstrap.min.js" defer></script>
     <script type="text/javascript">
 
         function ShowPopup() {
@@ -1994,6 +1137,856 @@
                 $telerik.$(cell).text("");
             }
             var credit = $telerik.$(cell2).text(balance);
+        }
+
+        // Show the loader overlay
+        function showLoader() {
+            document.getElementById("loader-overlay").style.display = "flex";
+        }
+
+        // Hide the loader overlay
+        function hideLoader() {
+            document.getElementById("loader-overlay").style.display = "none";
+        }
+
+        // Attach event handlers to capture page transitions
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", showLoader);
+            }
+        });
+
+        window.addEventListener("beforeunload", showLoader);
+
+        $(document).keypress(function (e) {
+            //Check which key is pressed on the document or window
+            if (e.which == 13) {
+                // if it is 13 that means enter key pressed, then call the function to cancel the event
+                e.preventDefault();
+            }
+        });
+
+        function calculate() {
+
+            var iata = parseFloat(document.getElementById('<%=iata.ClientID%>').value || 0);
+        var mkt = parseFloat(document.getElementById('<%=mkt.ClientID%>').value || 0);
+        var otherfare = parseFloat(document.getElementById('<%=other.ClientID%>').value || 0);
+        var soto = parseFloat(document.getElementById('<%=soto.ClientID%>').value || 0);
+        var sp = parseFloat(document.getElementById('<%=sp.ClientID%>').value || 0);
+        var yd = parseFloat(document.getElementById('<%=yd.ClientID%>').value || 0);
+        var pk = parseFloat(document.getElementById('<%=pk.ClientID%>').value || 0);
+        var fed = parseFloat(document.getElementById('<%=fed.ClientID%>').value || 0);
+        var ced = parseFloat(document.getElementById('<%=ced.ClientID%>').value || 0);
+        var xz = parseFloat(document.getElementById('<%=xz.ClientID%>').value || 0);
+        var whairline = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
+        var whclient = parseFloat(document.getElementById('<%=whclient.ClientID%>').value || 0);
+        var yq = parseFloat(document.getElementById('<%=yq.ClientID%>').value || 0);
+        var pb = parseFloat(document.getElementById('<%=pb.ClientID%>').value || 0);
+        var oth = parseFloat(document.getElementById('<%=otherpay.ClientID%>').value || 0);
+        var extra = parseFloat(document.getElementById('<%=extra.ClientID%>').value || 0);
+        var ins = parseFloat(document.getElementById('<%=ins.ClientID%>').value || 0);
+        var kb = parseFloat(document.getElementById('<%=kbairline.ClientID%>').value || 0);
+        var service = parseFloat(document.getElementById('<%=srvc.ClientID%>').value || 0);
+        var disc = parseFloat(document.getElementById('<%=disc.ClientID%>').value || 0);
+        var discadj = parseFloat(document.getElementById('<%=discadj.ClientID%>').value || 0);
+        var discamt = parseFloat(document.getElementById('<%=discamt.ClientID%>').value || 0);
+        var comamt = parseFloat(document.getElementById('<%=comamt.ClientID%>').value || 0);
+        var comm = parseFloat(document.getElementById('<%=comm.ClientID%>').value || 0);
+        var comadj = parseFloat(document.getElementById('<%=comadj.ClientID%>').value || 0);
+        var kbcust = parseFloat(document.getElementById('<%=kbcust.ClientID%>').value || 0);
+        var cancelcharges = parseFloat(document.getElementById('<%=cnclchrg.ClientID%>').value || 0);
+        var servicecharges = parseFloat(document.getElementById('<%=srvcchrg.ClientID%>').value || 0);
+        var serviceamount = parseFloat(document.getElementById('<%=srvcamt.ClientID%>').value || 0);
+        whair = 0;
+        var tcomm = comadj + comamt;
+        document.getElementById('<%=tcom.ClientID%>').value = parseFloat(tcomm).toFixed(2);
+
+        var whairlines = (((mkt * comm) / 100) * 12) / 100;
+        document.getElementById('<%=whairline.ClientID%>').value = parseFloat(whairlines).toFixed(2);
+
+        if (comadj != "") {
+            var whairl = ((((comadj * comm) / 100) * 12) / 100) + comadj / 10;
+            var twhairpay = whairl + whairline;
+            document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairpay).toFixed(2);
+        }
+
+        if (extra != "") {
+            var whairp = parseFloat(document.getElementById('<%=whairline.ClientID%>').value || 0);
+            var whair = (((otherfare * extra) / 100) * 12) / 100;
+            var twhairp = whair + whairp;
+            document.getElementById('<%=whairline.ClientID%>').value = parseFloat(twhairp).toFixed(2);
+        }
+        var totalcommission = (mkt * comm) / 100;
+        document.getElementById('<%=tcom.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
+        document.getElementById('<%=comamt.ClientID%>').value = parseFloat(totalcommission).toFixed(2);
+        var tcom = parseFloat(document.getElementById('<%=tcom.ClientID%>').value || 0);
+        var disct = ((disc * mkt) / 100) + discadj;
+        var extracom = (otherfare * extra) / 100;
+        var income = comamt - disct + extracom;
+        var totalcomm = tcom + comadj;
+        var srvct = 0;
+        if (service != "") {
+            srvct = (service * mkt) / 100;
+        } else if (serviceamount) {
+            srvct = serviceamount;
+        }
+        var total = mkt + otherfare + soto;
+        var taxes = sp + yd + pk + fed + xz + whairline + yq + pb + oth;
+        var total = taxes + total;
+        var ticketvalue = taxes - whairline + mkt;
+        var clientr = total - whairline + whclient + ins + srvct - disct - kbcust - cancelcharges - servicecharges;
+        var airlinep = total - kb - extracom - totalcomm - cancelcharges;
+
+        document.getElementById('<%=discamt.ClientID%>').value = Math.round(parseFloat(disct).toFixed(2));
+        document.getElementById('<%=extcom.ClientID%>').value = Math.round(parseFloat(extracom).toFixed(2));
+        document.getElementById('<%=svc.ClientID%>').value = Math.round(parseFloat(ins).toFixed(2));
+        document.getElementById('<%=srvcamt.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
+        document.getElementById('<%=tsp.ClientID%>').value = Math.round(parseFloat(srvct).toFixed(2));
+        document.getElementById('<%=tcom.ClientID%>').value = Math.round(parseFloat(totalcomm).toFixed(2));
+        document.getElementById('<%=tincome.ClientID%>').value = Math.round(parseFloat(income).toFixed(2));
+        document.getElementById('<%=ttax.ClientID%>').value = Math.round(parseFloat(taxes).toFixed(2));
+        document.getElementById('<%=frtx.ClientID%>').value = Math.round(parseFloat(total).toFixed(2));
+        document.getElementById('<%=tktval.ClientID%>').value = Math.round(parseFloat(ticketvalue).toFixed(2));
+        document.getElementById('<%=airlinerec.ClientID%>').value = Math.round(parseFloat(airlinep).toFixed(2));
+        document.getElementById('<%=clientpay.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2));
+        document.getElementById('<%=voucheramt1.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2)).toLocaleString('en-US', { minimumFractionDigits: 2 });
+        document.getElementById('<%=voucheramt.ClientID%>').value = Math.round(parseFloat(clientr).toFixed(2)).toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+        function editBtn() {
+            document.getElementById('<%=editButton.ClientID %>').style.display = 'none';
+        document.getElementById('<%=addButton.ClientID %>').style.display = 'block';
+        }
+
+        function addDashes(f) {
+            f.value = f.value.replace(/(\d{3})(\d{4})(\d{6})/, "$1-$2-$3").slice(0, 15);
+            var tkt = document.getElementById('<%=tktno.ClientID%>').value;
+        }
+
+        function newBtn1() {
+
+            document.getElementById('<%=editButton.ClientID %>').style.display = 'none';
+        document.getElementById('<%=addButton.ClientID %>').style.display = 'block';
+        var refund = parseFloat(document.getElementById('<%=refund.ClientID%>').value || 0);
+        refund = refund + 1;
+        document.getElementById('<%=refund.ClientID%>').value = refund;
+
+        document.getElementById('<%=invDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=etkt.ClientID%>').value = "";
+        document.getElementById('<%=tktDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=bspDropDown1.ClientID%>').value = "";
+        document.getElementById('<%=xo.ClientID%>').value = "";
+        document.getElementById('<%=rfdDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=rcptno.ClientID%>').value = "";
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        document.getElementById("stockDate").value = today;
+        document.getElementById('<%=salesperson.ClientID%>').value = "";
+        document.getElementById('<%=calcomm.ClientID%>').value = "";
+        document.getElementById('<%=percent.ClientID%>').value = "";
+        document.getElementById('<%=agent.ClientID%>').value = "";
+        document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=conjtkt.ClientID%>').value = "";
+        document.getElementById('<%=xono.ClientID%>').value = "";
+        document.getElementById('<%=typeDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=sector.ClientID%>').value = "";
+        document.getElementById('<%=@class.ClientID%>').value = "";
+        document.getElementById('<%=coupen.ClientID%>').value = "";
+        document.getElementById('<%=piatkt.ClientID%>').value = "";
+        document.getElementById('<%=rfdclain.ClientID%>').value = "";
+        document.getElementById('<%=invno.ClientID%>').value = "0";
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        document.getElementById("invDate").value = today;
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        document.getElementById("vldDate").value = today;
+        document.getElementById('<%=airline.ClientID%>').value = "";
+        document.getElementById('<%=DropDownList2.ClientID%>').value = "";
+        document.getElementById('<%=DropDownList1.ClientID%>').value = "";
+        document.getElementById('<%=iata.ClientID%>').value = "";
+        document.getElementById('<%=mkt.ClientID%>').value = "";
+        document.getElementById('<%=other.ClientID%>').value = "";
+        document.getElementById('<%=soto.ClientID%>').value = "";
+        document.getElementById('<%=sp.ClientID%>').value = "";
+        document.getElementById('<%=yd.ClientID%>').value = "";
+        document.getElementById('<%=pk.ClientID%>').value = "";
+        document.getElementById('<%=fed.ClientID%>').value = "";
+        document.getElementById('<%=ced.ClientID%>').value = "";
+        document.getElementById('<%=xz.ClientID%>').value = "";
+        document.getElementById('<%=whairline.ClientID%>').value = "";
+        document.getElementById('<%=whclient.ClientID%>').value = "";
+        document.getElementById('<%=yq.ClientID%>').value = "";
+        document.getElementById('<%=pb.ClientID%>').value = "";
+        document.getElementById('<%=otherpay.ClientID%>').value = "";
+        document.getElementById('<%=ttax.ClientID%>').value = "";
+        document.getElementById('<%=frtx.ClientID%>').value = "";
+        document.getElementById('<%=fixDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=comm.ClientID%>').value = "";
+        document.getElementById('<%=comamt.ClientID%>').value = "";
+        document.getElementById('<%=comadj.ClientID%>').value = "";
+        document.getElementById('<%=tcom.ClientID%>').value = "";
+        document.getElementById('<%=srvc.ClientID%>').value = "";
+        document.getElementById('<%=srvcamt.ClientID%>').value = "";
+        document.getElementById('<%=ins.ClientID%>').value = "";
+        document.getElementById('<%=transferDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=kbairline.ClientID%>').value = "";
+        document.getElementById('<%=kbcust.ClientID%>').value = "";
+        document.getElementById('<%=disc.ClientID%>').value = "";
+        document.getElementById('<%=discamt.ClientID%>').value = "";
+        document.getElementById('<%=discadj.ClientID%>').value = "";
+        document.getElementById('<%=tsp.ClientID%>').value = "";
+        document.getElementById('<%=tincome.ClientID%>').value = "";
+        document.getElementById('<%=payment.ClientID%>').value = "";
+        document.getElementById('<%=gds.ClientID%>').value = "";
+        document.getElementById('<%=rfdpmt.ClientID%>').value = "";
+        document.getElementById('<%=cnclchrg.ClientID%>').value = "";
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        document.getElementById("saledate").value = today;
+        document.getElementById('<%=airlinerec.ClientID%>').value = "";
+        document.getElementById('<%=clientpay.ClientID%>').value = "";
+        document.getElementById('<%=voucheramt1.ClientID%>').value = "";
+        document.getElementById('<%=voucheramt.ClientID%>').value = "";
+        document.getElementById('<%=svc.ClientID%>').value = "";
+        document.getElementById('<%=tktval.ClientID%>').value = "";
+        document.getElementById('<%=receivable.ClientID%>').value = "";
+        document.getElementById('<%=srvcchrg.ClientID%>').value = "";
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        document.getElementById("refunddate").value = today;
+        document.getElementById('<%=pname.ClientID%>').value = "";
+        document.getElementById('<%=customerDropDownList.ClientID%>').value = "";
+        document.getElementById('<%=tktno.ClientID%>').value = "";
+        }
+
+        var offset = 0;
+        var count = 0;
+
+        $(document).ready(function () {
+            offset = 0;
+            let queryURL = window.location.search;
+            var res = new URLSearchParams(queryURL);
+            var id = res.get("id");
+            console.log("Refund ID: ", id, "Offset: ", offset);
+            document.getElementById('<%=addButton.ClientID %>').style.display = 'none';
+        $.ajax({
+            url: 'WebExpenses.asmx/GetRefundData',
+            method: 'POST',
+            dataType: 'json',
+            data: { offset: offset, id: id },
+            success: function (data) {
+                if (data[0] != undefined) {
+                    document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
+                    document.getElementById('<%=invDropDownList.ClientID%>').value = data[0].invtype;
+                    document.getElementById('<%=etkt.ClientID%>').value = data[0].etkt;
+                    document.getElementById('<%=tktDropDownList.ClientID%>').value = data[0].tkttype;
+                    document.getElementById('<%=bspDropDown1.ClientID%>').value = data[0].bsp;
+                    document.getElementById('<%=xo.ClientID%>').value = data[0].xo;
+                    document.getElementById('<%=rfdDropDownList.ClientID%>').value = data[0].rfdtype;
+                    document.getElementById('<%=rcptno.ClientID%>').value = data[0].rcptno;
+                    var now = data[0].stockdate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("stockDate").value = today;
+                    document.getElementById('<%=salesperson.ClientID%>').value = data[0].salesperson;
+                    document.getElementById('<%=calcomm.ClientID%>').value = data[0].calcom;
+                    document.getElementById('<%=percent.ClientID%>').value = data[0].percentage;
+                    document.getElementById('<%=agent.ClientID%>').value = data[0].agent;
+                    document.getElementById('<%=airlineDropDownList.ClientID%>').value = data[0].agent;
+                    document.getElementById('<%=conjtkt.ClientID%>').value = data[0].conjtkt;
+                    document.getElementById('<%=xono.ClientID%>').value = data[0].xono;
+                    document.getElementById('<%=typeDropDownList.ClientID%>').value = data[0].passengertype;
+                    document.getElementById('<%=sector.ClientID%>').value = data[0].sector;
+                    document.getElementById('<%=@class.ClientID%>').value = data[0].classification;
+                    document.getElementById('<%=coupen.ClientID%>').value = data[0].coupenno;
+                    document.getElementById('<%=piatkt.ClientID%>').value = data[0].piatkt;
+                    document.getElementById('<%=rfdclain.ClientID%>').value = data[0].rfdclaim;
+                    document.getElementById('<%=invno.ClientID%>').value = data[0].invno;
+                    var now = data[0].invdate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("invDate").value = today;
+                    var now = data[0].vlddate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("vldDate").value = today;
+                    document.getElementById('<%=airline.ClientID%>').value = data[0].airline;
+                    document.getElementById('<%=DropDownList2.ClientID%>').value = data[0].mainseg;
+                    document.getElementById('<%=DropDownList1.ClientID%>').value = data[0].subseg;
+                    document.getElementById('<%=iata.ClientID%>').value = data[0].iata;
+                    document.getElementById('<%=mkt.ClientID%>').value = data[0].mkt;
+                    document.getElementById('<%=other.ClientID%>').value = data[0].other;
+                    document.getElementById('<%=soto.ClientID%>').value = data[0].soto;
+                    document.getElementById('<%=sp.ClientID%>').value = data[0].sp;
+                    document.getElementById('<%=yd.ClientID%>').value = data[0].yd;
+                    document.getElementById('<%=pk.ClientID%>').value = data[0].pk;
+                    document.getElementById('<%=fed.ClientID%>').value = data[0].fed;
+                    document.getElementById('<%=ced.ClientID%>').value = data[0].ced;
+                    document.getElementById('<%=xz.ClientID%>').value = data[0].xz;
+                    document.getElementById('<%=whairline.ClientID%>').value = data[0].whairline;
+                    document.getElementById('<%=whclient.ClientID%>').value = data[0].whclient;
+                    document.getElementById('<%=yq.ClientID%>').value = data[0].yq;
+                    document.getElementById('<%=pb.ClientID%>').value = data[0].pb;
+                    document.getElementById('<%=otherpay.ClientID%>').value = data[0].oth;
+                    document.getElementById('<%=ttax.ClientID%>').value = data[0].tax;
+                    document.getElementById('<%=frtx.ClientID%>').value = data[0].frtx;
+                    document.getElementById('<%=fixDropDownList.ClientID%>').value = data[0].whtfix;
+                    document.getElementById('<%=comm.ClientID%>').value = data[0].comm;
+                    document.getElementById('<%=comamt.ClientID%>').value = data[0].comamt;
+                    document.getElementById('<%=comadj.ClientID%>').value = data[0].comadj;
+                    document.getElementById('<%=tcom.ClientID%>').value = data[0].tcom;
+                    document.getElementById('<%=srvc.ClientID%>').value = data[0].servicech;
+                    document.getElementById('<%=srvcamt.ClientID%>').value = data[0].serviceamt;
+                    document.getElementById('<%=ins.ClientID%>').value = data[0].ins;
+                    document.getElementById('<%=transferDropDownList.ClientID%>').value = data[0].transferac;
+                    document.getElementById('<%=kbairline.ClientID%>').value = data[0].kbairline;
+                    document.getElementById('<%=kbcust.ClientID%>').value = data[0].kbcust;
+                    document.getElementById('<%=disc.ClientID%>').value = data[0].disc;
+                    document.getElementById('<%=discamt.ClientID%>').value = data[0].discamt;
+                    document.getElementById('<%=discadj.ClientID%>').value = data[0].discadj;
+                    document.getElementById('<%=tsp.ClientID%>').value = data[0].totalsp;
+                    document.getElementById('<%=tincome.ClientID%>').value = data[0].totalinc;
+                    document.getElementById('<%=payment.ClientID%>').value = data[0].payment;
+                    document.getElementById('<%=gds.ClientID%>').value = data[0].gds;
+                    document.getElementById('<%=rfdpmt.ClientID%>').value = data[0].rfdpayment;
+                    document.getElementById('<%=cnclchrg.ClientID%>').value = data[0].cancelcharges;
+                    var now = data[0].saledate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("saledate").value = today;
+                    document.getElementById('<%=airlinerec.ClientID%>').value = data[0].airlinerec;
+                    document.getElementById('<%=clientpay.ClientID%>').value = data[0].clientpay;
+                    document.getElementById('<%=voucheramt1.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                    document.getElementById('<%=voucheramt.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                    document.getElementById('<%=svc.ClientID%>').value = data[0].svc;
+                    document.getElementById('<%=tktval.ClientID%>').value = data[0].ticketvalue;
+                    document.getElementById('<%=receivable.ClientID%>').value = data[0].receivable;
+                    document.getElementById('<%=srvcchrg.ClientID%>').value = data[0].srvccharges;
+                    var now = data[0].refunddate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("refunddate").value = today;
+                    document.getElementById('<%=pname.ClientID%>').value = data[0].passengername;
+                    document.getElementById('<%=ccode.ClientID%>').value = data[0].client;
+                    document.getElementById('<%=customerDropDownList.ClientID%>').value = data[0].client;
+                    document.getElementById('<%=refund.ClientID%>').value = data[0].refundno;
+                    document.getElementById('<%=tktno.ClientID%>').value = data[0].ticketno;
+                    offset = data[0].offset;
+                } else {
+                    NoExistPopup();
+                }
+
+            },
+            error: function (res) {
+                alertPopup();
+            }
+        });
+        function GetRefundData(offset) {
+            var id = "";
+            console.log("Refund ID: ", id, "Offset: ", offset);
+            $.ajax({
+                url: 'WebExpenses.asmx/GetRefundData',
+                method: 'POST',
+                dataType: 'json',
+                data: { offset: offset, id: id },
+                success: function (data) {
+                    document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
+                    document.getElementById('<%=invDropDownList.ClientID%>').value = data[0].invtype;
+                    document.getElementById('<%=etkt.ClientID%>').value = data[0].etkt;
+                    document.getElementById('<%=tktDropDownList.ClientID%>').value = data[0].tkttype;
+                    document.getElementById('<%=bspDropDown1.ClientID%>').value = data[0].bsp;
+                    document.getElementById('<%=xo.ClientID%>').value = data[0].xo;
+                    document.getElementById('<%=rfdDropDownList.ClientID%>').value = data[0].rfdtype;
+                    document.getElementById('<%=rcptno.ClientID%>').value = data[0].rcptno;
+                    var now = data[0].stockdate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("stockDate").value = today;
+                    document.getElementById('<%=salesperson.ClientID%>').value = data[0].salesperson;
+                    document.getElementById('<%=calcomm.ClientID%>').value = data[0].calcom;
+                    document.getElementById('<%=percent.ClientID%>').value = data[0].percentage;
+                    document.getElementById('<%=agent.ClientID%>').value = data[0].agent;
+                    document.getElementById('<%=airlineDropDownList.ClientID%>').value = data[0].agent;
+                    document.getElementById('<%=conjtkt.ClientID%>').value = data[0].conjtkt;
+                    document.getElementById('<%=xono.ClientID%>').value = data[0].xono;
+                    document.getElementById('<%=typeDropDownList.ClientID%>').value = data[0].passengertype;
+                    document.getElementById('<%=sector.ClientID%>').value = data[0].sector;
+                    document.getElementById('<%=@class.ClientID%>').value = data[0].classification;
+                    document.getElementById('<%=coupen.ClientID%>').value = data[0].coupenno;
+                    document.getElementById('<%=piatkt.ClientID%>').value = data[0].piatkt;
+                    document.getElementById('<%=rfdclain.ClientID%>').value = data[0].rfdclaim;
+                    document.getElementById('<%=invno.ClientID%>').value = data[0].invno;
+                    var now = data[0].invdate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("invDate").value = today;
+                    var now = data[0].vlddate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("vldDate").value = today;
+                    document.getElementById('<%=airline.ClientID%>').value = data[0].airline;
+                    document.getElementById('<%=DropDownList2.ClientID%>').value = data[0].mainseg;
+                    document.getElementById('<%=DropDownList1.ClientID%>').value = data[0].subseg;
+                    document.getElementById('<%=iata.ClientID%>').value = data[0].iata;
+                    document.getElementById('<%=mkt.ClientID%>').value = data[0].mkt;
+                    document.getElementById('<%=other.ClientID%>').value = data[0].other;
+                    document.getElementById('<%=soto.ClientID%>').value = data[0].soto;
+                    document.getElementById('<%=sp.ClientID%>').value = data[0].sp;
+                    document.getElementById('<%=yd.ClientID%>').value = data[0].yd;
+                    document.getElementById('<%=pk.ClientID%>').value = data[0].pk;
+                    document.getElementById('<%=fed.ClientID%>').value = data[0].fed;
+                    document.getElementById('<%=ced.ClientID%>').value = data[0].ced;
+                    document.getElementById('<%=xz.ClientID%>').value = data[0].xz;
+                    document.getElementById('<%=whairline.ClientID%>').value = data[0].whairline;
+                    document.getElementById('<%=whclient.ClientID%>').value = data[0].whclient;
+                    document.getElementById('<%=yq.ClientID%>').value = data[0].yq;
+                    document.getElementById('<%=pb.ClientID%>').value = data[0].pb;
+                    document.getElementById('<%=otherpay.ClientID%>').value = data[0].oth;
+                    document.getElementById('<%=ttax.ClientID%>').value = data[0].tax;
+                    document.getElementById('<%=frtx.ClientID%>').value = data[0].frtx;
+                    document.getElementById('<%=fixDropDownList.ClientID%>').value = data[0].whtfix;
+                    document.getElementById('<%=comm.ClientID%>').value = data[0].comm;
+                    document.getElementById('<%=comamt.ClientID%>').value = data[0].comamt;
+                    document.getElementById('<%=comadj.ClientID%>').value = data[0].comadj;
+                    document.getElementById('<%=tcom.ClientID%>').value = data[0].tcom;
+                    document.getElementById('<%=srvc.ClientID%>').value = data[0].servicech;
+                    document.getElementById('<%=srvcamt.ClientID%>').value = data[0].serviceamt;
+                    document.getElementById('<%=ins.ClientID%>').value = data[0].ins;
+                    document.getElementById('<%=transferDropDownList.ClientID%>').value = data[0].transferac;
+                    document.getElementById('<%=kbairline.ClientID%>').value = data[0].kbairline;
+                    document.getElementById('<%=kbcust.ClientID%>').value = data[0].kbcust;
+                    document.getElementById('<%=disc.ClientID%>').value = data[0].disc;
+                    document.getElementById('<%=discamt.ClientID%>').value = data[0].discamt;
+                    document.getElementById('<%=discadj.ClientID%>').value = data[0].discadj;
+                    document.getElementById('<%=tsp.ClientID%>').value = data[0].totalsp;
+                    document.getElementById('<%=tincome.ClientID%>').value = data[0].totalinc;
+                    document.getElementById('<%=payment.ClientID%>').value = data[0].payment;
+                    document.getElementById('<%=gds.ClientID%>').value = data[0].gds;
+                    document.getElementById('<%=rfdpmt.ClientID%>').value = data[0].rfdpayment;
+                    document.getElementById('<%=cnclchrg.ClientID%>').value = data[0].cancelcharges;
+                    var now = data[0].saledate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("saledate").value = today;
+                    document.getElementById('<%=airlinerec.ClientID%>').value = data[0].airlinerec;
+                    document.getElementById('<%=clientpay.ClientID%>').value = data[0].clientpay;
+                    document.getElementById('<%=voucheramt1.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                    document.getElementById('<%=voucheramt.ClientID%>').value = data[0].clientpay.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                    document.getElementById('<%=svc.ClientID%>').value = data[0].svc;
+                    document.getElementById('<%=tktval.ClientID%>').value = data[0].ticketvalue;
+                    document.getElementById('<%=receivable.ClientID%>').value = data[0].receivable;
+                    document.getElementById('<%=srvcchrg.ClientID%>').value = data[0].srvccharges;
+                    var now = data[0].refunddate.split(" ");
+                    var date = now[0].split("/");
+                    var today;
+                    if (date.length == 1) {
+                        today = date;
+                    } else {
+                        var month;
+                        if (date[1].length != 2) {
+                            month = "0" + date[1];
+                        } else {
+                            month = date[1];
+                        }
+                        today = date[2] + "-" + date[0] + "-" + month;
+                    }
+                    document.getElementById("refunddate").value = today;
+                    document.getElementById('<%=pname.ClientID%>').value = data[0].passengername;
+                    document.getElementById('<%=customerDropDownList.ClientID%>').value = data[0].client;
+                    document.getElementById('<%=refund.ClientID%>').value = data[0].refundno;
+                    document.getElementById('<%=tktno.ClientID%>').value = data[0].ticketno;
+                    offset = data[0].offset;
+                },
+                error: function (res) {
+                    count = 1;
+                    alert("This is First Record!!");
+                }
+            });
+
+        }
+        $('#fixDropDownList').change(function () {
+            var cdd = $('#fixDropDownList').val();
+            if (cdd == "Yes") {
+                $("#whairline").prop("readonly", true);
+            } else {
+                $("#whairline").prop("readonly", false);
+            }
+        });
+        $('#bspDropDown1').change(function () {
+            var cdd = $('#bspDropDown1').val();
+            if (cdd == "Y") {
+                document.getElementById('<%=airlineDropDownList.ClientID%>').value = '2310222';
+                document.getElementById('<%=agent.ClientID%>').value = '2310222';
+            }
+            else {
+                document.getElementById('<%=airlineDropDownList.ClientID%>').value = "";
+                document.getElementById('<%=agent.ClientID%>').value = "";
+            }
+        });
+        $('#tktno').change(function () {
+            var ticketno = $('#tktno').val();
+            $.ajax({
+                url: 'WebExpenses.asmx/GetRowDataInvoicesRefund',
+                method: 'POST',
+                dataType: 'json',
+                data: { ticketno: ticketno },
+                success: function (data) {
+                    if (data[0] != null) {
+                        document.getElementById('<%=tblid.ClientID%>').value = data[0].id;
+                        document.getElementById('<%=invno.ClientID%>').value = data[0].invno;
+                        document.getElementById('<%=invDropDownList.ClientID%>').value = data[0].invtype;
+                        document.getElementById('<%=ccode.ClientID%>').value = data[0].clientcode;
+                        document.getElementById('<%=customerDropDownList.ClientID%>').value = data[0].clientcode;
+                        document.getElementById('<%=etkt.ClientID%>').value = data[0].etkt;
+                        document.getElementById('<%=conjtkt.ClientID%>').value = data[0].conj;
+                        document.getElementById('<%=agent.ClientID%>').value = data[0].airline;
+                        document.getElementById('<%=airlineDropDownList.ClientID%>').value = data[0].airline;
+                        document.getElementById('<%=tktDropDownList.ClientID%>').value = data[0].tickettype;
+                        document.getElementById('<%=bspDropDown1.ClientID%>').value = data[0].bsp;
+                        document.getElementById('<%=xo.ClientID%>').value = data[0].xo;
+                        document.getElementById('<%=pname.ClientID%>').value = data[0].passengername;
+                        document.getElementById('<%=sector.ClientID%>').value = data[0].sector;
+                        document.getElementById('<%=@class.ClientID%>').value = data[0].classification;
+                        document.getElementById('<%=routeDropDownList.ClientID%>').value = data[0].route;
+                        document.getElementById('<%=typeDropDownList.ClientID%>').value = data[0].passengertype;
+                        document.getElementById('<%=catDropDownList.ClientID%>').value = data[0].category;
+                        document.getElementById('<%=DropDownList2.ClientID%>').value = data[0].mainseg;
+                        document.getElementById('<%=DropDownList1.ClientID%>').value = data[0].subseg;
+                        document.getElementById('<%=iata.ClientID%>').value = data[0].iata;
+                        document.getElementById('<%=mkt.ClientID%>').value = data[0].mkt;
+                        document.getElementById('<%=other.ClientID%>').value = data[0].other;
+                        document.getElementById('<%=soto.ClientID%>').value = data[0].soto;
+                        document.getElementById('<%=sp.ClientID%>').value = data[0].sp;
+                        document.getElementById('<%=yd.ClientID%>').value = data[0].yd;
+                        document.getElementById('<%=pk.ClientID%>').value = data[0].pk;
+                        document.getElementById('<%=fed.ClientID%>').value = data[0].fed;
+                        document.getElementById('<%=ced.ClientID%>').value = data[0].ced;
+                        document.getElementById('<%=xz.ClientID%>').value = data[0].xz;
+                        document.getElementById('<%=whairline.ClientID%>').value = data[0].whairline;
+                        document.getElementById('<%=whclient.ClientID%>').value = data[0].whclient;
+                        document.getElementById('<%=yq.ClientID%>').value = data[0].yq;
+                        document.getElementById('<%=pb.ClientID%>').value = data[0].pb;
+                        document.getElementById('<%=otherpay.ClientID%>').value = data[0].oth;
+                        document.getElementById('<%=ttax.ClientID%>').value = data[0].tax;
+                        document.getElementById('<%=frtx.ClientID%>').value = data[0].frtx;
+                        document.getElementById('<%=fixDropDownList.ClientID%>').value = data[0].whtfix;
+                        document.getElementById('<%=comm.ClientID%>').value = data[0].comm;
+                        document.getElementById('<%=comamt.ClientID%>').value = data[0].comamt;
+                        document.getElementById('<%=comadj.ClientID%>').value = data[0].comadj;
+                        document.getElementById('<%=tcom.ClientID%>').value = data[0].tcom;
+                        document.getElementById('<%=srvc.ClientID%>').value = data[0].servicech;
+                        document.getElementById('<%=srvcamt.ClientID%>').value = data[0].serviceamt;
+                        document.getElementById('<%=ins.ClientID%>').value = data[0].ins;
+                        document.getElementById('<%=transferDropDownList.ClientID%>').value = data[0].transferac;
+                        document.getElementById('<%=kbairline.ClientID%>').value = data[0].kbairline;
+                        document.getElementById('<%=kbcust.ClientID%>').value = data[0].kbcust;
+                        document.getElementById('<%=disc.ClientID%>').value = data[0].disc;
+                        document.getElementById('<%=discamt.ClientID%>').value = data[0].discamt;
+                        document.getElementById('<%=discadj.ClientID%>').value = data[0].discadj;
+                        document.getElementById('<%=gds.ClientID%>').value = data[0].gds;
+                        document.getElementById('<%=airlinerec.ClientID%>').value = data[0].airlinepayable;
+                        document.getElementById('<%=clientpay.ClientID%>').value = data[0].receivableclient;
+                        document.getElementById('<%=voucheramt1.ClientID%>').value = data[0].receivableclient.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                        document.getElementById('<%=voucheramt.ClientID%>').value = data[0].receivableclient.toLocaleString('en-US', { minimumFractionDigits: 2 });
+                        document.getElementById('<%=tktval.ClientID%>').value = data[0].ticketvalue;
+                        var now = data[0].postingdate.split(" ");
+                        var date = now[0].split("/");
+                        var today;
+                        if (date.length == 1) {
+                            today = date;
+                        } else {
+                            var month;
+                            if (date[1].length != 2) {
+                                month = "0" + date[1];
+                            } else {
+                                month = date[1];
+                            }
+                            today = date[2] + "-" + date[0] + "-" + month;
+                        }
+                        document.getElementById("vldDate").value = today;
+                        var now = data[0].invdate.split(" ");
+                        var date = now[0].split("/");
+                        var today;
+                        if (date.length == 1) {
+                            today = date;
+                        } else {
+                            var month;
+                            if (date[1].length != 2) {
+                                month = "0" + date[1];
+                            } else {
+                                month = date[1];
+                            }
+                            today = date[2] + "-" + date[0] + "-" + month;
+                        }
+                        document.getElementById("invDate").value = today;
+                        var now = data[0].invdate.split(" ");
+                        var date = now[0].split("/");
+                        var today;
+                        if (date.length == 1) {
+                            today = date;
+                        } else {
+                            var month;
+                            if (date[1].length != 2) {
+                                month = "0" + date[1];
+                            } else {
+                                month = date[1];
+                            }
+                            today = date[2] + "-" + date[0] + "-" + month;
+                        }
+                        document.getElementById("stockDate").value = today;
+                    } else {
+                        ticketAlertPopup();
+                    }
+                },
+                error: function (res) {
+                }
+            });
+        });
+
+        $('#airlineDropDownList').change(function () {
+            var add = $('#airlineDropDownList').val();
+            document.getElementById('<%=agent.ClientID%>').value = parseFloat(add);
+        });
+        $('#customerDropDownList').change(function () {
+            var cdd = $('#customerDropDownList').val();
+            document.getElementById('<%=ccode.ClientID%>').value = parseFloat(cdd);
+        });
+
+        $('#DropDownList2').change(function () {
+            var dd2 = $('#DropDownList2').val();
+            if (dd2 == 2 || dd2 == 3) {
+                $("#gst").prop("disabled", true);
+                $("#gstpay").prop("disabled", true);
+            } else {
+                $("#gst").prop("disabled", false);
+                $("#gstpay").prop("disabled", false);
+            }
+            if (dd2 == 1) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="1"]').show();
+                $('#DropDownList1').children('option[value="2"]').show();
+                $('#DropDownList1').children('option[value="3"]').show();
+            }
+            else if (dd2 == 2) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="4"]').show();
+                $('#DropDownList1').children('option[value="5"]').show();
+                $('#DropDownList1').children('option[value="6"]').show();
+            }
+            else if (dd2 == 3) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="7"]').show();
+                $('#DropDownList1').children('option[value="8"]').show();
+            }
+            else if (dd2 == 4) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="9"]').show();
+                $('#DropDownList1').children('option[value="10"]').show();
+            }
+            else if (dd2 == 6) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="12"]').show();
+            }
+            else if (dd2 == 7) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="13"]').show();
+            }
+            else if (dd2 == 8) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="14"]').show();
+            }
+            else if (dd2 == 9) {
+                $('#DropDownList1').children().hide();
+                $('#DropDownList1').children('option[value="15"]').show();
+                $('#DropDownList1').children('option[value="16"]').show();
+                $('#DropDownList1').children('option[value="17"]').show();
+            }
+        });
+
+        $('#searchButton').click(function () {
+            jQuery.noConflict();
+            $('#searchPopup').modal('show');
+        });
+        function NoExistPopup() {
+            jQuery.noConflict();
+            $('#NoExistPopup').modal('show');
+        }
+
+        $('#searchOK').click(function () {
+            var id = document.getElementById('<%=invoiceSearch.ClientID%>').value;
+            window.location.href = "refund.aspx?id=" + id;
+        });
+
+        $('#prevbtn').click(function () {
+            offset++;
+            GetRefundData(offset);
+        });
+
+        $('#nextbtn').click(function () {
+            offset--;
+            if (count == 1) {
+                count = 0;
+                offset--;
+            }
+            if (offset >= 0) {
+                GetRefundData(offset);
+            }
+            else {
+                offset = 0;
+                alert("This is Last Record!!");
+            }
+        });
+    });
+
+        function ShowPopup() {
+
+            var code = document.getElementById('<%=ccode.ClientID%>').value;
+        jQuery.noConflict();
+        if (code != "") {
+            $.ajax({
+                type: "POST",
+                url: "WebExpenses.asmx/GetCustomerRefundData",
+                data: { code: code },
+                dataType: "json",
+                success: function (data) {
+                    var tableView = $find("<%= RadGrid2.ClientID %>").get_masterTableView();
+                    tableView.set_dataSource(data);
+                    tableView.dataBind();
+                    $('#MyPopup').modal('show');
+                    $.ajax({
+                        type: "POST",
+                        url: "WebExpenses.asmx/GetCustomerInvoiceDataTotal",
+                        data: { code: code },
+                        dataType: "json",
+                        success: function (data) {
+                            document.getElementById('<%=invtkttotal.ClientID%>').value = data[0].totalticket;
+                            document.getElementById('<%=invrcvtotal.ClientID%>').value = data[0].totalrcv;
+                            document.getElementById('<%=invbalancetotal.ClientID%>').value = data[0].totalbalance;
+                            document.getElementById('<%=customername.ClientID%>').value = data[0].name;
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    });
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+            }
+            else {
+                alert("No record selected");
+            }
         }
     </script>
 </asp:Content>

@@ -4,115 +4,23 @@
 
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title></title>
-                        <link href="styles/loader.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Journal Voucher</title>
 
-        <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
-        <script src="Scripts/jquery-3.4.1.min.js"></script>
-        <script src="Scripts/bootstrap.min.js"></script>
-        <script type="text/javascript">
+    <!-- Include your stylesheets -->
+    <link href="styles/loader.css" rel="stylesheet" />
+    <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
 
-            function openModal() {
-                jQuery.noConflict();
-                $('#MyPopup').modal('show');
-            }
-            function searchPopup() {
-                jQuery.noConflict();
-                $('#searchPopup').modal('show');
-            }
-            function showupdatepopup() {
-                jQuery.noConflict();
-                $('#updatepopup').modal('show');
-            }
-            function showdeletepopup() {
-                jQuery.noConflict();
-                $('#deletepopup').modal('show');
-            }
-            function showdeletepopup1() {
-                jQuery.noConflict();
-                $('#deletepopup1').modal('show');
-            }
-            function alertPopup() {
-                jQuery.noConflict();
-                $('#alertPopup').modal('show');
-            }
-            function NoExistPopup() {
-                jQuery.noConflict();
-                $('#NoExistPopup').modal('show');
-            }
-            function ShowPopup() {
-
-                var code = document.getElementById('<%=accname.ClientID%>').value;
-                jQuery.noConflict();
-                if (code != "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "WebExpenses.asmx/GetCustomerInvoiceData",
-                        data: { code: code },
-                        dataType: "json",
-                        success: function (data) {
-                            var tableView = $find("<%= RadGrid2.ClientID %>").get_masterTableView();
-                            tableView.set_dataSource(data);
-                            tableView.dataBind();
-                            $('#MyPopup').modal('show');
-                        },
-                        error: function () {
-                            alert("error");
-                        }
-                    });
-                }
-                else {
-                    alert("No record selected");
-                }
-            }
-
-        </script>
-
-        <script type="text/javascript">
-            function showsuccesspopup() {
-                jQuery.noConflict();
-                $('#successpopup').modal('show');
-            }
-            function showfailurepopup() {
-                jQuery.noConflict();
-                $('#failurepopup').modal('show');
-            }
-        </script>
-        
-    <script>
-
-        // Show the loader overlay
-        function showLoader() {
-            document.getElementById("loader-overlay").style.display = "flex";
-        }
-
-        // Hide the loader overlay
-        function hideLoader() {
-            document.getElementById("loader-overlay").style.display = "none";
-        }
-
-        // Attach event handlers to capture page transitions
-        document.addEventListener("DOMContentLoaded", function () {
-            var links = document.getElementsByTagName("a");
-            for (var i = 0; i < links.length; i++) {
-                links[i].addEventListener("click", showLoader);
-            }
-        });
-
-        window.addEventListener("beforeunload", showLoader);
-
-    </script>
     </head>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-      <div id="loader-overlay" class="loader-overlay" style="display: none;">
-    <div class="loader" style="justify-items:center">
-        <img src="Images/Coffer.png" alt="Loading..." class="loader-logo"  loading="lazy"/>
-        <div class="loader-spinner"></div>
+    <div id="loader-overlay" class="loader-overlay" style="display: none;">
+        <div class="loader" style="justify-items: center">
+            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo" loading="lazy" />
+            <div class="loader-spinner"></div>
+        </div>
     </div>
-</div>
     <div id="page-wrapper">
         <div class="row form-group">
 
@@ -577,13 +485,13 @@
                 <!-- Modal content-->
                 <div class="modal-content" style="width: max-content; min-width: 600px">
                     <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;</button>
-                    <center>
-                        <h4>Search JV
-                        </h4>
-                    </center>
-                </div>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;</button>
+                        <center>
+                            <h4>Search JV
+                            </h4>
+                        </center>
+                    </div>
                     <div class="modal-body" style="width: 600px">
                         <div class="panel-body">
                             <div class="row">
@@ -644,4 +552,92 @@
             </div>
         </div>
     </center>
+    <script src="Scripts/jquery-3.4.1.min.js" defer></script>
+    <script src="Scripts/bootstrap.min.js" defer></script>
+    <script type="text/javascript">
+
+        function openModal() {
+            jQuery.noConflict();
+            $('#MyPopup').modal('show');
+        }
+        function searchPopup() {
+            jQuery.noConflict();
+            $('#searchPopup').modal('show');
+        }
+        function showupdatepopup() {
+            jQuery.noConflict();
+            $('#updatepopup').modal('show');
+        }
+        function showdeletepopup() {
+            jQuery.noConflict();
+            $('#deletepopup').modal('show');
+        }
+        function showdeletepopup1() {
+            jQuery.noConflict();
+            $('#deletepopup1').modal('show');
+        }
+        function alertPopup() {
+            jQuery.noConflict();
+            $('#alertPopup').modal('show');
+        }
+        function NoExistPopup() {
+            jQuery.noConflict();
+            $('#NoExistPopup').modal('show');
+        }
+        function ShowPopup() {
+
+            var code = document.getElementById('<%=accname.ClientID%>').value;
+                jQuery.noConflict();
+                if (code != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "WebExpenses.asmx/GetCustomerInvoiceData",
+                        data: { code: code },
+                        dataType: "json",
+                        success: function (data) {
+                            var tableView = $find("<%= RadGrid2.ClientID %>").get_masterTableView();
+                        tableView.set_dataSource(data);
+                        tableView.dataBind();
+                        $('#MyPopup').modal('show');
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+            else {
+                alert("No record selected");
+            }
+        }
+
+        function showsuccesspopup() {
+            jQuery.noConflict();
+            $('#successpopup').modal('show');
+        }
+        function showfailurepopup() {
+            jQuery.noConflict();
+            $('#failurepopup').modal('show');
+        }
+
+        // Show the loader overlay
+        function showLoader() {
+            document.getElementById("loader-overlay").style.display = "flex";
+        }
+
+        // Hide the loader overlay
+        function hideLoader() {
+            document.getElementById("loader-overlay").style.display = "none";
+        }
+
+        // Attach event handlers to capture page transitions
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", showLoader);
+            }
+        });
+
+        window.addEventListener("beforeunload", showLoader);
+
+    </script>
 </asp:Content>

@@ -1,14 +1,9 @@
 ﻿using Microsoft.Reporting.WebForms;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing.Printing;
-using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -78,15 +73,19 @@ namespace Coffer_Systems
             ReportViewer.LocalReport.ReportPath = Server.MapPath(reportPath);
             this.ReportViewer.LocalReport.ReportEmbeddedResource = reportPath;
 
-            if (ReportType.SelectedValue == "1")
-            {
+            DateTime date1 = DateTime.ParseExact(fromDate.Value, "yyyy-MM-dd", null);
+            string FromDate = date1.ToString("dd/MM/yyyy");
 
-                ReportParameter companyParameter = new ReportParameter("@Company", Company);
+            DateTime date2 = DateTime.ParseExact(toDate.Value, "yyyy-MM-dd", null);
+            string ToDate = date2.ToString("dd/MM/yyyy");
 
-                this.ReportViewer.LocalReport.SetParameters(new ReportParameter[] { companyParameter });
+            DateTime CurrentDate = DateTime.Now;
 
-
-            }
+            ReportParameter rp = new ReportParameter("Company", Company);
+            ReportParameter rp1 = new ReportParameter("FromDate", FromDate);
+            ReportParameter rp2 = new ReportParameter("ToDate", ToDate);
+            ReportParameter rp3 = new ReportParameter("CurrentDate", CurrentDate.ToString());
+            this.ReportViewer.LocalReport.SetParameters(new ReportParameter[] { rp, rp1, rp2, rp3 });
             // Customize ReportViewer settings
             ReportViewer.Width = Unit.Percentage(70);
 

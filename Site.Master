@@ -7,15 +7,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Coffer Systems</title>
-
-
-    <%--    <script type="text/javascript" src="/js/DataTablesEditor.js"></script>--%>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="coffer_final_logo_png_Dxn_icon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="loginfonts/material-icon/css/material-design-iconic-font.min.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
     <style>
         .dropbtn {
             background-color: inherit;
@@ -124,7 +120,7 @@
                                 <asp:Label runat="server" ID="usernameLabel" Font-Bold="true"></asp:Label></a>
                             <a>
                                 <asp:Label runat="server" ID="officeIDLabel" Font-Bold="true"></asp:Label></a>
-                            <div style="align-items:center">
+                            <div style="align-items: center">
                                 <div class="col-lg-4">
                                     <a href="MainMenu.aspx" runat="server">Dashboard</a>
                                 </div>

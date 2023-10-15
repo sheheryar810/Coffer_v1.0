@@ -3,18 +3,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Ledger</title>
         <link href="styles/loader.css" rel="stylesheet" />
-
         <link href="assets/css/StyleSheet1.css" rel="stylesheet" />
+
+        <!-- Add defer to the script tags -->
         <script src="Scripts/jquery-3.4.1.min.js"></script>
-        <script src="Scripts/bootstrap.min.js"></script>
+        <script src="Scripts/bootstrap.min.js" defer></script>
 
-
-        <script type="text/javascript">
+        <script type="text/javascript" defer>
 
             $(document).ready(function () {
 
@@ -158,16 +158,16 @@
                             console.log(data[0].date);
 
                             var tableView = $find("<%= RadGrid1.ClientID %>").get_masterTableView();
-                                tableView.set_dataSource(data);
-                                tableView.dataBind();
-                                $.ajax({
-                                    type: "POST",
-                                    url: "WebExpenses.asmx/GetCustomerLedgerTotal",
-                                    data: { cdd: cdd, vdd: vdd, fromDate: fromDate, toDate: toDate, tkt: tkt, pnr: pnr, passport: passport, desc: desc, headCol: headCol, tblCol: tblCol, tktCol: tktCol, pnrCol: pnrCol, passportCol: passportCol, descCol: descCol },
-                                    dataType: "json",
-                                    success: function (data) {
-                                        let last = data.pop();
-                                        document.getElementById('<%=balancetotal.ClientID%>').value = parseInt(last.totalbalance).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                            tableView.set_dataSource(data);
+                            tableView.dataBind();
+                            $.ajax({
+                                type: "POST",
+                                url: "WebExpenses.asmx/GetCustomerLedgerTotal",
+                                data: { cdd: cdd, vdd: vdd, fromDate: fromDate, toDate: toDate, tkt: tkt, pnr: pnr, passport: passport, desc: desc, headCol: headCol, tblCol: tblCol, tktCol: tktCol, pnrCol: pnrCol, passportCol: passportCol, descCol: descCol },
+                                dataType: "json",
+                                success: function (data) {
+                                    let last = data.pop();
+                                    document.getElementById('<%=balancetotal.ClientID%>').value = parseInt(last.totalbalance).toLocaleString('en-US', { minimumFractionDigits: 2 });
                                         document.getElementById('<%=credittotal.ClientID%>').value = parseInt(last.totalcredit).toLocaleString('en-US', { minimumFractionDigits: 2 });
                                         document.getElementById('<%=debittotal.ClientID%>').value = parseInt(last.totaldebit).toLocaleString('en-US', { minimumFractionDigits: 2 });
                                         document.getElementById('<%=ttype.ClientID%>').value = last.type;
@@ -182,23 +182,23 @@
                                         alert(JSON.stringify(ex));
                                     }
                                 });
-                            } else {
-                                document.getElementById('<%=balancetotal.ClientID%>').value = "";
-                                document.getElementById('<%=credittotal.ClientID%>').value = "";
-                                document.getElementById('<%=debittotal.ClientID%>').value = "";
-                                document.getElementById('<%=ttype.ClientID%>').value = "";
-                                var tableView = $find("<%= RadGrid1.ClientID %>").get_masterTableView();
-                                tableView.set_dataSource([]);
-                                tableView.dataBind();
-                                alert("No Data to Show!");
-                            }
-                        },
-                        error: function () {
-                            alert("Error");
+                        } else {
+                            document.getElementById('<%=balancetotal.ClientID%>').value = "";
+                            document.getElementById('<%=credittotal.ClientID%>').value = "";
+                            document.getElementById('<%=debittotal.ClientID%>').value = "";
+                            document.getElementById('<%=ttype.ClientID%>').value = "";
+                            var tableView = $find("<%= RadGrid1.ClientID %>").get_masterTableView();
+                            tableView.set_dataSource([]);
+                            tableView.dataBind();
+                            alert("No Data to Show!");
                         }
-                    });
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
             }
-            
+
             function customerLedgerSearch(variable) {
 
                 jQuery.noConflict();
@@ -212,16 +212,16 @@
                             console.log(data[0].date);
 
                             var tableView = $find("<%= RadGrid1.ClientID %>").get_masterTableView();
-                                tableView.set_dataSource(data);
-                                tableView.dataBind();
-                                $.ajax({
-                                    type: "POST",
-                                    url: "WebExpenses.asmx/GetCustomerLedgerSearchTotal",
-                                    data: { variable: variable },
-                                    dataType: "json",
-                                    success: function (data) {
-                                        let last = data.pop();
-                                        document.getElementById('<%=balancetotal.ClientID%>').value = parseInt(last.totalbalance).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                            tableView.set_dataSource(data);
+                            tableView.dataBind();
+                            $.ajax({
+                                type: "POST",
+                                url: "WebExpenses.asmx/GetCustomerLedgerSearchTotal",
+                                data: { variable: variable },
+                                dataType: "json",
+                                success: function (data) {
+                                    let last = data.pop();
+                                    document.getElementById('<%=balancetotal.ClientID%>').value = parseInt(last.totalbalance).toLocaleString('en-US', { minimumFractionDigits: 2 });
                                         document.getElementById('<%=credittotal.ClientID%>').value = parseInt(last.totalcredit).toLocaleString('en-US', { minimumFractionDigits: 2 });
                                         document.getElementById('<%=debittotal.ClientID%>').value = parseInt(last.totaldebit).toLocaleString('en-US', { minimumFractionDigits: 2 });
                                         document.getElementById('<%=ttype.ClientID%>').value = last.type;
@@ -236,21 +236,21 @@
                                         alert(JSON.stringify(ex));
                                     }
                                 });
-                            } else {
-                                document.getElementById('<%=balancetotal.ClientID%>').value = "";
-                                document.getElementById('<%=credittotal.ClientID%>').value = "";
-                                document.getElementById('<%=debittotal.ClientID%>').value = "";
-                                document.getElementById('<%=ttype.ClientID%>').value = "";
-                                var tableView = $find("<%= RadGrid1.ClientID %>").get_masterTableView();
-                                tableView.set_dataSource([]);
-                                tableView.dataBind();
-                                alert("No Data to Show!");
-                            }
-                        },
-                        error: function () {
-                            alert("Error");
+                        } else {
+                            document.getElementById('<%=balancetotal.ClientID%>').value = "";
+                            document.getElementById('<%=credittotal.ClientID%>').value = "";
+                            document.getElementById('<%=debittotal.ClientID%>').value = "";
+                            document.getElementById('<%=ttype.ClientID%>').value = "";
+                            var tableView = $find("<%= RadGrid1.ClientID %>").get_masterTableView();
+                            tableView.set_dataSource([]);
+                            tableView.dataBind();
+                            alert("No Data to Show!");
                         }
-                    });
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
             }
 
             function addDashes(f) {
@@ -258,7 +258,7 @@
             }
 
             function searchBtn() {
-                var variable = $('#searchText').val(); 
+                var variable = $('#searchText').val();
                 customerLedgerSearch(variable);
             }
 
@@ -364,30 +364,6 @@
             }
         </script>
 
-        <script>
-
-            // Show the loader overlay
-            function showLoader() {
-                document.getElementById("loader-overlay").style.display = "flex";
-            }
-
-            // Hide the loader overlay
-            function hideLoader() {
-                document.getElementById("loader-overlay").style.display = "none";
-            }
-
-            // Attach event handlers to capture page transitions
-            document.addEventListener("DOMContentLoaded", function () {
-                var links = document.getElementsByTagName("a");
-                for (var i = 0; i < links.length; i++) {
-                    links[i].addEventListener("click", showLoader);
-                }
-            });
-
-            window.addEventListener("beforeunload", showLoader);
-
-        </script>
-
         <style type="text/css">
             .RadGrid_Telerik .rgSelectedRow td, .RadGrid_Telerik .rgSelectedRow td.rgSorted {
                 cursor: pointer !important;
@@ -415,7 +391,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div id="loader-overlay" class="loader-overlay" style="display: none;">
         <div class="loader" style="justify-items: center">
-            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo"  loading="lazy"/>
+            <img src="Images/Coffer.png" alt="Loading..." class="loader-logo" loading="lazy" />
             <div class="loader-spinner"></div>
         </div>
     </div>
@@ -478,7 +454,7 @@
                         <label>Search</label>
                         <input type="text" style="font-size: 11px" runat="server" id="searchText" clientidmode="Static" class="form-control" />
                     </div>
-                    <div class="col-lg-2" style="margin-top:22px">
+                    <div class="col-lg-2" style="margin-top: 22px">
                         <asp:Button ID="searchButton" OnClientClick="searchBtn(); return false" class="btn btn-primary" runat="server" Text="Search Ledger" />
                     </div>
                 </div>
@@ -954,4 +930,26 @@
 
         </div>
     </div>
+
+    <script>
+        // Show the loader overlay
+        function showLoader() {
+            document.getElementById("loader-overlay").style.display = "flex";
+        }
+
+        // Hide the loader overlay
+        function hideLoader() {
+            document.getElementById("loader-overlay").style.display = "none";
+        }
+
+        // Attach event handlers to capture page transitions
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", showLoader);
+            }
+        });
+
+        window.addEventListener("beforeunload", showLoader);
+    </script>
 </asp:Content>

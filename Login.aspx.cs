@@ -1,128 +1,153 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
 using System.Net;
-using System.Threading;
-using System.Web;
-using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Windows;
 
 namespace Coffer_Systems
 {
     public partial class Login : System.Web.UI.Page
     {
-        string connectionStr = ConfigurationManager.ConnectionStrings["CofferSystemsDB"].ConnectionString;
-        string UserName1, Status1, hostName1, IP1;
-
-        protected string GetHostName1()
-        {
-            return hostName1;
-        }
-
-        [Obsolete]
-        protected void forceSignIn_Click1(object sender, EventArgs e)
-        {
-            hostName1 = Dns.GetHostName();
-            IP1 = Dns.GetHostByName(hostName1).AddressList[0].ToString();
-
-            SqlConnection con = new SqlConnection(connectionStr);
-            con.Open();
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "select * FROM Login_TBL lt join company c on c.name=lt.company Where officeID='" + officeID.Value + "' and UserName='" + userName.Value.ToString() + "' and Password='" + password.Value.ToString() + "' and Convert(Date, GetDate(), 101)<=todate";
-            cmd.ExecuteNonQuery();
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Status1 = dr["status"].ToString();
-                    UserName1 = dr["username"].ToString();
-
-                    SqlCommand cmd3 = con.CreateCommand();
-                    cmd3.CommandText = "update Login_TBL set ipAddress='" + IP1 + "' Where username='" + UserName1 + "'";
-                    cmd3.ExecuteNonQuery();
-
-                    if (Status1 == "Super Admin")
-                    {
-                        Response.Redirect("SuperAdmin/DashboardSA.aspx", false);
-                    }
-                    else
-                    {
-                        Response.Redirect("MainMenu.aspx", false);
-                    }
-                }
-            }
-            con.Close();
-
-        }
+        private string connectionStr = ConfigurationManager.ConnectionStrings["CofferSystemsDB"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (IsPostBack)
+            {
+                // It's a postback, set the password field value
+                password.Value = Request.Form[password.UniqueID];
+            }
         }
 
-        [Obsolete]
         protected void LoginButton_Click(object sender, EventArgs e)
         {
             try
             {
+                string officeId = officeID.Value;
+                string usernameValue = userName.Value;
+                string passwordValue = password.Value;
 
-                hostName1 = Dns.GetHostName();
-                IP1 = Dns.GetHostByName(hostName1).AddressList[0].ToString();
-
-                SqlConnection con = new SqlConnection(connectionStr);
-                con.Open();
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "select * FROM Login_TBL lt join company c on c.name=lt.company Where officeID='" + officeID.Value + "' and UserName='" + userName.Value.ToString() + "' and Password='" + password.Value.ToString() + "' and Convert(Date, GetDate(), 101)<=todate";
-                cmd.ExecuteNonQuery();
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                if (string.IsNullOrEmpty(officeId) || string.IsNullOrEmpty(usernameValue) || string.IsNullOrEmpty(passwordValue))
                 {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        Status1 = dr["status"].ToString();
-                        UserName1 = dr["username"].ToString();
+                    Response.Write("<script>alert('Please fill in all the required fields.')</script>");
+                    return;
+                }
 
-                        SqlCommand cmd2 = con.CreateCommand();
-                        cmd2.CommandText = "select ipAddress from Login_TBL Where UserName='" + userName.Value.ToString() + "'";
-                        object ipAddress = cmd2.ExecuteScalar();
-                        if (ipAddress == null || ipAddress.ToString() == "")
+                string hostName = Dns.GetHostName();
+                string ipAddress = Dns.GetHostByName(hostName).AddressList[0].ToString();
+
+                using (SqlConnection con = new SqlConnection(connectionStr))
+                {
+                    con.Open();
+
+                    string query = "SELECT * FROM Login_TBL lt JOIN company c ON c.name = lt.company " +
+                                   "WHERE officeID = @officeID AND UserName = @userName AND Password = @password " +
+                                   "AND CONVERT(DATE, GETDATE(), 101) <= todate";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@officeID", officeId);
+                        cmd.Parameters.AddWithValue("@userName", usernameValue);
+                        cmd.Parameters.AddWithValue("@password", passwordValue);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            SqlCommand cmd1 = con.CreateCommand();
-                            cmd1.CommandText = "update Login_TBL set ipAddress='" + IP1 + "' Where username='" + UserName1 + "'";
-                            cmd1.ExecuteNonQuery();
-                            if (Status1 == "Super Admin")
+                            if (reader.HasRows)
                             {
-                                Response.Redirect("SuperAdmin/DashboardSA.aspx", false);
+                                while (reader.Read())
+                                {
+                                    string status = reader["status"].ToString();
+                                    string username = reader["username"].ToString();
+                                    string ipAddress1 = reader["ipAddress"].ToString();
+
+                                    if (string.IsNullOrEmpty(ipAddress1))
+                                    {
+                                        reader.Close();
+                                        SqlCommand updateCmd = new SqlCommand(
+                                            "UPDATE Login_TBL SET ipAddress = @ipAddress WHERE username = @username", con);
+                                        updateCmd.Parameters.AddWithValue("@ipAddress", ipAddress);
+                                        updateCmd.Parameters.AddWithValue("@username", username);
+                                        updateCmd.ExecuteNonQuery();
+
+                                        string redirectUrl = status == "Super Admin"
+                                            ? "SuperAdmin/DashboardSA.aspx"
+                                            : "MainMenu.aspx";
+
+                                        Response.Redirect(redirectUrl, false);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        hiddenPassword.Value = passwordValue;
+                                        ScriptManager.RegisterStartupScript(this, this.GetType(), "alertPopup", "alertPopup();", true);
+                                        return;
+                                    }
+                                }
                             }
                             else
                             {
-                                Response.Redirect("MainMenu.aspx", false);
+                                Response.Write("<script>alert('Username or Password is invalid. Please try again.')</script>");
                             }
-                        }
-                        else
-                        {
-                            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "alertPopup", "alertPopup();", true);
                         }
                     }
                 }
-                else
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        protected void forceSignIn_Click1(object sender, EventArgs e)
+        {
+            try
+            {
+                string hostName = Dns.GetHostName();
+                string ipAddress = Dns.GetHostByName(hostName).AddressList[0].ToString();
+
+                using (SqlConnection con = new SqlConnection(connectionStr))
                 {
-                    Response.Write("<script>alert('Username or Password is invalid. Please try again.')</script>");
+                    con.Open();
+
+                    string query = "SELECT * FROM Login_TBL lt JOIN company c ON c.name = lt.company " +
+                                   "WHERE officeID = @officeID AND UserName = @userName AND Password = @password " +
+                                   "AND CONVERT(DATE, GETDATE(), 101) <= todate";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@officeID", officeID.Value);
+                        cmd.Parameters.AddWithValue("@userName", userName.Value.ToString());
+                        cmd.Parameters.AddWithValue("@password", password.Value.ToString());
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                string status = dr["status"].ToString();
+                                string username = dr["username"].ToString();
+
+                                SqlCommand cmd3 = con.CreateCommand();
+                                cmd3.CommandText = "UPDATE Login_TBL SET ipAddress = @ipAddress WHERE username = @username";
+                                cmd3.Parameters.AddWithValue("@ipAddress", ipAddress);
+                                cmd3.Parameters.AddWithValue("@username", username);
+                                cmd3.ExecuteNonQuery();
+
+                                string redirectUrl = status == "Super Admin"
+                                    ? "SuperAdmin/DashboardSA.aspx"
+                                    : "MainMenu.aspx";
+
+                                Response.Redirect(redirectUrl, true);
+                            }
+                        }
+                    }
                 }
-                con.Close();
             }
             catch (Exception ex)
             {
